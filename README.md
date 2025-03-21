@@ -1,6 +1,6 @@
 <h1 align="center">
 
-   Mazanoke
+   MAZANOKE
    <br>
    Image compressor and converter
 </h1>
