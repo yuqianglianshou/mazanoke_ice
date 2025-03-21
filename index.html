@@ -7,7 +7,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Browser Image Compression">
   <meta name="robots" content="noindex, nofollow">
-  <link rel="stylesheet" type="text/css" href="style.css">
+  <link rel="stylesheet" type="text/css" href="./assets/css/fonts.css">
+  <link rel="stylesheet" type="text/css" href="./assets/css/variables.css">
+  <link rel="stylesheet" type="text/css" href="./assets/css/functions.css">
+  <link rel="stylesheet" type="text/css" href="./assets/css/style.css">
 </head>
 
 <body>
@@ -30,7 +33,11 @@
         <div class="drop-zone-content__border-top-fade"></div>
         <div class="drop-zone-content__border"></div>
         
-        <span>Drop your image or click to upload</span>
+        <div class="drop-zone-content__actions">
+          <div>Drag an image here or browse</div>
+          <button class="button-secondary">Browse</button>
+        </div>
+        
         <input id="webWorker" type="file" accept="image/*" />
         <span id="webWorkerProgress"></span>
         <p id="webWorkerLog"></p>
@@ -79,8 +86,8 @@
 
   </div>
 
-  <script type="text/javascript" src="./script.js"></script>
-  <script type="text/javascript" src="./browser-image-compression.js"></script>
+  <script type="text/javascript" src="./assets/js/browser-image-compression.js"></script>
+  <script type="text/javascript" src="./assets/js/script.js"></script>
 </body>
 
 </html>
