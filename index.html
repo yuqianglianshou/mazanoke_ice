@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Browser Image Compression</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Browser Image Compression">
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+
+<body>
+  <div class="top-nav">
+    <h1>Browser Image Compression</h1>
+  </div>
+
+  <div class="content">
+
+    <div class="drop-zone" id="webWorkerDropZone">
+      <div class="drop-zone__border-dashed"></div>
+      <div class="drop-zone__cell-grid"></div>
+      <div class="drop-zone__vignette-outer"></div>
+      <div class="drop-zone__vignette-inner"></div>
+      <div class="drop-zone__shade"></div>
+      <div class="drop-zone__shade-top"></div>
+
+
+      <div class="drop-zone-content">
+        <div class="drop-zone-content__border-top-fade"></div>
+        <div class="drop-zone-content__border"></div>
+        
+        <span>Drop your image or click to upload</span>
+        <input id="webWorker" type="file" accept="image/*" />
+        <span id="webWorkerProgress"></span>
+        <p id="webWorkerLog"></p>
+      </div>
+    </div>
+
+    <div id="webWorkerAbort" class="hidden">
+      <button onclick="abort()">Abort</button>
+    </div>
+
+
+    Options:
+    <select name="compressMethod" id="compressMethod" onchange="toggleFields()">
+      <option value="maxSizeMB">Target max file size</option>
+      <option value="initialQuality">Adjust quality</option>
+    </select>
+    <br />
+    <label for="maxSizeMB" class="hidden">maxSizeMB:
+      <input type="number" id="maxSizeMB" name="maxSizeMB" value="1" />
+    </label>
+    <label for="initialQuality" class="hidden">Quality:
+      <input type="number" id="initialQuality" name="initialQuality" value="1" />
+    </label>
+    <br />
+    <label for="maxWidthOrHeight">maxWidthOrHeight:
+      <input type="number" id="maxWidthOrHeight" name="maxWidthOrHeight" value="1024" />
+    </label>
+    <br />
+    <label for="formatSelect">Convert to:</label>
+    <select id="formatSelect">
+      <option value="">No conversion</option>
+      <option value="image/jpeg">JPEG</option>
+      <option value="image/png">PNG</option>
+      <option value="image/webp">WebP</option>
+    </select>
+
+
+    <div style="display: flex;">
+      <div style="flex: 1"><img id="preview" /></div>
+      <div style="flex: 1"><img id="previewAfterCompress" /></div>
+    </div>
+
+    <div id="outputDownloadContainer">
+
+    </div>
+
+  </div>
+
+  <script type="text/javascript" src="./script.js"></script>
+  <script type="text/javascript" src="./browser-image-compression.js"></script>
+</body>
+
+</html>
