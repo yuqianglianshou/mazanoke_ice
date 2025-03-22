@@ -280,6 +280,7 @@ button {
   animation: fade-in var(--duration-200) ease-out forwards;
   overflow: hidden;
   z-index: 10;
+  box-shadow: var(--shadow-2);
 }
 
 #backToTop * {
@@ -427,7 +428,7 @@ button {
   padding: var(--space-xs) var(--space-sm);
   margin-bottom: var(--space-md);
   overflow: auto;
-  box-shadow: var(--shadow-1);
+  box-shadow: var(--shadow-2);
 }
 
 .segmented-control {
@@ -681,7 +682,8 @@ body.compressing--is-active .drop-zone:hover {
 .drop-zone__shade,
 .drop-zone__shade-top,
 .drop-zone-content__border-top-fade,
-.drop-zone__border-dashed {
+.drop-zone__border-dashed,
+.drop-zone__sheen {
   position: absolute;
   top: 0;
   left: 0;
@@ -703,8 +705,6 @@ body.compressing--is-active .drop-zone:hover {
   transform: scale(1.2);
   opacity: 1;
 }
-
-
 
 .drop-zone__cell-grid {
   --cell-size: 28px;
@@ -752,6 +752,13 @@ body.compressing--is-active .drop-zone:hover {
 .drop-zone__shade-top {
   background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0));
   filter:invert(calc(0 + var(--filter-invert)));
+}
+
+.drop-zone__sheen {
+  background: linear-gradient(to right, transparent 0%, var(--color-accent) 50%, transparent 100%);
+  opacity: 0;
+  animation: sheen 75s infinite;
+  animation-delay: 20s;
 }
 
 .drop-zone.drop-zone--is-dragging {
@@ -1000,6 +1007,21 @@ body.compressing--is-active .drop-zone:hover {
   }
 }
 
+
+@keyframes sheen {
+	0% {
+    opacity: 0.2;
+    transform:translateX(-100%);
+  }
+	4% {
+    opacity: 0.2;
+    transform:translateX(100%);
+  }
+	100% {
+    opacity: 0.2;
+    transform:translateX(100%);
+  }
+}
 
 
 /****************************************************
