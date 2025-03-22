@@ -1,7 +1,11 @@
 const logDom = document.querySelector("#webWorkerLog");
-const progressDom = document.querySelector("#webWorkerProgress");
+const progressContainer = document.querySelector(".progress-container");
+const progressTrack = document.querySelector("#webWorkerProgressTrack");
+const progressBar = document.querySelector("#webWorkerProgressBar");
+const progressText = document.querySelector("#webWorkerProgressText");
 const outputDownloadContainer = document.querySelector("#outputDownloadContainer");
 const webWorkerAbort = document.getElementById("webWorkerAbort");
+const dropZoneActions = document.getElementById("dropZoneActions");
 let compressMethod;
 
 
@@ -11,23 +15,42 @@ function compressImage(event) {
 
   const options = createCompressionOptions(onProgress);
 
-  // Show the abort button
-  webWorkerAbort.classList.add("processing");
+  // Update to state: processing
+  document.body.classList.add("compressing--is-active");
+  dropZoneActions.classList.add("hidden");
+  webWorkerAbort.classList.remove("hidden");
+  progressContainer.classList.remove("hidden");
+  progressText.textContent = "Preparing";
 
   convertImage(file)
     .then((convertedFile) => imageCompression(convertedFile, options))
     .then((output) => handleCompressionResult(file, output))
     .catch((error) => alert(error.message))
     .finally(() => {
-      // Hide the abort button
-      webWorkerAbort.classList.remove("processing");
+      // Reset state: processing
+      setTimeout(() => {
+        document.body.classList.remove("compressing--is-active");
+        dropZoneActions.classList.remove("hidden");
+        webWorkerAbort.classList.add("hidden");
+        progressContainer.classList.add("hidden");
+        progressText.dataset.progress = 0;
+        progressText.textContent = "Preparing 0%";
+        progressBar.style.width = "0%";
+      }, 2000);
     });
 
   function onProgress(p) {
     console.log("onProgress", p);
-    progressDom.innerHTML = "(" + p + "%" + ")";
+    progressText.dataset.progress = p;
+    progressText.textContent =  'Compressing ' + p + "%";
+    progressBar.style.width = p + "%";
+    if (p === 100) {
+      progressText.textContent = "Done";
+    }
   }
 }
+
+
 
 function setupPreview(file) {
   document.getElementById("preview").src = URL.createObjectURL(file);

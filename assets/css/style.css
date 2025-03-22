@@ -37,6 +37,26 @@ a {
   box-shadow: var(--color-primary) 0 -1px 0 inset;
 }
 
+img {
+  width: 100%;
+}
+
+.content {
+  max-width: var(--content-width);
+  margin: 0 auto;
+  padding: 0 var(--space-2xl);
+}
+
+button {
+  background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  outline: none;
+}
+
 .button-primary,
 .button-secondary {
   display: inline-flex;
@@ -75,9 +95,7 @@ a {
   background-color: var(--color-secondary-hover);
 }
 
-.hidden {
-  display: none !important;
-}
+
 
 
 .top-nav {
@@ -87,11 +105,6 @@ a {
   justify-content: flex-start;
   color: var(--color-on-surface);
   padding: var(--space-xs) var(--space-sm);
-}
-
-
-#webWorkerAbort.processing {
-  display: block;
 }
 
 .drop-zone {
@@ -226,6 +239,7 @@ a {
   gap: var(--space-xs);
   flex-direction: column;
   z-index: 10;
+  animation: fade-in var(--duration-600) ease-out;
 }
 
 .drop-zone-content__actions-text {
@@ -242,15 +256,6 @@ a {
   width: 100%;
 }
 
-img {
-  width: 100%;
-}
-
-.content {
-  max-width: var(--content-width);
-  margin: 0 auto;
-  padding: 0 var(--space-2xl);
-}
 
 /* Badge style */
 .file-format {
@@ -263,6 +268,8 @@ img {
   font-weight: bold;
   text-transform: uppercase;
 }
+
+
 
 .form-group {
   display: flex;
@@ -285,4 +292,95 @@ img {
 .form-group__input-content {
   display: flex;
   flex: 1;
+}
+
+
+
+
+.progress-container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+}
+
+#webWorkerProgressText[data-progress="0"]::after {
+  content: "";
+  animation: loading-dots 2s steps(3, end) infinite;
+}
+
+#webWorkerProgressTrack {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  background-color: var(--color-surface-higher);
+  border-radius: var(--rounded-full);
+  width: 100%;
+  max-width: 600px;
+}
+
+#webWorkerProgressBar {
+  min-width: 20px;
+  width: 0%;
+  height: var(--space-xs);
+  background-color: var(--color-primary);
+  border-radius: var(--rounded-full);
+  transition: var(--duration-300) ease-out;
+}
+
+
+
+/****************************************************
+ *  Utility classes
+ ****************************************************/
+
+
+.flex {
+  display: flex !important;
+}
+
+.flex-column {
+  flex-direction: column !important;
+}
+
+.flex-row {
+  flex-direction: row !important;
+}
+
+.flex-row {
+  flex-direction: row !important;
+}
+
+.justify-start {
+  justify-content: flex-start !important;
+}
+
+.justify-center {
+  justify-content: center !important;
+}
+
+.justify-end {
+  justify-content: flex-end !important;
+}
+
+.align-start {
+  align-items: flex-start !important;
+}
+
+.align-center {
+  align-items: center !important;
+}
+
+.align-end {
+  align-items: flex-end !important;
+}
+
+
+
+
+
+.hidden {
+  display: none !important;
 }
