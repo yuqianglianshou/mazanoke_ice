@@ -9,13 +9,12 @@
   <meta name="robots" content="noindex, nofollow">
   <link rel="stylesheet" type="text/css" href="./assets/css/fonts.css">
   <link rel="stylesheet" type="text/css" href="./assets/css/variables.css">
-  <link rel="stylesheet" type="text/css" href="./assets/css/functions.css">
   <link rel="stylesheet" type="text/css" href="./assets/css/style.css">
 </head>
 
 <body>
   <div class="top-nav">
-    <h1>Browser Image Compression</h1>
+    <h1 class="h4">Browser Image Compression</h1>
   </div>
 
   <div class="content">
@@ -60,10 +59,10 @@
     </div>
 
     <div class="segmented-control-group">
-      <div class="segmented-control segmented-control--is-selected">
+      <div class="segmented-control segmented-control--is-selected h5">
         Settings
       </div>
-      <div class="segmented-control">
+      <div class="segmented-control h5">
         <span style="opacity: 0.4;">
           Compressed images (0)
         </span>
@@ -74,7 +73,7 @@
 
     <div class="image-options-container">
 
-      <h2 class="mb-md">Settings</h2>
+      <h2 class="h4 mb-md">Settings</h2>
 
       <div id="compressMethodGroup" class="form-group">
         <div class="form-group__label-content">
@@ -89,19 +88,29 @@
               <div class="button-card-radio__content">
                 <label class="button-card-radio__label">Set image quality</label>
                 <div class="button-card-radio__description">
-                  Adjust the image quality; higher values preserve more detail, while lower values reduce file size.
+                  <div class="button-card-radio__description-text">
+                    Adjust the image quality; higher values preserve more detail, while lower values reduce file size.
+                  </div>
                 </div>
               </div>
-              <input class="button-card-radio__input-icon" type="radio" name="compressMethod" value="initialQuality" checked>
+              <div class="button-card-radio__radio-input">
+                <div class="button-card-radio__radio-icon"></div>
+                <input class="hidden" type="radio" name="compressMethod" value="initialQuality" checked>
+              </div>
             </div>
             <div class="button-card-radio" onclick="selectCompressMethod('maxSizeMB')">
               <div class="button-card-radio__content">
                 <label class="button-card-radio__label">Limit file size</label>
                 <div class="button-card-radio__description">
-                  Compress the image to a target file size in megabytes (MB).
+                  <div class="button-card-radio__description-text">
+                    Compress the image to a target file size in megabytes (MB).
+                  </div>
                 </div>
               </div>
-              <input class="button-card-radio__input-icon" type="radio" name="compressMethod" value="maxSizeMB">
+              <div class="button-card-radio__radio-input">
+                <div class="button-card-radio__radio-icon"></div>
+                <input class="hidden" type="radio" name="compressMethod" value="maxSizeMB">
+              </div>
             </div>
           </div>
 
@@ -113,11 +122,11 @@
           <label class="form-group__label-text" for="maxSizeMB">
             <!-- Target file size -->
           </label>
-          <div class="form-group__description">
-          </div>
         </div>
         <div class="form-group__input-content">
-          <input type="number" id="maxSizeMB" name="maxSizeMB" value="2" />
+          <div class="fade-in-up w-100">
+            <input type="number" id="maxSizeMB" name="maxSizeMB" value="2" />
+          </div>
         </div>
       </div>
 
@@ -127,15 +136,20 @@
           <label class="form-group__label-text" for="initialQuality">
             <!-- Quality -->
           </label>
-          <div class="form-group__description">
-          </div>
         </div>
         <div class="form-group__input-content">
-          <div class="slider-track" id="initialQualitySlider" onmousedown="startSliderDrag(event, 'initialQuality')">
-            <div class="slider-fill"></div>
-            <div class="slider-thumb"></div>
+          <div class="fade-in-up w-100">
+            <label class="mb-3xs">Quality</label>
+            <div class="flex items-center gap-sm">
+              <div class="w-100">
+                <div class="slider-track flex-1" id="initialQualitySlider" onmousedown="startSliderDrag(event, 'initialQuality')">
+                  <div class="slider-fill"></div>
+                  <div class="slider-thumb"></div>
+                </div>
+              </div>
+              <input type="number" id="initialQuality" name="initialQuality" value="95" min="0" max="100" step="1" oninput="updateSlider(this.value, 'initialQualitySlider')" />
+            </div>
           </div>
-          <input type="number" id="initialQuality" name="initialQuality" value="90" min="0" max="100" step="1" oninput="updateSlider(this.value, 'initialQualitySlider')" />
         </div>
       </div>
 
@@ -154,19 +168,29 @@
               <div class="button-card-radio__content">
                 <label class="button-card-radio__label">Original dimensions</label>
                 <div class="button-card-radio__description">
-                  Keep the original dimensions of the image.
+                  <div class="button-card-radio__description-text">
+                    Keep the original dimensions of the image.
+                  </div>
                 </div>
               </div>
-              <input class="button-card-radio__input-icon" type="radio" name="dimensionMethod" value="original" checked>
+              <div class="button-card-radio__radio-input">
+                <div class="button-card-radio__radio-icon"></div>
+                <input class="hidden" type="radio" name="dimensionMethod" value="original" checked>
+              </div>
             </div>
             <div class="button-card-radio" onclick="selectDimensionMethod('limit')">
               <div class="button-card-radio__content">
                 <label class="button-card-radio__label">Limit dimensions</label>
                 <div class="button-card-radio__description">
-                  Limit the width or height in pixels (px) of the image, whichever is larger.
+                  <div class="button-card-radio__description-text">
+                    Limit the width or height in pixels (px) of the image, whichever is larger.
+                  </div>
                 </div>
               </div>
-              <input class="button-card-radio__input-icon" type="radio" name="dimensionMethod" value="limit">
+              <div class="button-card-radio__radio-input">
+                <div class="button-card-radio__radio-icon"></div>
+                <input class="hidden" type="radio" name="dimensionMethod" value="limit">
+              </div>
             </div>
           </div>
 
@@ -178,11 +202,11 @@
           <label class="form-group__label-text" for="maxWidthOrHeight">
             <!-- Max dimension -->
           </label>
-          <div class="form-group__description">
-          </div>
         </div>
         <div class="form-group__input-content">
-          <input type="number" id="maxWidthOrHeight" name="maxWidthOrHeight" value="1024" />
+          <div class="fade-in-up w-100">
+            <input type="number" id="maxWidthOrHeight" name="maxWidthOrHeight" value="1024" />
+          </div>
         </div>
       </div>
 
@@ -198,35 +222,38 @@
             <div class="button-card-radio button-card-radio--is-selected" onclick="selectFormat('nochange')">
               <div class="button-card-radio__content">
                 <label class="button-card-radio__label">No conversion</label>
-                <div class="button-card-radio__description">
-                  
-                </div>
               </div>
-              <input class="button-card-radio__input-icon" type="radio" name="formatSelect" value="nochange" checked>
+              <div class="button-card-radio__radio-input">
+                <div class="button-card-radio__radio-icon"></div>
+                <input class="hidden" type="radio" name="formatSelect" value="nochange" checked>
+              </div>
             </div>
             <div class="button-card-radio" onclick="selectFormat('image/jpeg')">
               <div class="button-card-radio__content">
                 <label class="button-card-radio__label">JPEG</label>
-                <div class="button-card-radio__description">
-                </div>
               </div>
-              <input class="button-card-radio__input-icon" type="radio" name="formatSelect" value="image/jpeg">
+              <div class="button-card-radio__radio-input">
+                <div class="button-card-radio__radio-icon"></div>
+                <input class="hidden" type="radio" name="formatSelect" value="image/jpeg">
+              </div>
             </div>
             <div class="button-card-radio" onclick="selectFormat('image/png')">
               <div class="button-card-radio__content">
                 <label class="button-card-radio__label">PNG</label>
-                <div class="button-card-radio__description">
-                </div>
               </div>
-              <input class="button-card-radio__input-icon" type="radio" name="formatSelect" value="image/png">
+              <div class="button-card-radio__radio-input">
+                <div class="button-card-radio__radio-icon"></div>
+                <input class="hidden" type="radio" name="formatSelect" value="image/png">
+              </div>
             </div>
             <div class="button-card-radio" onclick="selectFormat('image/webp')">
               <div class="button-card-radio__content">
                 <label class="button-card-radio__label">WebP</label>
-                <div class="button-card-radio__description">
-                </div>
               </div>
-              <input class="button-card-radio__input-icon" type="radio" name="formatSelect" value="image/webp">
+              <div class="button-card-radio__radio-input">
+                <div class="button-card-radio__radio-icon"></div>
+                <input class="hidden" type="radio" name="formatSelect" value="image/webp">
+              </div>
             </div>
           </div>
         </div>
@@ -245,6 +272,10 @@
     </div>
 
   </div>
+
+  <button id="backToTop">
+    <svg height="16" stroke-linejoin="round" style="color:currentColor" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" clip-rule="evenodd" d="M8.70711 1.39644C8.31659 1.00592 7.68342 1.00592 7.2929 1.39644L2.21968 6.46966L1.68935 6.99999L2.75001 8.06065L3.28034 7.53032L7.25001 3.56065V14.25V15H8.75001V14.25V3.56065L12.7197 7.53032L13.25 8.06065L14.3107 6.99999L13.7803 6.46966L8.70711 1.39644Z" fill="currentColor"></path></svg>
+  </button>
 
   <script type="text/javascript" src="./assets/js/browser-image-compression.js"></script>
   <script type="text/javascript" src="./assets/js/script.js"></script>

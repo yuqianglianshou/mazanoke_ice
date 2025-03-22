@@ -71,7 +71,7 @@ function updateSlider(value, sliderId) {
   const thumb = slider.querySelector('.slider-thumb');
   const percentage = value;
   fill.style.width = percentage + '%';
-  thumb.style.left = percentage + '%';
+  thumb.style.left = Math.min(percentage, 100) + '%';
 }
 
 function startSliderDrag(event, inputId) {
@@ -82,7 +82,7 @@ function startSliderDrag(event, inputId) {
     const rect = slider.getBoundingClientRect();
     const offsetX = e.clientX - rect.left;
     const percentage = Math.min(Math.max((offsetX / rect.width) * 100, 0), 100);
-    input.value = Math.round(percentage);
+    input.value = Math.round(Math.min(percentage, 100));
     updateSlider(percentage, slider.id);
   };
 
@@ -122,8 +122,8 @@ function createCompressionOptions(onProgress) {
 
   compressMethod = compressMethodElement.value;
   maxSizeMB = parseFloat(maxSizeMBElement.value);
-  initialQuality = parseFloat(initialQualityElement.value) / 100;
-  maxWidthOrHeight = parseFloat(maxWidthOrHeightElement.value);
+  initialQuality = Math.min(Math.max(parseFloat(initialQualityElement.value) / 100, 0), 1);
+  maxWidthOrHeight = Math.max(parseFloat(maxWidthOrHeightElement.value), 1);
 
   const dimensionMethod = dimensionMethodElement.value;
   const options = {
@@ -308,6 +308,13 @@ document.addEventListener("DOMContentLoaded", function () {
   updateSlider(document.getElementById('initialQuality').value, 'initialQualitySlider');
   selectDimensionMethod(document.querySelector('input[name="dimensionMethod"]:checked').value); // Initialize field visibility based on the default selection
   selectFormat(document.querySelector('input[name="formatSelect"]:checked').value); // Initialize field visibility based on the default selection
+
+  document.getElementById("backToTop").addEventListener("click", function() {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
+  });
 });
 
 function toggleFields() {
