@@ -4,10 +4,14 @@ const progressTrack = document.querySelector("#webWorkerProgressTrack");
 const progressBar = document.querySelector("#webWorkerProgressBar");
 const progressText = document.querySelector("#webWorkerProgressText");
 const outputDownloadContainer = document.querySelector("#outputDownloadContainer");
+const outputDownloadContent = document.querySelector("#outputDownloadContent");
 const webWorkerAbort = document.getElementById("webWorkerAbort");
 const dropZoneActions = document.getElementById("dropZoneActions");
+const compressedImageCount = document.getElementById("compressedImageCount");
 let compressMethod;
 let isCompressing = false;
+let inputFileSize;
+let imageCount = 0;
 
 function resetCompressionState() {
   setTimeout(() => {
@@ -57,8 +61,9 @@ function compressImage(event) {
 
 function setupPreview(file) {
   document.getElementById("preview").src = URL.createObjectURL(file);
-  logDom.innerHTML =
-    "Source image size:" + (file.size / 1024 / 1024).toFixed(2) + "mb";
+  inputFileSize = (file.size / 1024 / 1024).toFixed(2);
+/*   logDom.innerHTML = 
+    "Source image size:" + (file.size / 1024 / 1024).toFixed(2) + "mb"; */
   imageCompression.getExifOrientation(file).then((o) =>
     console.log("ExifOrientation", o)
   );
@@ -172,11 +177,20 @@ function handleCompressionResult(file, output) {
   downloadAnchor.textContent = "download image";
 
   const outputItem = document.createElement("div");
+  outputItem.classList.add('image-output-item');
   outputItem.appendChild(outputSizeText);
   outputItem.appendChild(document.createTextNode(" "));
   outputItem.appendChild(downloadAnchor);
 
-  outputDownloadContainer.prepend(outputItem);
+  outputDownloadContent.prepend(outputItem);
+
+  imageCount++;
+  outputDownloadContainer.dataset.count = imageCount;
+  compressedImageCount.dataset.count = imageCount;
+  compressedImageCount.textContent = '(' + imageCount + ')';
+
+
+  selectSettingsSubpage('output');
   document.getElementById("previewAfterCompress").src = downloadLink;
 
   return uploadToServer(output);

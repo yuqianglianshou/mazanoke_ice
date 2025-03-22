@@ -70,7 +70,7 @@
       </div>
       <div class="segmented-control" onclick="selectSettingsSubpage('output')">
         <div class="segmented-control__text">
-          Images (0)
+          Images <span id="compressedImageCount">(0)</span>
         </div>
         <input type="radio" name="settingsSubpage" value="output" class="hidden">
       </div>
@@ -273,8 +273,16 @@
 
         </div>
 
-        <div id="outputDownloadContainer" class="image-output-container">
+        <div id="outputDownloadContainer" class="image-output-container" data-count="0">
           <h2 class="h4 mb-md">Compressed images</h2>
+
+          <div class="image-output-container__empty-state">
+            <div class="flex justify-center items-center pt-xl">
+              <h3 class="h5">No images compressed yet.</h3>
+            </div>
+          </div>
+
+          <div id="outputDownloadContent"></div>
         </div>
 
       </div>

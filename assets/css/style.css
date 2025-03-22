@@ -481,7 +481,6 @@ body.subpage--output .segmented-control__selected-item {
               inset var(--space-lg) calc(var(--space-lg) * -1) var(--space-lg) calc(var(--space-lg) / -2) var(--color-surface),
               inset calc(var(--space-lg) * -2) 0 calc(var(--space-lg) * 2) calc(var(--space-lg) * -2) var(--color-surface),
               inset calc(var(--space-lg) / -2) 0 var(--space-lg) calc(var(--space-lg) / -2) var(--color-surface);
-
   padding: 0 var(--space-lg);
   z-index: 5;
 }
@@ -508,22 +507,9 @@ body.subpage--output .segmented-control__selected-item {
   padding: var(--space-lg) var(--space-lg) var(--space-xl) var(--space-lg);
   border-radius: var(--rounded-lg);
   background-color: var(--color-surface-high);
+  background-image: linear-gradient(to bottom right, hsl(0deg 0% 50% / 2%), hsl(0deg 0% 0% / 39%));
   margin-bottom: var(--space-lg);
   opacity: 0;
-}
-
-.image-options-container::before,
-.image-output-container::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  border-radius: var(--rounded-lg);
-  pointer-events: none;
-  filter: invert(calc(0 + var(--filter-invert)));
-  background-image: linear-gradient(to bottom right, hsl(0deg 0% 50% / 2%), hsl(0deg 0% 0% / 39%));
 }
 
 .image-output-container {
@@ -532,6 +518,7 @@ body.subpage--output .segmented-control__selected-item {
   left: var(--space-lg);
   width: calc(100% - var(--space-lg) - var(--space-lg));
   height: 100%;
+  overflow: auto;
 }
 
 body.subpage--settings .image-options-container {
@@ -560,6 +547,12 @@ body:not(.subpage--output):not(.subpage--settings) .image-options-container {
   opacity: 1;
   z-index: 1;
 }
+
+.image-output-container:not([data-count="0"]) .image-output-container__empty-state {
+  display: none;
+}
+
+
 
 
 /****************************************************
@@ -951,8 +944,8 @@ body.compressing--is-active .drop-zone:hover {
 
 @media (max-width: 1024px) {
   .content {
-    padding-left: var(--space-sm);
-    padding-right: var(--space-sm);
+    padding-left: var(--space-lg);
+    padding-right: var(--space-lg);
   }
 
   .form-group {
