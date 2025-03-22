@@ -120,11 +120,91 @@ img {
 }
 
 
-#outputDownloadContainer {
 
+/****************************************************
+ *  Input: Input text and number fields
+ ****************************************************/
+
+input {
+  font-size: 1rem;
 }
 
 
+input[type="text"],
+input[type="number"],
+textarea,
+.form-field-suffix {
+  --input-border-color: var(--color-border);
+  transition: var(--duration-hover) ease-in-out;
+  color: var(--color-on-surface-high);
+}
+
+input[type="text"],
+input[type="number"],
+textarea {
+  display: flex;
+  box-shadow: inset 0 0 0 1px var(--input-border-color);
+  border-radius: var(--rounded-md);
+  padding-top: var(--space-xs);
+  padding-right: var(--space-sm);
+  padding-bottom: var(--space-xs);
+  padding-left: var(--space-sm);
+  background-color: var(--color-surface-high);
+  outline: none;
+  border: none;
+}
+
+input[type="text"]:hover,
+input[type="number"]:hover,
+textarea:hover {
+  --input-border-color: var(--color-border-hover);
+}
+
+input[type="text"]:focus,
+input[type="text"]:active,
+input[type="number"]:focus,
+input[type="number"]:active,
+textarea:focus,
+textarea:active,
+input[type="text"]:focus ~ .form-field-suffix,
+input[type="text"]:active ~ .form-field-suffix,
+input[type="number"]:focus ~ .form-field-suffix,
+input[type="number"]:active ~ .form-field-suffix,
+textarea:focus ~ .form-field-suffix,
+textarea:active ~ .form-field-suffix {
+  --input-border-color: var(--color-primary);
+}
+
+.form-field-container {
+  display: flex;
+}
+
+.form-field-container--suffix input[type="text"],
+.form-field-container--suffix input[type="number"] {
+  box-shadow: inset 1px 0px 0 0px var(--input-border-color),
+              inset 0px -1px 0 0px var(--input-border-color),
+              inset 0px 1px 0 0px var(--input-border-color);
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.form-field-suffix {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 42px;
+  border-right: 1px solid var(--input-border-color);
+  border-bottom: 1px solid var(--input-border-color);
+  border-top: 1px solid var(--input-border-color);
+  border-top-right-radius: var(--rounded-md);
+  border-bottom-right-radius: var(--rounded-md);
+  padding-top: var(--space-xs);
+  padding-right: var(--space-sm);
+  padding-bottom: var(--space-xs);
+  padding-left: var(--space-sm);
+  background-color: var(--color-surface-higher);
+  color: var(--color-on-surface-high);
+}
 
 /****************************************************
  *  Input: Button CTA
@@ -248,6 +328,16 @@ button {
   min-width: 200px;
 }
 
+.button-card-radio:not(.button-card-radio--is-selected):hover {
+  background-color: var(--color-surface-high-hover);
+  box-shadow: inset 0 0 0 1px var(--color-border-hover);
+}
+
+.button-card-radio:not(.button-card-radio--is-selected):hover .button-card-radio__radio-icon {
+  border: 1px solid var(--color-border-hover);
+}
+
+
 .button-card-radio--is-selected {
   box-shadow: inset 0 0 0 2px var(--color-border-selected);
   background-color: var(--color-surface-higher);
@@ -259,13 +349,14 @@ button {
   align-items: flex-start;
   width: 100%;
   gap: var(--space-3xs);
-
+  cursor: pointer;
 }
 
 .button-card-radio__label {
   font-size: var(--text-md);
   font-weight: 400;
   color: var(--color-on-surface-high);
+  cursor: pointer;
 }
 
 .button-card-radio__description {
@@ -473,7 +564,7 @@ body.subpage--output .segmented-control__selected-item {
 .image-subpage-container__shade-x {
   position: absolute;
   top: calc((var(--space-lg) / 2)* -1);
-  left: calc(var(--space-lg)* -1.5);
+  left: calc(var(--space-lg)* -1);
   width: calc(100% + var(--space-lg) + var(--space-lg));
   height: calc(100% + var(--space-lg));
   pointer-events: none;

@@ -101,7 +101,7 @@
                     <label class="button-card-radio__label">Set image quality</label>
                     <div class="button-card-radio__description">
                       <div class="button-card-radio__description-text">
-                        Adjust the image quality; higher values preserve more detail, while lower values reduce file size.
+                        Higher values retain more detail, while lower values result in smaller file sizes.
                       </div>
                     </div>
                   </div>
@@ -137,7 +137,15 @@
             </div>
             <div class="form-group__input-content">
               <div class="fade-in-up w-100">
-                <input type="number" id="maxSizeMB" name="maxSizeMB" value="2" />
+                <label class="mb-2xs">Max file size</label>
+                <!-- <input type="number" id="maxSizeMB" name="maxSizeMB" value="2" /> -->
+
+                <div class="form-field-container form-field-container--suffix">
+                  <input type="number" id="maxSizeMB" name="maxSizeMB" value="2" class="w-100" />
+                  <label for="maxSizeMB" class="form-field-suffix">
+                    MB
+                  </label>
+                </div>
               </div>
             </div>
           </div>
@@ -151,16 +159,24 @@
             </div>
             <div class="form-group__input-content">
               <div class="fade-in-up w-100">
-                <label class="mb-3xs">Quality</label>
+                <label class="mb-2xs">Quality</label>
                 <div class="flex items-center gap-sm">
+                  <div class="form-field-container form-field-container--suffix">
+                    <input type="number" id="initialQuality" name="initialQuality" value="95" min="0" max="100" step="1" oninput="updateSlider(this.value, 'initialQualitySlider')" />
+                    <label for="initialQuality" class="form-field-suffix">
+                      %
+                    </label>
+                  </div>
                   <div class="w-100">
                     <div class="slider-track flex-1" id="initialQualitySlider" onmousedown="startSliderDrag(event, 'initialQuality')">
                       <div class="slider-fill"></div>
                       <div class="slider-thumb"></div>
                     </div>
                   </div>
-                  <input type="number" id="initialQuality" name="initialQuality" value="95" min="0" max="100" step="1" oninput="updateSlider(this.value, 'initialQualitySlider')" />
                 </div>
+
+
+
               </div>
             </div>
           </div>
@@ -181,7 +197,7 @@
                     <label class="button-card-radio__label">Keep original dimensions</label>
                     <div class="button-card-radio__description">
                       <div class="button-card-radio__description-text">
-                        Do not alter the widht and height of the image.
+                        Do not alter the width and height of the image.
                       </div>
                     </div>
                   </div>
@@ -217,7 +233,13 @@
             </div>
             <div class="form-group__input-content">
               <div class="fade-in-up w-100">
-                <input type="number" id="maxWidthOrHeight" name="maxWidthOrHeight" value="1024" />
+                <label class="mb-2xs">Max dimension</label>
+                <div class="form-field-container form-field-container--suffix">
+                  <input type="number" id="maxWidthOrHeight" name="maxWidthOrHeight" value="1080" class="w-100" />
+                  <label for="maxWidthOrHeight" class="form-field-suffix">
+                    px
+                  </label>
+                </div>
               </div>
             </div>
           </div>
@@ -277,8 +299,8 @@
           <h2 class="h4 mb-md">Compressed images</h2>
 
           <div class="image-output-container__empty-state">
-            <div class="flex justify-center items-center pt-xl">
-              <h3 class="h5">No images compressed yet.</h3>
+            <div class="flex justify-center items-center pt-3xl">
+              <h3 class="h5">No images compressed yet</h3>
             </div>
           </div>
 

@@ -26,7 +26,7 @@
   --duration-1400: 1400ms;
   --duration-2000: 2000ms;
 
-  --duration-hover: var(--duration-300);
+  --duration-hover: var(--duration-200);
 
   /* 12.5px → 12.8px */
   --text-xs: clamp(0.7813rem, 0.7747rem + 0.0326vw, 0.8rem);

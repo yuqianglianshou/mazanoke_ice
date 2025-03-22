@@ -119,12 +119,6 @@ function createCompressionOptions(onProgress) {
     return;
   }
 
-  console.log("compressMethodElement:", compressMethodElement);
-  console.log("maxSizeMBElement:", maxSizeMBElement);
-  console.log("initialQualityElement:", initialQualityElement);
-  console.log("maxWidthOrHeightElement:", maxWidthOrHeightElement);
-  console.log("formatSelectElement:", formatSelectElement);
-
   compressMethod = compressMethodElement.value;
   maxSizeMB = parseFloat(maxSizeMBElement.value);
   initialQuality = Math.min(Math.max(parseFloat(initialQualityElement.value) / 100, 0), 1);
