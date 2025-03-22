@@ -257,6 +257,23 @@ function selectFormat(value) {
   document.querySelector(`input[name="formatSelect"][value="${value}"]`).closest('.button-card-radio').classList.add('button-card-radio--is-selected');
 }
 
+
+function selectSettingsSubpage(value) {
+  document.querySelector(`#selectSettingsSubpage input[name="settingsSubpage"][value="${value}"]`).checked = true;
+  document.querySelectorAll('#selectSettingsSubpage .segmented-control').forEach((el) => {
+    el.classList.remove('segmented-control--is-selected');
+  });
+  document.querySelector(`#selectSettingsSubpage input[name="settingsSubpage"][value="${value}"]`).closest('.segmented-control').classList.add('segmented-control--is-selected');
+  document.body.className = document.body.className.replace(/\bsubpage--\S+/g, '');
+  if (value === 'settings') {
+    document.body.classList.add('subpage--settings');
+  }
+  else if (value === 'output') {
+    document.body.classList.add('subpage--output');
+  }
+}
+
+
 document.addEventListener("DOMContentLoaded", function () {
   const dropZone = document.getElementById("webWorkerDropZone");
   const fileInput = document.getElementById("webWorker");
