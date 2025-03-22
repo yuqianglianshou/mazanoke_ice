@@ -197,6 +197,7 @@ button {
   transition: var(--duration-hover) ease-out;
   animation: fade-in var(--duration-200) ease-out forwards;
   overflow: hidden;
+  z-index: 10;
 }
 
 #backToTop * {
@@ -467,6 +468,7 @@ body.subpage--output .segmented-control__selected-item {
 
 .image-subpage {
   position: relative;
+  overflow: hidden;
 }
 
 .image-options-container,
