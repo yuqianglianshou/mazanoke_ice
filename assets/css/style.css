@@ -64,9 +64,13 @@ img {
 .content {
   max-width: var(--content-width);
   margin: 0 auto;
-  padding: 0 var(--space-2xl);
+  padding: 0 var(--space-2xl) var(--space-2xl) var(--space-2xl);
 }
 
+
+#outputDownloadContainer {
+
+}
 
 
 /****************************************************
@@ -177,6 +181,41 @@ button {
 }
 
 /****************************************************
+ *  Input: Segmented control
+ ****************************************************/
+
+.segmented-control-group {
+  display: flex;
+  gap: var(--space-xs);
+  width: 100%;
+  border-radius: var(--rounded-full);
+  overflow: hidden;
+  /* background-color: var(--color-surface-high); */
+  /* padding: var(--space-xs) var(--space-sm); */
+  margin-bottom: var(--space-md);
+}
+
+.segmented-control {
+  display: flex;
+  gap: var(--space-xs);
+  flex: 1;
+  border-radius: var(--rounded-full);
+  overflow: hidden;
+  box-shadow: inset 0 0 0 1px var(--color-border);
+  padding: var(--space-xs) var(--space-sm);
+  cursor: pointer;
+  transition: var(--duration-hover) ease-out;
+  text-align: center;
+  justify-content: center;
+}
+
+.segmented-control--is-selected {
+  box-shadow: inset 0 0 0 2px var(--color-border-selected);
+  background-color: var(--color-surface-higher);
+}
+
+
+/****************************************************
  *  Input: Slider
  ****************************************************/
 
@@ -204,6 +243,7 @@ button {
   left: 0;
   width: 100%;
   height: 100%;
+  /* TODO: Use css variables for the colors */
   background: linear-gradient(to right, rgba(0, 0, 0, 0.65), transparent);
 }
 
@@ -260,6 +300,10 @@ button {
   display: flex;
   flex-direction: column;
   gap: var(--space-md);
+  padding: var(--space-lg) var(--space-lg) var(--space-xl) var(--space-lg);
+  border-radius: var(--rounded-lg);
+  /* TODO: Use css variables for the colors */
+  background-image: linear-gradient(to bottom right, hsl(0deg 0% 100% / 4%), hsl(0deg 0% 100% / 2%))
 }
 
 
@@ -275,11 +319,16 @@ button {
   cursor: pointer;
   border-radius: var(--rounded-lg);
   margin: var(--space-xl) 0;
-  height: 400px;
+  height: 500px;
   overflow: hidden;
   margin-left: auto;
   margin-right: auto;
 }
+
+body.compressing--is-active .drop-zone:hover {
+  cursor: progress;
+}
+
 
 .drop-zone__cell-grid,
 .drop-zone__vignette-outer,
@@ -300,6 +349,7 @@ button {
 .drop-zone.drop-zone--is-dragging .drop-zone__border-dashed {
   opacity: 0.8;
   --border-color: var(--color-primary);
+  animation: border-track 50s linear infinite;
 }
 
 .drop-zone:hover .drop-zone__cell-grid,
@@ -400,7 +450,7 @@ button {
   gap: var(--space-xs);
   flex-direction: column;
   z-index: 10;
-  animation: fade-in var(--duration-600) ease-out;
+  animation: fade-in-scale var(--duration-600) ease-out forwards;
 }
 
 .drop-zone-content__actions-text {
@@ -426,12 +476,18 @@ button {
  ****************************************************/
 
 .progress-container {
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: var(--space-xs);
   justify-content: flex-start;
   align-items: center;
   width: 100%;
+}
+
+.progress-container #webWorkerAbort {
+  position: absolute;
+  top: 100%;
 }
 
 #webWorkerProgressText[data-progress="0"]::after {

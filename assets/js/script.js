@@ -7,7 +7,20 @@ const outputDownloadContainer = document.querySelector("#outputDownloadContainer
 const webWorkerAbort = document.getElementById("webWorkerAbort");
 const dropZoneActions = document.getElementById("dropZoneActions");
 let compressMethod;
+let isCompressing = false;
 
+function resetCompressionState() {
+  setTimeout(() => {
+    document.body.classList.remove("compressing--is-active");
+    dropZoneActions.classList.remove("hidden");
+    webWorkerAbort.classList.add("hidden");
+    progressContainer.classList.add("hidden");
+    progressText.dataset.progress = 0;
+    progressText.textContent = "Preparing 0%";
+    progressBar.style.width = "0%";
+    isCompressing = false;
+  }, 2000);
+}
 
 function compressImage(event) {
   const file = event.target.files[0];
@@ -16,6 +29,7 @@ function compressImage(event) {
   const options = createCompressionOptions(onProgress);
 
   // Update to state: processing
+  isCompressing = true;
   document.body.classList.add("compressing--is-active");
   dropZoneActions.classList.add("hidden");
   webWorkerAbort.classList.remove("hidden");
@@ -27,16 +41,7 @@ function compressImage(event) {
     .then((output) => handleCompressionResult(file, output))
     .catch((error) => alert(error.message))
     .finally(() => {
-      // Reset state: processing
-      setTimeout(() => {
-        document.body.classList.remove("compressing--is-active");
-        dropZoneActions.classList.remove("hidden");
-        webWorkerAbort.classList.add("hidden");
-        progressContainer.classList.add("hidden");
-        progressText.dataset.progress = 0;
-        progressText.textContent = "Preparing 0%";
-        progressBar.style.width = "0%";
-      }, 2000);
+      resetCompressionState();
     });
 
   function onProgress(p) {
@@ -49,8 +54,6 @@ function compressImage(event) {
     }
   }
 }
-
-
 
 function setupPreview(file) {
   document.getElementById("preview").src = URL.createObjectURL(file);
@@ -103,8 +106,10 @@ function createCompressionOptions(onProgress) {
   const initialQualityElement = document.querySelector("#initialQuality");
   const maxWidthOrHeightElement = document.querySelector("#maxWidthOrHeight");
   const formatSelectElement = document.querySelector('input[name="formatSelect"]:checked');
+  const dimensionMethodElement = document.querySelector('input[name="dimensionMethod"]:checked');
 
-  if (!compressMethodElement || !maxSizeMBElement || !initialQualityElement || !maxWidthOrHeightElement || !formatSelectElement) {
+  if (!compressMethodElement || !maxSizeMBElement || !initialQualityElement ||
+      !maxWidthOrHeightElement || !formatSelectElement || !dimensionMethodElement) {
     console.error("One or more required elements are missing.");
     return;
   }
@@ -120,10 +125,11 @@ function createCompressionOptions(onProgress) {
   initialQuality = parseFloat(initialQualityElement.value) / 100;
   maxWidthOrHeight = parseFloat(maxWidthOrHeightElement.value);
 
+  const dimensionMethod = dimensionMethodElement.value;
   const options = {
     maxSizeMB: maxSizeMB && compressMethod === "maxSizeMB" ? maxSizeMB : undefined,
     initialQuality: initialQuality && compressMethod === "initialQuality" ? initialQuality : undefined,
-    maxWidthOrHeight: maxWidthOrHeight && selectDimensionMethod() === 'limit' ? maxWidthOrHeight : undefined,
+    maxWidthOrHeight: dimensionMethod === "limit" ? parseFloat(maxWidthOrHeightElement.value) : undefined,
     useWebWorker: true,
     onProgress,
     preserveExif: false,
@@ -211,6 +217,8 @@ function convertImage(originalBlob, outputFormat, quality) {
 function abort() {
   if (!controller) return;
   controller.abort(new Error("Image compression is aborted"));
+  alert("aborted");
+  resetCompressionState();
 }
 
 function uploadToServer(file) {
@@ -254,31 +262,37 @@ document.addEventListener("DOMContentLoaded", function () {
   const fileInput = document.getElementById("webWorker");
 
   dropZone.addEventListener("click", function () {
+    if (isCompressing) return;
     fileInput.click();
   });
 
   fileInput.addEventListener("change", function (event) {
+    if (isCompressing) return;
     if (fileInput.files && fileInput.files.length > 0) {
       compressImage(event, true);
     }
   });
 
   dropZone.addEventListener("dragenter", function (e) {
+    if (isCompressing) return;
     e.preventDefault();
     dropZone.classList.add("drop-zone--is-dragging");
   });
 
   dropZone.addEventListener("dragover", function (e) {
+    if (isCompressing) return;
     e.preventDefault();
     dropZone.classList.add("drop-zone--is-dragging");
   });
 
   dropZone.addEventListener("dragleave", function (e) {
+    if (isCompressing) return;
     e.preventDefault();
     dropZone.classList.remove("drop-zone--is-dragging");
   });
 
   dropZone.addEventListener("drop", function (e) {
+    if (isCompressing) return;
     e.preventDefault();
     dropZone.classList.remove("drop-zone--is-dragging");
     if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
