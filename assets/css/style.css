@@ -135,6 +135,7 @@ input[type="number"],
 textarea,
 .form-field-suffix {
   --input-border-color: var(--color-border);
+  --input-border-width: 1px;
   transition: var(--duration-hover) ease-in-out;
   color: var(--color-on-surface-high);
 }
@@ -143,7 +144,7 @@ input[type="text"],
 input[type="number"],
 textarea {
   display: flex;
-  box-shadow: inset 0 0 0 1px var(--input-border-color);
+  box-shadow: inset 0 0 0 var(--input-border-width) var(--input-border-color);
   border-radius: var(--rounded-md);
   padding-top: var(--space-xs);
   padding-right: var(--space-sm);
@@ -173,6 +174,7 @@ input[type="number"]:active ~ .form-field-suffix,
 textarea:focus ~ .form-field-suffix,
 textarea:active ~ .form-field-suffix {
   --input-border-color: var(--color-primary);
+  --input-border-width: 2px;
 }
 
 .form-field-container {
@@ -181,9 +183,9 @@ textarea:active ~ .form-field-suffix {
 
 .form-field-container--suffix input[type="text"],
 .form-field-container--suffix input[type="number"] {
-  box-shadow: inset 1px 0px 0 0px var(--input-border-color),
-              inset 0px -1px 0 0px var(--input-border-color),
-              inset 0px 1px 0 0px var(--input-border-color);
+  box-shadow: inset var(--input-border-width) 0px 0 0px var(--input-border-color),
+              inset 0px calc(var(--input-border-width) * -1) 0 0px var(--input-border-color),
+              inset 0px var(--input-border-width) 0 0px var(--input-border-color);
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
 }
@@ -193,9 +195,9 @@ textarea:active ~ .form-field-suffix {
   justify-content: center;
   align-items: center;
   min-width: 42px;
-  border-right: 1px solid var(--input-border-color);
-  border-bottom: 1px solid var(--input-border-color);
-  border-top: 1px solid var(--input-border-color);
+  box-shadow: inset calc(var(--input-border-width)* -1) 0px 0 0px var(--input-border-color),
+              inset 0px var(--input-border-width) 0 0px var(--input-border-color),
+              inset 0px calc(var(--input-border-width)* -1) 0 0px var(--input-border-color);
   border-top-right-radius: var(--rounded-md);
   border-bottom-right-radius: var(--rounded-md);
   padding-top: var(--space-xs);
@@ -490,7 +492,7 @@ body.subpage--output .segmented-control__selected-item {
   position: relative;
   width: 0%;
   height: 100%;
-  background-color: var(--color-primary);
+  background-color: var(--color-accent);
   border-radius: var(--rounded-full);
 }
 
@@ -568,13 +570,14 @@ body.subpage--output .segmented-control__selected-item {
   width: calc(100% + var(--space-lg) + var(--space-lg));
   height: calc(100% + var(--space-lg));
   pointer-events: none;
-  box-shadow: inset calc(var(--space-lg) * 2) calc(var(--space-lg) * -1) calc(var(--space-lg) * 2) calc(var(--space-lg) * -2) var(--color-surface), 
-              inset var(--space-lg) calc(var(--space-lg) * -1) var(--space-lg) calc(var(--space-lg) / -2) var(--color-surface),
-              inset calc(var(--space-lg) * -2) 0 calc(var(--space-lg) * 2) calc(var(--space-lg) * -2) var(--color-surface),
-              inset calc(var(--space-lg) / -2) 0 var(--space-lg) calc(var(--space-lg) / -2) var(--color-surface);
+  box-shadow: inset calc(var(--space-lg) * 2) calc(var(--space-lg) * -1) calc(var(--space-lg) * 2) calc(var(--space-lg) * -2) var(--subpage-shade-x-color), 
+              inset var(--space-lg) calc(var(--space-lg) * -1) var(--space-lg) calc(var(--space-lg) / -2) var(--subpage-shade-x-color),
+              inset calc(var(--space-lg) * -2) 0 calc(var(--space-lg) * 2) calc(var(--space-lg) * -2) var(--subpage-shade-x-color),
+              inset calc(var(--space-lg) / -2) 0 var(--space-lg) calc(var(--space-lg) / -2) var(--subpage-shade-x-color);
   padding: 0 var(--space-lg);
   z-index: 5;
 }
+
 
 .image-subpage {
   position: relative;
@@ -598,7 +601,7 @@ body.subpage--output .segmented-control__selected-item {
   padding: var(--space-lg) var(--space-lg) var(--space-xl) var(--space-lg);
   border-radius: var(--rounded-lg);
   background-color: var(--color-surface-high);
-  background-image: linear-gradient(to bottom right, hsl(0deg 0% 50% / 2%), hsl(0deg 0% 0% / 39%));
+  background-image: var(--subpage-container-bgimage);
   margin-bottom: var(--space-lg);
   opacity: 0;
 }
@@ -613,23 +616,23 @@ body.subpage--output .segmented-control__selected-item {
 }
 
 body.subpage--settings .image-options-container {
-  animation: oblivion-in var(--duration-600) ease-out forwards;
+  animation: oblivion-in var(--duration-800) ease-out forwards;
   animation-delay: var(--duration-600);
 }
 
 body.subpage--settings .image-output-container {
-  animation: oblivion-out var(--duration-800) ease-out;
+  animation: oblivion-out var(--duration-600) ease-out;
   pointer-events: none;
   z-index: 1;
 }
 
 body.subpage--output .image-output-container {
-  animation: oblivion-in var(--duration-600) ease-out forwards;
+  animation: oblivion-in var(--duration-800) ease-out forwards;
   animation-delay: var(--duration-600);
 }
 
 body.subpage--output .image-options-container {
-  animation: oblivion-out var(--duration-800) ease-out;
+  animation: oblivion-out var(--duration-600) ease-out;
   pointer-events: none;
   z-index: 1;
 }
@@ -689,7 +692,7 @@ body.compressing--is-active .drop-zone:hover {
 .drop-zone.drop-zone--is-dragging .drop-zone__border-dashed {
   opacity: 0.8;
   --border-width: 3px;
-  --border-color: var(--color-primary);
+  --border-color: var(--color-accent);
   animation: border-track 50s linear infinite;
 }
 
@@ -753,6 +756,10 @@ body.compressing--is-active .drop-zone:hover {
   border-color: var(--color-primary);
 }
 
+.drop-zone.drop-zone--is-dragging .drop-zone-content__actions-text {
+  color: var(--color-primary-hover);
+}
+
 .drop-zone::before {
   content: "";
   display: block;
@@ -761,7 +768,7 @@ body.compressing--is-active .drop-zone:hover {
   position: absolute;
   top: 0;
   left: 0;
-  background-color: var(--color-primary);
+  background-color: var(--color-accent);
   transition: var(--duration-100) ease-out;
   pointer-events: none;
   opacity: 0;
