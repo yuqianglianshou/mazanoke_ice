@@ -95,14 +95,16 @@
   /* Surfaces */
   --color-surface: #0b0b0b;
   --color-surface-high: #191919;
-  --color-surface-higher: #292929;
+  --color-surface-higher: #2f2f2f;
 
   /* Glyphs */
-  --color-on-surface: #ffffff;
-  --color-on-surface-high: rgba(255, 255, 255, 0.87);
-  --color-on-surface-higher: rgba(255, 255, 255, 0.6);
+  --color-on-surface: rgb(221, 221, 221);
+  --color-on-surface-high: rgb(236, 236, 236);
+  --color-on-surface-higher: #ffffff;
 
   --color-border: rgba(93, 93, 93, 0.9);
+  --color-border-hover: rgba(121, 121, 121, 0.9);
+  --color-border-selected: rgba(181, 181, 181, 0.9);
 
   /* States */
   --color-state-success: #4caf50;

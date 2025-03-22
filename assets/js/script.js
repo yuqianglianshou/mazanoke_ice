@@ -62,17 +62,68 @@ function setupPreview(file) {
   controller = typeof AbortController !== "undefined" && new AbortController();
 }
 
+function updateSlider(value, sliderId) {
+  const slider = document.getElementById(sliderId);
+  const fill = slider.querySelector('.slider-fill');
+  const thumb = slider.querySelector('.slider-thumb');
+  const percentage = value;
+  fill.style.width = percentage + '%';
+  thumb.style.left = percentage + '%';
+}
+
+function startSliderDrag(event, inputId) {
+  const slider = event.currentTarget;
+  const input = document.getElementById(inputId);
+
+  const updateSliderPosition = (e) => {
+    const rect = slider.getBoundingClientRect();
+    const offsetX = e.clientX - rect.left;
+    const percentage = Math.min(Math.max((offsetX / rect.width) * 100, 0), 100);
+    input.value = Math.round(percentage);
+    updateSlider(percentage, slider.id);
+  };
+
+  const onMouseMove = (e) => {
+    updateSliderPosition(e);
+  };
+
+  const onMouseUp = () => {
+    document.removeEventListener('mousemove', onMouseMove);
+    document.removeEventListener('mouseup', onMouseUp);
+  };
+
+  updateSliderPosition(event);
+  document.addEventListener('mousemove', onMouseMove);
+  document.addEventListener('mouseup', onMouseUp);
+}
+
 function createCompressionOptions(onProgress) {
-  compressMethod = document.getElementById("compressMethod").value;
-  maxSizeMB = parseFloat(document.querySelector("#maxSizeMB").value);
-  initialQuality = parseFloat(document.querySelector("#initialQuality").value);
+  const compressMethodElement = document.querySelector('input[name="compressMethod"]:checked');
+  const maxSizeMBElement = document.querySelector("#maxSizeMB");
+  const initialQualityElement = document.querySelector("#initialQuality");
+  const maxWidthOrHeightElement = document.querySelector("#maxWidthOrHeight");
+  const formatSelectElement = document.querySelector('input[name="formatSelect"]:checked');
+
+  if (!compressMethodElement || !maxSizeMBElement || !initialQualityElement || !maxWidthOrHeightElement || !formatSelectElement) {
+    console.error("One or more required elements are missing.");
+    return;
+  }
+
+  console.log("compressMethodElement:", compressMethodElement);
+  console.log("maxSizeMBElement:", maxSizeMBElement);
+  console.log("initialQualityElement:", initialQualityElement);
+  console.log("maxWidthOrHeightElement:", maxWidthOrHeightElement);
+  console.log("formatSelectElement:", formatSelectElement);
+
+  compressMethod = compressMethodElement.value;
+  maxSizeMB = parseFloat(maxSizeMBElement.value);
+  initialQuality = parseFloat(initialQualityElement.value) / 100;
+  maxWidthOrHeight = parseFloat(maxWidthOrHeightElement.value);
 
   const options = {
     maxSizeMB: maxSizeMB && compressMethod === "maxSizeMB" ? maxSizeMB : undefined,
     initialQuality: initialQuality && compressMethod === "initialQuality" ? initialQuality : undefined,
-    maxWidthOrHeight: parseFloat(
-      document.querySelector("#maxWidthOrHeight").value
-    ),
+    maxWidthOrHeight: maxWidthOrHeight && selectDimensionMethod() === 'limit' ? maxWidthOrHeight : undefined,
     useWebWorker: true,
     onProgress,
     preserveExif: false,
@@ -81,23 +132,26 @@ function createCompressionOptions(onProgress) {
   if (controller) {
     options.signal = controller.signal;
   }
+
+  console.log("options:", options);
   return options;
 }
 
 function handleCompressionResult(file, output) {
   let imageExtension;
-  const selectedFormat = document.getElementById("formatSelect").value;
-  if (selectedFormat) {
+  const selectedFormat = document.querySelector('input[name="formatSelect"]:checked').value;
+  console.log("selectedFormat:", selectedFormat);
+  if (selectedFormat && selectedFormat !== "nochange") {
     imageExtension = selectedFormat.replace("image/", "");
   } else {
     imageExtension = file.type.replace("image/", "");
   }
 
-  const outputFilename = updateFileExtension(file.name, selectedFormat);
+  const outputFilename = updateFileExtension(file.name, imageExtension);
 
   const outputSizeText = document.createElement("div");
   outputSizeText.textContent =
-    file.name + " (" + (output.size / 1024 / 1024).toFixed(2) + "mb)";
+  outputFilename + " (" + (output.size / 1024 / 1024).toFixed(2) + "MB)";
 
   const formatSpan = document.createElement("span");
   formatSpan.className = `file-format file-format--${imageExtension}`;
@@ -107,6 +161,7 @@ function handleCompressionResult(file, output) {
   const downloadLink = URL.createObjectURL(output);
   const downloadAnchor = document.createElement("a");
   downloadAnchor.href = downloadLink;
+  console.log("outputFilename:", outputFilename);
   downloadAnchor.download = outputFilename;
   downloadAnchor.textContent = "download image";
 
@@ -125,8 +180,8 @@ function updateFileExtension(originalName, format) {
   // Derive .jpg, .png, or .webp from selected format
   const baseName = originalName.replace(/\.[^/.]+$/, "");
   let extension = "jpg";
-  if (format === "image/png") extension = "png";
-  if (format === "image/webp") extension = "webp";
+  if (format === "image/png" || format === "png") extension = "png";
+  if (format === "image/webp" || format === "webp") extension = "webp";
   return baseName + "." + extension;
 }
 
@@ -169,6 +224,31 @@ function uploadToServer(file) {
   //   .then(body => console.log('got server response', body))
 }
 
+function selectDimensionMethod(value) {
+  document.querySelector(`input[name="dimensionMethod"][value="${value}"]`).checked = true;
+  document.querySelectorAll('#dimensionsMethodGroup .button-card-radio').forEach((el) => {
+    el.classList.remove('button-card-radio--is-selected');
+  });
+  document.querySelector(`input[name="dimensionMethod"][value="${value}"]`).closest('.button-card-radio').classList.add('button-card-radio--is-selected');
+  
+  const resizeDimensionsField = document.getElementById('resizeDimensionsField');
+  if (value === 'limit') {
+    resizeDimensionsField.classList.remove('hidden');
+  } else {
+    resizeDimensionsField.classList.add('hidden');
+  }
+
+  return value;
+}
+
+function selectFormat(value) {
+  document.querySelector(`input[name="formatSelect"][value="${value}"]`).checked = true;
+  document.querySelectorAll('#formatMethodGroup .button-card-radio').forEach((el) => {
+    el.classList.remove('button-card-radio--is-selected');
+  });
+  document.querySelector(`input[name="formatSelect"][value="${value}"]`).closest('.button-card-radio').classList.add('button-card-radio--is-selected');
+}
+
 document.addEventListener("DOMContentLoaded", function () {
   const dropZone = document.getElementById("webWorkerDropZone");
   const fileInput = document.getElementById("webWorker");
@@ -207,20 +287,34 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
+  document.querySelectorAll('input[name="compressMethod"]').forEach((radio) => {
+    radio.addEventListener("change", toggleFields);
+  });
   toggleFields(); // Initialize field visibility based on the default selection
+  updateSlider(document.getElementById('initialQuality').value, 'initialQualitySlider');
+  selectDimensionMethod(document.querySelector('input[name="dimensionMethod"]:checked').value); // Initialize field visibility based on the default selection
+  selectFormat(document.querySelector('input[name="formatSelect"]:checked').value); // Initialize field visibility based on the default selection
 });
 
 function toggleFields() {
-  compressMethod = document.getElementById("compressMethod").value;
+  const compressMethod = document.querySelector('input[name="compressMethod"]:checked').value;
   const maxSizeMBField = document.querySelector("label[for='maxSizeMB']").closest(".form-group");
   const initialQualityField = document.querySelector("label[for='initialQuality']").closest(".form-group");
 
   if (compressMethod === "maxSizeMB") {
     maxSizeMBField.classList.remove("hidden");
     initialQualityField.classList.add("hidden");
-  }
-  else {
+  } else {
     maxSizeMBField.classList.add("hidden");
     initialQualityField.classList.remove("hidden");
   }
+}
+
+function selectCompressMethod(value) {
+  document.querySelector(`input[name="compressMethod"][value="${value}"]`).checked = true;
+  document.querySelectorAll('#compressMethodGroup .button-card-radio').forEach((el) => {
+    el.classList.remove('button-card-radio--is-selected');
+  });
+  document.querySelector(`input[name="compressMethod"][value="${value}"]`).closest('.button-card-radio').classList.add('button-card-radio--is-selected');
+  toggleFields();
 }
