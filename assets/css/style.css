@@ -427,6 +427,7 @@ button {
   padding: var(--space-xs) var(--space-sm);
   margin-bottom: var(--space-md);
   overflow: auto;
+  box-shadow: var(--shadow-1);
 }
 
 .segmented-control {
@@ -603,6 +604,7 @@ body.subpage--output .segmented-control__selected-item {
   background-color: var(--color-surface-high);
   background-image: var(--subpage-container-bgimage);
   margin-bottom: var(--space-lg);
+  box-shadow: var(--shadow-1);
   opacity: 0;
 }
 
@@ -611,7 +613,7 @@ body.subpage--output .segmented-control__selected-item {
   top: 0;
   left: var(--space-lg);
   width: calc(100% - var(--space-lg) - var(--space-lg));
-  height: 100%;
+  height: calc(100% - var(--space-lg) - var(--space-lg));
   overflow: auto;
 }
 
