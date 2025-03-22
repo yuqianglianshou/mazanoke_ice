@@ -27,6 +27,8 @@ code, pre {
 h1, h2, h3, h4, h5, h6 {
   margin: 0;
   padding: 0;
+  font-weight: 400;
+  font-family: 'geistmono';
 }
 
 a {
@@ -37,25 +39,26 @@ a {
 
 .button-primary,
 .button-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2xs);
   min-width: 160px;
-  padding-left: var(--space-md);
-  padding-right: var(--space-md);
+  padding: var(--space-xs) var(--space-sm);
   text-align: center;
   text-decoration: none;
-  display: inline-block;
   border: none;
   cursor: pointer;
   font-size: var(--text-sm);
   font-weight: 400;
   letter-spacing: 1px;
+  border-radius: var(--rounded-md);
+  color: var(--color-on-surface);
+  transition: var(--duration-hover) ease-out;
 }
 
 .button--primary {
-  background-color: var(--color-primary);
-  color: var(--color-surface);
-  padding: var(--space-xs) var(--space-sm);
-  border-radius: var(--rounded-md);
-  cursor: pointer;
+  background-color: var(--color-primary);  
   transition: var(--duration-hover) ease-out;
 }
 
@@ -65,11 +68,6 @@ a {
 
 .button-secondary {
   background-color: var(--color-surface-high);
-  color: var(--color-on-surface);
-  padding: var(--space-xs) var(--space-sm);
-  border-radius: var(--rounded-md);
-  cursor: pointer;
-  transition: var(--duration-hover) ease-out;
   border: 1px solid var(--color-border);
 }
 
@@ -78,7 +76,7 @@ a {
 }
 
 .hidden {
-  display: none;
+  display: none !important;
 }
 
 
@@ -133,6 +131,7 @@ a {
 .drop-zone:hover .drop-zone__cell-grid,
 .drop-zone.drop-zone--is-dragging .drop-zone__cell-grid {
   transform: scale(1.2);
+  opacity: 1;
 }
 
 
@@ -142,7 +141,7 @@ a {
   --cell-color: var(--color-on-surface);
   background-position: calc(-1 * var(--cell-size) / 4) calc(-1 * var(--cell-size) / 2);
   background-size: var(--cell-size) var(--cell-size);
-  background-image: linear-gradient(90deg, var(--cell-color) 1px, #0000 0), linear-gradient(var(--cell-color) 1px, transparent 0);
+  background-image: linear-gradient(90deg, var(--cell-color) 1px, transparent 0), linear-gradient(var(--cell-color) 1px, transparent 0);
   opacity: 0.8;
   transition: var(--duration-1400) ease-out;
 }
@@ -188,7 +187,7 @@ a {
   border-color: var(--color-primary);
 }
 
-.drop-zone.drop-zone--is-dragging::before {
+.drop-zone::before {
   content: "";
   display: block;
   width: 100%;
@@ -198,11 +197,13 @@ a {
   left: 0;
   z-index: -1;
   background-color: var(--color-primary);
-  transition: var(--duration-hover) ease-in-out;
+  transition: var(--duration-100) ease-out;
   opacity: 0;
 }
+
 .drop-zone.drop-zone--is-dragging::before {
   opacity: 0.5;
+  transition: var(--duration-300) ease-out;
 }
 
 .drop-zone-content {
@@ -215,6 +216,7 @@ a {
   padding: var(--space-md);
   border-radius: var(--rounded-lg);
   overflow: hidden;
+  box-shadow: 0px -10px 68px 0px rgb(255 255 255 / 3%) inset;
 }
 
 .drop-zone-content__actions {
@@ -224,6 +226,10 @@ a {
   gap: var(--space-xs);
   flex-direction: column;
   z-index: 10;
+}
+
+.drop-zone-content__actions-text {
+  font-family: 'geistmono';
 }
 
 
@@ -258,3 +264,25 @@ img {
   text-transform: uppercase;
 }
 
+.form-group {
+  display: flex;
+}
+
+.form-group__label-content {
+  display: flex;
+  justify-content: flex-end;
+  flex-direction: column;
+  text-align: right;
+  flex: 0 0 30%;
+}
+
+.form-group__description {
+  font-size: var(--text-sm);
+  color: var(--color-on-surface);
+  opacity: 0.7;
+}
+
+.form-group__input-content {
+  display: flex;
+  flex: 1;
+}

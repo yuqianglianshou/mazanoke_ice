@@ -32,32 +32,32 @@
 
 @font-face {
     font-family: 'geistmono';
-    src: url('../fonts/geist/geistmono-regular.woff2') format('woff2'),
-         url('../fonts/geist/geistmono-regular.woff') format('woff');
+    src: url('../fonts/geistmono/geistmono-regular.woff2') format('woff2'),
+         url('../fonts/geistmono/geistmono-regular.woff') format('woff');
     font-weight: 400;
     font-style: normal;
 }
 
 @font-face {
     font-family: 'geistmono';
-    src: url('../fonts/geist/geistmono-medium.woff2') format('woff2'),
-         url('../fonts/geist/geistmono-medium.woff') format('woff');
+    src: url('../fonts/geistmono/geistmono-medium.woff2') format('woff2'),
+         url('../fonts/geistmono/geistmono-medium.woff') format('woff');
     font-weight: 500;
     font-style: normal;
 }
 
 @font-face {
     font-family: 'geistmono';
-    src: url('../fonts/geist/geistmono-semibold.woff2') format('woff2'),
-         url('../fonts/geist/geistmono-semibold.woff') format('woff');
+    src: url('../fonts/geistmono/geistmono-semibold.woff2') format('woff2'),
+         url('../fonts/geistmono/geistmono-semibold.woff') format('woff');
     font-weight: 700;
     font-style: normal;
 }
 
 @font-face {
     font-family: 'geistmono';
-    src: url('../fonts/geist/geistmono-bold.woff2') format('woff2'),
-         url('../fonts/geist/geistmono-bold.woff') format('woff');
+    src: url('../fonts/geistmono/geistmono-bold.woff2') format('woff2'),
+         url('../fonts/geistmono/geistmono-bold.woff') format('woff');
     font-weight: 700;
     font-style: normal;
 }

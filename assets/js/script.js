@@ -2,12 +2,14 @@ const logDom = document.querySelector("#webWorkerLog");
 const progressDom = document.querySelector("#webWorkerProgress");
 const outputDownloadContainer = document.querySelector("#outputDownloadContainer");
 const webWorkerAbort = document.getElementById("webWorkerAbort");
+let compressMethod;
 
-function compressImage(event, useWebWorker) {
+
+function compressImage(event) {
   const file = event.target.files[0];
   setupPreview(file);
 
-  const options = createCompressionOptions(useWebWorker, onProgress);
+  const options = createCompressionOptions(onProgress);
 
   // Show the abort button
   webWorkerAbort.classList.add("processing");
@@ -37,17 +39,21 @@ function setupPreview(file) {
   controller = typeof AbortController !== "undefined" && new AbortController();
 }
 
-function createCompressionOptions(useWebWorker, onProgress) {
+function createCompressionOptions(onProgress) {
+  compressMethod = document.getElementById("compressMethod").value;
+  maxSizeMB = parseFloat(document.querySelector("#maxSizeMB").value);
+  initialQuality = parseFloat(document.querySelector("#initialQuality").value);
+
   const options = {
-    maxSizeMB: parseFloat(document.querySelector("#maxSizeMB").value),
+    maxSizeMB: maxSizeMB && compressMethod === "maxSizeMB" ? maxSizeMB : undefined,
+    initialQuality: initialQuality && compressMethod === "initialQuality" ? initialQuality : undefined,
     maxWidthOrHeight: parseFloat(
       document.querySelector("#maxWidthOrHeight").value
     ),
-    useWebWorker: useWebWorker,
+    useWebWorker: true,
     onProgress,
-    preserveExif: true,
+    preserveExif: false,
     libURL: "./browser-image-compression.js",
-    initialQuality: 1,
   };
   if (controller) {
     options.signal = controller.signal;
@@ -182,14 +188,15 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 function toggleFields() {
-  const method = document.getElementById("compressMethod").value;
-  const maxSizeMBField = document.querySelector("label[for='maxSizeMB']");
-  const initialQualityField = document.querySelector("label[for='initialQuality']");
+  compressMethod = document.getElementById("compressMethod").value;
+  const maxSizeMBField = document.querySelector("label[for='maxSizeMB']").closest(".form-group");
+  const initialQualityField = document.querySelector("label[for='initialQuality']").closest(".form-group");
 
-  if (method === "maxSizeMB") {
+  if (compressMethod === "maxSizeMB") {
     maxSizeMBField.classList.remove("hidden");
     initialQualityField.classList.add("hidden");
-  } else {
+  }
+  else {
     maxSizeMBField.classList.add("hidden");
     initialQualityField.classList.remove("hidden");
   }
