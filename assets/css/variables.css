@@ -98,6 +98,7 @@
   --color-surface: #0b0b0b;
   --color-surface-variant: #0b0b0b;
   --color-surface-high: #191919;
+  --color-surface-high-hover: var(--color-surface-higher);
   --color-surface-higher: #323232;
 
   /* Glyphs */

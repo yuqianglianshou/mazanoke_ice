@@ -166,7 +166,7 @@ button {
 }
 
 .button-primary:hover {
-  background-color: var(--color-secondary);
+  background-color: var(--color-primary);
 }
 
 .button-secondary {
@@ -175,7 +175,7 @@ button {
 }
 
 .button-secondary:hover {
-  background-color: var(--color-secondary-hover);
+  background-color: var(--color-surface-high-hover);
   box-shadow: inset 0 0 0 1px var(--color-border-hover);
 }
 
@@ -466,10 +466,38 @@ body.subpage--output .segmented-control__selected-item {
   width: 100%;
 }
 
+.image-subpage-container {
+  position: relative;
+}
+
+.image-subpage-container__shade-x {
+  position: absolute;
+  top: calc((var(--space-lg) / 2)* -1);
+  left: calc(var(--space-lg)* -1.5);
+  width: calc(100% + var(--space-lg) + var(--space-lg));
+  height: calc(100% + var(--space-lg));
+  pointer-events: none;
+  box-shadow: inset calc(var(--space-lg) * 2) calc(var(--space-lg) * -1) calc(var(--space-lg) * 2) calc(var(--space-lg) * -2) var(--color-surface), 
+              inset var(--space-lg) calc(var(--space-lg) * -1) var(--space-lg) calc(var(--space-lg) / -2) var(--color-surface),
+              inset calc(var(--space-lg) * -2) 0 calc(var(--space-lg) * 2) calc(var(--space-lg) * -2) var(--color-surface),
+              inset calc(var(--space-lg) / -2) 0 var(--space-lg) calc(var(--space-lg) / -2) var(--color-surface);
+
+  padding: 0 var(--space-lg);
+  z-index: 5;
+}
+
 .image-subpage {
   position: relative;
+  padding: 0 var(--space-lg);
   overflow: hidden;
+  position: relative;
+  width: calc(100% + var(--space-lg) + var(--space-lg));
+  height: calc(100% + var(--space-lg));
+  transform: translate3d(calc((var(--space-lg) / 1)* -1), 0, 0);
+  border-radius: var(--rounded-lg);
 }
+
+
 
 .image-options-container,
 .image-output-container {
@@ -501,13 +529,14 @@ body.subpage--output .segmented-control__selected-item {
 .image-output-container {
   position: absolute;
   top: 0;
-  width: 100%;
+  left: var(--space-lg);
+  width: calc(100% - var(--space-lg) - var(--space-lg));
   height: 100%;
 }
 
 body.subpage--settings .image-options-container {
-  animation: oblivion-in var(--duration-800) ease-out forwards;
-  animation-delay: var(--duration-700);
+  animation: oblivion-in var(--duration-600) ease-out forwards;
+  animation-delay: var(--duration-600);
 }
 
 body.subpage--settings .image-output-container {
@@ -517,8 +546,8 @@ body.subpage--settings .image-output-container {
 }
 
 body.subpage--output .image-output-container {
-  animation: oblivion-in var(--duration-800) ease-out forwards;
-  animation-delay: var(--duration-700);
+  animation: oblivion-in var(--duration-600) ease-out forwards;
+  animation-delay: var(--duration-600);
 }
 
 body.subpage--output .image-options-container {
