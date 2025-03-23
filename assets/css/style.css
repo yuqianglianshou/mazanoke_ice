@@ -727,14 +727,6 @@ body:not(.subpage--output):not(.subpage--settings) .image-options-container {
   gap: var(--space-2xs);
 }
 
-.image-output__item-filesize {
-
-}
-
-.image-output__item-fileformat {
-
-}
-
 
 /****************************************************
  *  Drop zone
