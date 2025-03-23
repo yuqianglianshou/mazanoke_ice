@@ -139,6 +139,7 @@
   :root {
     /* Brand */
     --color-primary: #007f6e;
+    --color-primary-variant: #015a4e;
     --color-primary-hover: #005b4f;
     --color-accent: #0bb79f;
     /* Surfaces */
