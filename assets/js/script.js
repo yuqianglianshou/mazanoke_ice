@@ -241,8 +241,8 @@ function handleCompressionResult(file, output) {
   const outputStats = document.createElement("div");
   outputStats.classList.add('image-output__item-stats');
   outputStats.appendChild(outputFileSizeText);
-  outputStats.appendChild(outputFormatBadge);
   outputStats.appendChild(fileSizeSavedBadge);
+  outputStats.appendChild(outputFormatBadge);
 
 
 
