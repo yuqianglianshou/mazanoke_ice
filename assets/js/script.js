@@ -39,13 +39,20 @@ function compressImage(event) {
   progressContainer.classList.remove("hidden");
   progressText.textContent = "Preparing";
 
-  convertImage(file)
+/*   convertImage(file)
     .then((convertedFile) => imageCompression(convertedFile, options))
     .then((output) => handleCompressionResult(file, output))
     .catch((error) => alert(error.message))
     .finally(() => {
       resetCompressionState();
-    });
+    }); */
+
+  imageCompression(file, options)
+    .then((output) => handleCompressionResult(file, output))
+    .catch((error) => alert(error.message))
+    .finally(() => {
+      resetCompressionState();
+  });
 
   function onProgress(p) {
     console.log("Compressing: ", p, '%');
@@ -124,6 +131,7 @@ function createCompressionOptions(onProgress, file) {
   console.log('Input image file size: ', (file.size / 1024 / 1024).toFixed(2), 'MB');
 
   const dimensionMethod = dimensionMethodElement.value;
+  const { selectedFormat } = getFileType();
   const options = {
     maxSizeMB: maxSizeMB && compressMethod === "maxSizeMB" ? maxSizeMB : (file.size / 1024 / 1024).toFixed(2),
     initialQuality: initialQuality && compressMethod === "initialQuality" ? initialQuality : undefined,
@@ -131,24 +139,44 @@ function createCompressionOptions(onProgress, file) {
     useWebWorker: true,
     onProgress,
     preserveExif: false,
+    fileType: selectedFormat !== 'nochange' && selectedFormat ? selectedFormat : undefined,
     libURL: "./browser-image-compression.js",
   };
   if (controller) {
     options.signal = controller.signal;
   }
 
-  console.log("options:", options);
+  console.log("Settings:", options);
   return options;
 }
 
-function handleCompressionResult(file, output) {
-  let imageExtension;
+function getFileType(file) {
   const selectedFormat = document.querySelector('input[name="formatSelect"]:checked').value;
+  let imageExtension = '';
+
   if (selectedFormat && selectedFormat !== "nochange") {
+    // If user has specified format to convert to, get file extension based this. 
     imageExtension = selectedFormat.replace("image/", "");
-  } else {
+  }
+  else if (file) {
+    // Get file extension based on user uploaded file format.
     imageExtension = file.type.replace("image/", "");
   }
+
+  if (imageExtension === "jpeg") {
+    imageExtension = 'jpg';
+  }
+
+  return {
+    imageExtension,
+    selectedFormat
+  };
+}
+
+
+function handleCompressionResult(file, output) {
+
+  const { imageExtension } = getFileType(file);
 
   const outputFilename = updateFileExtension(file.name, imageExtension);
 
@@ -185,7 +213,7 @@ function handleCompressionResult(file, output) {
   selectSettingsSubpage('output');
   document.getElementById("previewAfterCompress").src = downloadLink;
 
-  return uploadToServer(output);
+  //return uploadToServer(output);
 }
 
 function updateFileExtension(originalName, format) {

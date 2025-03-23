@@ -450,6 +450,10 @@ button {
 }
 
 .segmented-control__text {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: var(--space-2xs);
   text-align: center;
   z-index: 5;
 }
@@ -585,7 +589,6 @@ body.subpage--output .segmented-control__selected-item {
   position: relative;
   padding: 0 var(--space-lg);
   overflow: hidden;
-  position: relative;
   width: calc(100% + var(--space-lg) + var(--space-lg));
   height: calc(100% + var(--space-lg));
   transform: translate3d(calc((var(--space-lg) / 1)* -1), 0, 0);
@@ -619,7 +622,7 @@ body.subpage--output .segmented-control__selected-item {
 }
 
 body.subpage--settings .image-options-container {
-  animation: oblivion-in var(--duration-800) ease-out forwards;
+  animation: slide-in-up var(--duration-800) ease-out forwards;
   animation-delay: var(--duration-600);
 }
 
@@ -630,7 +633,7 @@ body.subpage--settings .image-output-container {
 }
 
 body.subpage--output .image-output-container {
-  animation: oblivion-in var(--duration-800) ease-out forwards;
+  animation: slide-in-up var(--duration-800) ease-out forwards;
   animation-delay: var(--duration-600);
 }
 
@@ -975,6 +978,10 @@ body.compressing--is-active .drop-zone:hover {
 }
 
 @keyframes oblivion-out {
+  0% {
+    opacity: 1;
+  }
+
   40% {
     transform: perspective(140px) rotateX(5deg) rotateY(0deg);
     opacity: 1;
@@ -997,6 +1004,21 @@ body.compressing--is-active .drop-zone:hover {
     opacity: 1;
   }
 
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes slide-in-up {
+  0% {
+    transform: perspective(450px) rotateX(-7deg) rotateY(0deg) translateY(270px) scale(1.1);
+    opacity: 0.3;
+  }
+  35% {
+    transform: perspective(540px) rotateX(-7deg) rotateY(0deg) translateY(90px) scale(1.15);
+    opacity: 0.7;
+  }
   100% {
     transform: scale(1);
     opacity: 1;
@@ -1111,12 +1133,8 @@ body.compressing--is-active .drop-zone:hover {
   display: flex !important;
 }
 
-.flex-column {
+.flex-col {
   flex-direction: column !important;
-}
-
-.flex-row {
-  flex-direction: row !important;
 }
 
 .flex-row {
