@@ -22,6 +22,8 @@ body {
   margin: 0;
   padding: 0;
   min-width: 350px;
+  /* Todo: Change to css variable for colors */
+  background-image: linear-gradient(to top, #db9bff12 0%, transparent 30%, transparent 100%);
 }
 
 code, pre {
@@ -568,10 +570,7 @@ body.subpage--output .segmented-control__selected-item {
 
 .image-subpage-container {
   position: relative;
-  padding-bottom: 170px;
-  mask-repeat: no-repeat;
-  mask-image: linear-gradient(#fff 70%, #0000 100%);
-  mask-size: 100%;
+  padding-bottom: var(--space-2xl-3xl);
 }
 
 .image-subpage-container__shade-x {
@@ -579,7 +578,7 @@ body.subpage--output .segmented-control__selected-item {
   top: calc((var(--space-lg) / 2)* -1);
   left: calc(var(--space-lg)* -1);
   width: calc(100% + var(--space-lg) + var(--space-lg));
-  height: calc(100% + var(--space-lg));
+  /* height: calc(100% + var(--space-lg)); */
   pointer-events: none;
   box-shadow: inset calc(var(--space-lg) * 2) calc(var(--space-lg) * -1) calc(var(--space-lg) * 2) calc(var(--space-lg) * -2) var(--subpage-shade-x-color), 
               inset var(--space-lg) calc(var(--space-lg) * -1) var(--space-lg) calc(var(--space-lg) / -2) var(--subpage-shade-x-color),
