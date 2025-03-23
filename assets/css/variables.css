@@ -16,6 +16,7 @@
   --duration-150: 150ms;
   --duration-200: 200ms;
   --duration-300: 300ms;
+  --duration-400: 400ms;
   --duration-500: 500ms;
   --duration-600: 600ms;
   --duration-700: 700ms;
@@ -93,6 +94,7 @@
 :root {
   /* Brand */
   --color-primary: #bb86fc;
+  --color-primary-variant: #d9bbff;
   --color-primary-hover: #9a5ae8;
   --color-accent: #bb86fc;
 
@@ -101,7 +103,7 @@
   --color-surface-variant: #0b0b0b;
   --color-surface-high: #191919;
   --color-surface-high-hover: var(--color-surface-higher);
-  --color-surface-higher: #323232;
+  --color-surface-higher: #333333;
 
   /* Glyphs */
   --color-on-surface: rgb(221, 221, 221);
@@ -110,7 +112,7 @@
 
   --color-border: rgba(93, 93, 93, 0.9);
   --color-border-hover: rgba(121, 121, 121, 0.9);
-  --color-border-selected: rgba(181, 181, 181, 0.9);
+  --color-border-selected: rgba(161, 161, 161, 0.9);
 
   /* States */
   --color-state-success: #4caf50;

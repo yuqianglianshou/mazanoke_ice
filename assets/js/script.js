@@ -4,6 +4,7 @@ const progressBar = document.querySelector("#webWorkerProgressBar");
 const progressText = document.querySelector("#webWorkerProgressText");
 const outputDownloadContainer = document.querySelector("#outputDownloadContainer");
 const outputDownloadContent = document.querySelector("#outputDownloadContent");
+const selectSubpageOutput = document.querySelector("#selectSubpageOutput");
 const webWorkerAbort = document.getElementById("webWorkerAbort");
 const dropZoneActions = document.getElementById("dropZoneActions");
 const compressedImageCount = document.getElementById("compressedImageCount");
@@ -185,7 +186,7 @@ function handleCompressionResult(file, output) {
   outputFilename + " (" + (output.size / 1024 / 1024).toFixed(2) + "MB)";
 
   const formatSpan = document.createElement("span");
-  formatSpan.className = `file-format file-format--${imageExtension}`;
+  formatSpan.className = `badge file-format--${imageExtension}`;
   formatSpan.textContent = imageExtension;
   outputSizeText.appendChild(formatSpan);
 
@@ -206,8 +207,9 @@ function handleCompressionResult(file, output) {
 
   imageCount++;
   outputDownloadContainer.dataset.count = imageCount;
+  selectSubpageOutput.dataset.count = imageCount;
   compressedImageCount.dataset.count = imageCount;
-  compressedImageCount.textContent = '(' + imageCount + ')';
+  compressedImageCount.textContent = imageCount;
 
 
   selectSettingsSubpage('output');
