@@ -765,10 +765,6 @@ body.compressing--is-active .drop-zone:hover {
   border-color: var(--color-primary);
 }
 
-.drop-zone.drop-zone--is-dragging .drop-zone-content__actions-text {
-  color: var(--color-primary-hover);
-}
-
 .drop-zone::before {
   content: "";
   display: block;

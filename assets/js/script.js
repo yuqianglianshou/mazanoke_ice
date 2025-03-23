@@ -1,4 +1,3 @@
-const logDom = document.querySelector("#webWorkerLog");
 const progressContainer = document.querySelector(".progress-container");
 const progressTrack = document.querySelector("#webWorkerProgressTrack");
 const progressBar = document.querySelector("#webWorkerProgressBar");
@@ -30,7 +29,7 @@ function compressImage(event) {
   const file = event.target.files[0];
   setupPreview(file);
 
-  const options = createCompressionOptions(onProgress);
+  const options = createCompressionOptions(onProgress, file);
 
   // Update to state: processing
   isCompressing = true;
@@ -49,7 +48,7 @@ function compressImage(event) {
     });
 
   function onProgress(p) {
-    console.log("onProgress", p);
+    console.log("Compressing: ", p, '%');
     progressText.dataset.progress = p;
     progressText.textContent =  'Compressing ' + p + "%";
     progressBar.style.width = p + "%";
@@ -62,11 +61,9 @@ function compressImage(event) {
 function setupPreview(file) {
   document.getElementById("preview").src = URL.createObjectURL(file);
   inputFileSize = (file.size / 1024 / 1024).toFixed(2);
-/*   logDom.innerHTML = 
-    "Source image size:" + (file.size / 1024 / 1024).toFixed(2) + "mb"; */
-  imageCompression.getExifOrientation(file).then((o) =>
+/*   imageCompression.getExifOrientation(file).then((o) =>
     console.log("ExifOrientation", o)
-  );
+  ); */
   controller = typeof AbortController !== "undefined" && new AbortController();
 }
 
@@ -105,7 +102,7 @@ function startSliderDrag(event, inputId) {
   document.addEventListener('mouseup', onMouseUp);
 }
 
-function createCompressionOptions(onProgress) {
+function createCompressionOptions(onProgress, file) {
   const compressMethodElement = document.querySelector('input[name="compressMethod"]:checked');
   const maxSizeMBElement = document.querySelector("#maxSizeMB");
   const initialQualityElement = document.querySelector("#initialQuality");
@@ -124,9 +121,11 @@ function createCompressionOptions(onProgress) {
   initialQuality = Math.min(Math.max(parseFloat(initialQualityElement.value) / 100, 0), 1);
   maxWidthOrHeight = Math.max(parseFloat(maxWidthOrHeightElement.value), 1);
 
+  console.log('Input image file size: ', (file.size / 1024 / 1024).toFixed(2), 'MB');
+
   const dimensionMethod = dimensionMethodElement.value;
   const options = {
-    maxSizeMB: maxSizeMB && compressMethod === "maxSizeMB" ? maxSizeMB : undefined,
+    maxSizeMB: maxSizeMB && compressMethod === "maxSizeMB" ? maxSizeMB : (file.size / 1024 / 1024).toFixed(2),
     initialQuality: initialQuality && compressMethod === "initialQuality" ? initialQuality : undefined,
     maxWidthOrHeight: dimensionMethod === "limit" ? parseFloat(maxWidthOrHeightElement.value) : undefined,
     useWebWorker: true,
@@ -145,7 +144,6 @@ function createCompressionOptions(onProgress) {
 function handleCompressionResult(file, output) {
   let imageExtension;
   const selectedFormat = document.querySelector('input[name="formatSelect"]:checked').value;
-  console.log("selectedFormat:", selectedFormat);
   if (selectedFormat && selectedFormat !== "nochange") {
     imageExtension = selectedFormat.replace("image/", "");
   } else {
@@ -166,7 +164,7 @@ function handleCompressionResult(file, output) {
   const downloadLink = URL.createObjectURL(output);
   const downloadAnchor = document.createElement("a");
   downloadAnchor.href = downloadLink;
-  console.log("outputFilename:", outputFilename);
+  console.log("New image file: ", outputFilename);
   downloadAnchor.download = outputFilename;
   downloadAnchor.textContent = "download image";
 
@@ -361,6 +359,6 @@ function selectCompressMethod(value) {
   document.querySelectorAll('#compressMethodGroup .button-card-radio').forEach((el) => {
     el.classList.remove('button-card-radio--is-selected');
   });
-  document.querySelector(`input[name="compressMethod"][value="${value}"]`).closest('.button-card-radio').classList.add('button-card-radio--is-selected');
+  document.querySelector(`#compressMethodGroup input[name="compressMethod"][value="${value}"]`).closest('.button-card-radio').classList.add('button-card-radio--is-selected');
   toggleFields();
 }
