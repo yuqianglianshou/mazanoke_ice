@@ -927,7 +927,7 @@ body.compressing--is-active .drop-zone:hover {
   height: 100%;
   border-radius: var(--rounded-md);
   background-color: var(--badge-color);
-  opacity: 0.2;
+  opacity: 0.32;
 }
 
 .badge-text {
