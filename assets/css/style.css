@@ -568,6 +568,10 @@ body.subpage--output .segmented-control__selected-item {
 
 .image-subpage-container {
   position: relative;
+  padding-bottom: 170px;
+  mask-repeat: no-repeat;
+  mask-image: linear-gradient(#fff 70%, #0000 100%);
+  mask-size: 100%;
 }
 
 .image-subpage-container__shade-x {
@@ -1564,6 +1568,12 @@ body.compressing--is-active .drop-zone:hover {
 
 .fade-in-up {
   animation: fade-in-up var(--duration-300) ease-out forwards;
+}
+
+.mask-b {
+  mask-repeat: no-repeat;
+  mask-image: linear-gradient(#fff, #0000);
+  mask-size: 100%;
 }
 
 .hidden {
