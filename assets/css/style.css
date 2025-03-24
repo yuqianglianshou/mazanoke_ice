@@ -132,6 +132,8 @@ img {
 
 .content {
   max-width: var(--content-width);
+  padding-left: var(--content-width-gutter);
+  padding-right: var(--content-width-gutter);
   margin: 0 auto;
   overflow-x: hidden;
 }
@@ -1208,13 +1210,13 @@ body.compressing--is-active .drop-zone:hover {
  ****************************************************/
 
 @media (max-width: 480px) {
-  .content {
+  :root {
     --content-width: var(--breakpoint-2xs);
   }
 }
 
 @media (min-width: 640px) {
-  .content {
+  :root {
     --content-width: var(--breakpoint-xs);
   }
 }
@@ -1235,13 +1237,29 @@ body.compressing--is-active .drop-zone:hover {
   }
 }
 
-@media (min-width: 768px) {
-  .content {
+@media (min-width: 768px) {  
+  :root {
     --content-width: var(--breakpoint-sm);
   }
 }
 
+@media (max-width: 768px) {  
+  :root {
+    --content-width-gutter: var(--space-md);
+  }
+}
+
+@media (min-width: 1024px) {
+  :root {
+    --content-width: var(--breakpoint-md);
+  }
+}
+
 @media (max-width: 1024px) {
+  :root {
+    --content-width-gutter: var(--space-md);
+  }
+
   .form-group {
     flex-direction: column;
   }
@@ -1251,27 +1269,20 @@ body.compressing--is-active .drop-zone:hover {
   }
 }
 
-
-@media (min-width: 1024px) {
-  .content {
-    --content-width: var(--breakpoint-md);
-  }
-}
-
 @media (min-width: 1280px) {
-  .content {
+  :root {
     --content-width: var(--breakpoint-lg);
   }
 }
 
 @media (min-width: 1536px) {
-  .content {
+  :root {
     --content-width: var(--breakpoint-lg);
   }
 }
 
 @media (min-width: 1920px) {
-  .content {
+  :root {
     --content-width: var(--breakpoint-lg);
   }
 }
