@@ -734,6 +734,10 @@ body:not(.subpage--output):not(.subpage--settings) .image-options-container {
   overflow: hidden;
 }
 
+.image-output__item-filename {
+  display: flex;
+}
+
 .image-output__item-filename-start {
   overflow: hidden;
   text-overflow: ellipsis;
