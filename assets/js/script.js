@@ -15,6 +15,8 @@ let imageCount = 0;
 
 /**
  * TODO:
+ * - Handle PNG compression better when quality option is used.
+ *  - E.g. convert to jpg first and compress, and convert back to png on output?
  * - Double check state of settings on page load, in case of browser back button.
  * - Save settings to local storage and restore.
  * - Store compressed images in local storage, and allow clear individual item and all.
