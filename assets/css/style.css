@@ -23,7 +23,6 @@ body {
   margin: 0;
   padding: 0;
   min-width: 480px;
-  /* Todo: Change to css variable for colors */
   background-image: linear-gradient(to top, #bcbcbc12 0%, transparent 30%, transparent 100%);
 }
 
@@ -134,17 +133,20 @@ img {
 .content {
   max-width: var(--content-width);
   margin: 0 auto;
-  padding: 0 var(--space-2xl) var(--space-2xl) var(--space-2xl);
+  overflow-x: hidden;
 }
 
-
+.nav-subpage {
+  padding-left: var(--content-width-gutter);
+  padding-right: var(--content-width-gutter);
+}
 
 /****************************************************
  *  Input: Input text and number fields
  ****************************************************/
 
 input {
-  font-size: 1rem;
+  font-size: var(--text-sm);
 }
 
 
@@ -514,7 +516,7 @@ body.subpage--output .segmented-control__selected-item {
   position: relative;
   background-color: var(--color-surface-higher);
   border-radius: var(--rounded-full);
-  height: var(--space-xs);
+  height: var(--text-sm);
   width: 100%;
 }
 
@@ -542,11 +544,17 @@ body.subpage--output .segmented-control__selected-item {
   top: 50%;
   left: 100%;
   transform: translate3d(-50%, -50%, 0);
-  width: 20px;
-  height: 20px;
+  width: calc(var(--text-sm) * 1.4);
+  height: calc(var(--text-sm) * 1.4);
   background-color: var(--color-on-surface-high);
   border-radius: var(--rounded-full);
   cursor: pointer;
+  transition: transform var(--duration-hover) ease-out, box-shadow var(--duration-hover) ease-out;
+}
+
+.slider-thumb:hover {
+  transform: scale(1.1) translate3d(-50%, -50%, 0);
+  box-shadow: var(--shadow-2);
 }
 
 
@@ -592,28 +600,33 @@ body.subpage--output .segmented-control__selected-item {
 .image-subpage-container {
   position: relative;
   padding-bottom: var(--space-2xl-3xl);
+  margin-left: var(--content-width-gutter);
+  margin-right: var(--content-width-gutter);
 }
 
-.image-subpage-container__shade-x {
+/* .image-subpage-container__shade-x {
+  --subpage-shade-x-color: red;
   position: absolute;
   top: calc((var(--space-lg) / 2)* -1);
   left: calc(var(--space-lg)* -1);
   width: calc(100% + var(--space-lg) + var(--space-lg));
-  /* height: calc(100% + var(--space-lg)); */
+  height: 100%;
   pointer-events: none;
   box-shadow: inset calc(var(--space-lg) * 2) calc(var(--space-lg) * -1) calc(var(--space-lg) * 2) calc(var(--space-lg) * -2) var(--subpage-shade-x-color), 
               inset var(--space-lg) calc(var(--space-lg) * -1) var(--space-lg) calc(var(--space-lg) / -2) var(--subpage-shade-x-color),
               inset calc(var(--space-lg) * -2) 0 calc(var(--space-lg) * 2) calc(var(--space-lg) * -2) var(--subpage-shade-x-color),
               inset calc(var(--space-lg) / -2) 0 var(--space-lg) calc(var(--space-lg) / -2) var(--subpage-shade-x-color);
   padding: 0 var(--space-lg);
+  transition: var(--duration-200) ease-out;
   z-index: 5;
-}
+} */
 
 
 .image-subpage {
   position: relative;
   padding: 0 var(--space-lg);
-  overflow: hidden;
+  overflow-y: hidden;
+  overflow-y: clip;
   width: calc(100% + var(--space-lg) + var(--space-lg));
   height: calc(100% + var(--space-lg));
   transform: translate3d(calc((var(--space-lg) / 1)* -1), 0, 0);
@@ -642,7 +655,7 @@ body.subpage--output .segmented-control__selected-item {
   top: 0;
   left: var(--space-lg);
   width: calc(100% - var(--space-lg) - var(--space-lg));
-  height: calc(100% - var(--space-lg) - var(--space-lg));
+  height: 100%;
   overflow: auto;
 }
 
@@ -708,7 +721,7 @@ body:not(.subpage--output):not(.subpage--settings) .image-options-container {
 
 .image-output__item-text {
   display: flex;
-  align-items: center;
+  flex-direction: column;
   flex: 1;
   min-width: 200px;
   font-size: var(--text-md);
@@ -719,6 +732,15 @@ body:not(.subpage--output):not(.subpage--settings) .image-options-container {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.image-output__item-filename-end {
+  white-space: pre;
+}
+
+.image-output__item-dimensions {
+  font-size: var(--text-sm);
+  opacity: 0.7;
 }
 
 .image-output__item-stats {
@@ -745,6 +767,8 @@ body:not(.subpage--output):not(.subpage--settings) .image-options-container {
   margin-left: auto;
   margin-right: auto;
   background-color: var(--color-surface-variant);
+  margin-left: var(--content-width-gutter);
+  margin-right: var(--content-width-gutter);
 }
 
 body.compressing--is-active .drop-zone:hover {
@@ -779,7 +803,9 @@ body.compressing--is-active .drop-zone:hover {
 .drop-zone:hover .drop-zone__cell-grid,
 .drop-zone.drop-zone--is-dragging .drop-zone__cell-grid {
   transform: scale(1.2);
+  animation: bg-pan-up 50s linear infinite;
 }
+
 
 .drop-zone__cell-grid {
   --cell-size: 28px;
@@ -789,7 +815,9 @@ body.compressing--is-active .drop-zone:hover {
   background-image: linear-gradient(90deg, var(--cell-color) 1px, transparent 0), linear-gradient(var(--cell-color) 1px, transparent 0);
   opacity: 0.8;
   transition: var(--duration-1400) ease-out;
+  animation: bg-pan-up 100s linear infinite;
 }
+
 
 .drop-zone__border-dashed {
   --border-width: 2px;
@@ -928,6 +956,7 @@ body.compressing--is-active .drop-zone:hover {
   border-radius: var(--rounded-md);
   background-color: var(--badge-color);
   opacity: 0.32;
+  opacity: calc( 0.38 - (0.15 * var(--filter-invert)) );
 }
 
 .badge-text {
@@ -946,8 +975,8 @@ body.compressing--is-active .drop-zone:hover {
 }
 
 .segmented-control[data-count="0"] .badge {
-  --badge-color: var(--color-on-surface);
-  --badge-text-color: var(--color-on-surface);
+  --badge-color: var(--color-on-surface-high);
+  --badge-text-color: var(--color-on-surface-high);
 }
 
 /****************************************************
@@ -1014,6 +1043,12 @@ body.compressing--is-active .drop-zone:hover {
 @keyframes border-track {
   to {
       background-position: 100% 0%, 0% 100%, 0% 0%, 100% 100%;
+  }
+}
+
+@keyframes bg-pan-up {
+  to {
+      background-position: 0% 100%;
   }
 }
 
@@ -1172,7 +1207,7 @@ body.compressing--is-active .drop-zone:hover {
  *  Media queries
  ****************************************************/
 
-@media (min-width: 480px) {
+@media (max-width: 480px) {
   .content {
     --content-width: var(--breakpoint-2xs);
   }
@@ -1190,8 +1225,6 @@ body.compressing--is-active .drop-zone:hover {
   }
 
   #selectSettingsSubpage.segmented-control-group .segmented-control {
-    padding-left: var(--space-2xs);
-    padding-right: var(--space-2xs);
     font-size: var(--text-sm);
     min-width: 100px;
   }
@@ -1209,11 +1242,6 @@ body.compressing--is-active .drop-zone:hover {
 }
 
 @media (max-width: 1024px) {
-  .content {
-    padding-left: var(--space-lg);
-    padding-right: var(--space-lg);
-  }
-
   .form-group {
     flex-direction: column;
   }

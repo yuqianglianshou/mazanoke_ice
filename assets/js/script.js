@@ -13,6 +13,14 @@ let isCompressing = false;
 let inputFileSize;
 let imageCount = 0;
 
+/**
+ * TODO:
+ * - Double check state of settings on page load, in case of browser back button.
+ * - Save settings to local storage and restore.
+ * - Store compressed images in local storage, and allow clear individual item and all.
+ * - Add support for image upload queue.
+ */
+
 function resetCompressionState() {
   setTimeout(() => {
     document.body.classList.remove("compressing--is-active");
@@ -142,6 +150,7 @@ function createCompressionOptions(onProgress, file) {
     preserveExif: false,
     fileType: selectedFormat !== 'nochange' && selectedFormat ? selectedFormat : undefined,
     libURL: "./browser-image-compression.js",
+    alwaysKeepResolution: dimensionMethodElement === "limit" ? false : true
   };
   if (controller) {
     options.signal = controller.signal;
@@ -180,6 +189,8 @@ function handleCompressionResult(file, output) {
   const { imageExtension } = getFileType(file);
   const outputImageBlob = URL.createObjectURL(output);
 
+  console.log('asd', file);
+
 
   // Thumbnail
   const outputItemThumbnail = document.createElement("img");
@@ -187,24 +198,45 @@ function handleCompressionResult(file, output) {
   outputItemThumbnail.classList.add('image-output__item-thumbnail');
 
 
-  // File name
-  const outputFileName = updateFileExtension(file.name, imageExtension);
-  const outputFileNameStart = outputFileName.length > 8 ? outputFileName.slice(0, -8) : "";
-  const outputFileNameEnd = outputFileName.slice(-8);
+  // outputImageBlob dimensions
+  const thumbnail = new Image();
+  thumbnail.src = outputImageBlob;
+
+
+  // File name and dimensions
+  const outputFileNameText = updateFileExtension(file.name, imageExtension);
+  const outputFileNameStart = outputFileNameText.length > 8 ? outputFileNameText.slice(0, -8) : "";
+  const outputFileNameEnd = outputFileNameText.slice(-8);
+  const outputText = document.createElement("div");
+  outputText.classList.add('image-output__item-text');
+  const outputFileName = document.createElement("div");
+  outputFileName.classList.add('image-output__item-filename');
+  outputFileName.innerHTML = `
+    <span class="image-output__item-filename-start">${outputFileNameStart}</span>
+    <span class="image-output__item-filename-end">${outputFileNameEnd}</span>
+  `;
+  outputText.appendChild(outputFileName);
+  const outputFileDimensions = document.createElement("div");
+  outputFileDimensions.classList.add('image-output__item-dimensions');
+  thumbnail.onload = function() {
+    outputFileDimensions.innerHTML = `
+    <div class="image-output__item-dimensions">${thumbnail.width}x${thumbnail.height}</div>
+  `;
+    outputText.appendChild(outputFileDimensions);
+  }
+
+
+  
+
+
+  
+  // File size
   const outputFileSize = (output.size / 1024 / 1024).toFixed(2);
   const inputFileSize = (file.size / 1024 / 1024).toFixed(2);
   const filesizeSaved = (inputFileSize - outputFileSize).toFixed(2);
   const filesizeSavedPercentage = ((filesizeSaved / inputFileSize) * 100).toFixed(2);
   const filesizeSavedTrend = filesizeSaved < 0 ? '+' : (filesizeSaved > 0 ? '-' : '');
   const filesizeSavedClass = filesizeSaved <= 0 ? 'badge--error' : 'badge--success';
-  const outputText = document.createElement("div");
-  outputText.classList.add('image-output__item-text');
-  outputText.innerHTML = `
-    <span class="image-output__item-filename-start">${outputFileNameStart}</span>
-    <span class="image-output__item-filename-end">${outputFileNameEnd}</span>
-  `;
-  
-  // File size
   const outputFileSizeText = document.createElement("span");
   outputFileSizeText.classList.add('image-output__item-filesize');
   outputFileSizeText.textContent = `${outputFileSize} MB`;
@@ -220,21 +252,21 @@ function handleCompressionResult(file, output) {
     
   // File format badge
   const outputFormatBadge = document.createElement("span");
-  outputFormatBadge.className = `image-output__item-fileformat badge file-format--${imageExtension}`;
-  outputFormatBadge.textContent = imageExtension;
 
+  outputFormatBadge.className = `image-output__item-fileformat badge file-format--${imageExtension}`;
+  outputFormatBadge.textContent = imageExtension.toUpperCase() === 'WEBP' ? 'WebP' : imageExtension.toUpperCase();
 
 
   // Download button
   const outputDownload = document.createElement("a");
   outputDownload.className = 'image-output__item-download-button button-cta button-primary';
   outputDownload.href = outputImageBlob;
-  outputDownload.download = outputFileName;
+  outputDownload.download = outputFileNameText;
   outputDownload.innerHTML = `
     <svg height="16" stroke-linejoin="round" viewBox="0 0 16 16" width="16" style="color: currentcolor;"><path fill-rule="evenodd" clip-rule="evenodd" d="M8.75 1V1.75V8.68934L10.7197 6.71967L11.25 6.18934L12.3107 7.25L11.7803 7.78033L8.70711 10.8536C8.31658 11.2441 7.68342 11.2441 7.29289 10.8536L4.21967 7.78033L3.68934 7.25L4.75 6.18934L5.28033 6.71967L7.25 8.68934V1.75V1H8.75ZM13.5 9.25V13.5H2.5V9.25V8.5H1V9.25V14C1 14.5523 1.44771 15 2 15H14C14.5523 15 15 14.5523 15 14V9.25V8.5H13.5V9.25Z" fill="currentColor"></path></svg>
     <span>Download</span>
   `;
-  console.log("New image file: ", outputFileName);
+  console.log("New image file: ", outputFileNameText);
 
 
   // Stats,consolidate: file size, saved, format.

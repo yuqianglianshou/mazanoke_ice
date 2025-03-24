@@ -63,34 +63,34 @@
       </div>
     </div>
 
-    <div class="segmented-control-group h6" id="selectSettingsSubpage">
-      <div class="segmented-control segmented-control--is-selected" onclick="selectSettingsSubpage('settings')">
-        <div class="segmented-control__selected-item">
-          <!-- Selected control indicator -->
+    <nav class="nav-subpage">
+      <div class="segmented-control-group h6" id="selectSettingsSubpage">
+        <div class="segmented-control segmented-control--is-selected" onclick="selectSettingsSubpage('settings')">
+          <div class="segmented-control__selected-item">
+            <!-- Selected control indicator -->
+          </div>
+          <div class="segmented-control__text">
+            <svg height="20" width="20" stroke-linejoin="round" style="color:currentColor" viewBox="0 0 16 16" ><path fill-rule="evenodd" clip-rule="evenodd" d="M10.75 5.5C11.7165 5.5 12.5 4.7165 12.5 3.75C12.5 2.7835 11.7165 2 10.75 2C9.7835 2 9 2.7835 9 3.75C9 4.7165 9.7835 5.5 10.75 5.5ZM10.75 0.75C12.1479 0.75 13.3225 1.70608 13.6555 3H15.25H16V4.5H15.25H13.6555C13.3225 5.79392 12.1479 6.75 10.75 6.75C9.35212 6.75 8.17754 5.79392 7.84451 4.5H0.75H0V3H0.75H7.84451C8.17754 1.70608 9.35212 0.75 10.75 0.75ZM15.25 13H16V11.5H15.25L8.15549 11.5C7.82245 10.2061 6.64788 9.25 5.25 9.25C3.85212 9.25 2.67755 10.2061 2.34451 11.5H0.75H0V13H0.75H2.34451C2.67755 14.2939 3.85212 15.25 5.25 15.25C6.64788 15.25 7.82246 14.2939 8.15549 13L15.25 13ZM7 12.2513C7 12.2509 7 12.2504 7 12.25C7 12.2496 7 12.2491 7 12.2487C6.99929 11.2828 6.21606 10.5 5.25 10.5C4.2835 10.5 3.5 11.2835 3.5 12.25C3.5 13.2165 4.2835 14 5.25 14C6.21606 14 6.99929 13.2172 7 12.2513Z" fill="currentColor"></path></svg>
+            Settings
+          </div>
+          <input type="radio" name="settingsSubpage" value="settings" class="hidden" checked>
         </div>
-        <div class="segmented-control__text">
-          <svg height="20" width="20" stroke-linejoin="round" style="color:currentColor" viewBox="0 0 16 16" ><path fill-rule="evenodd" clip-rule="evenodd" d="M10.75 5.5C11.7165 5.5 12.5 4.7165 12.5 3.75C12.5 2.7835 11.7165 2 10.75 2C9.7835 2 9 2.7835 9 3.75C9 4.7165 9.7835 5.5 10.75 5.5ZM10.75 0.75C12.1479 0.75 13.3225 1.70608 13.6555 3H15.25H16V4.5H15.25H13.6555C13.3225 5.79392 12.1479 6.75 10.75 6.75C9.35212 6.75 8.17754 5.79392 7.84451 4.5H0.75H0V3H0.75H7.84451C8.17754 1.70608 9.35212 0.75 10.75 0.75ZM15.25 13H16V11.5H15.25L8.15549 11.5C7.82245 10.2061 6.64788 9.25 5.25 9.25C3.85212 9.25 2.67755 10.2061 2.34451 11.5H0.75H0V13H0.75H2.34451C2.67755 14.2939 3.85212 15.25 5.25 15.25C6.64788 15.25 7.82246 14.2939 8.15549 13L15.25 13ZM7 12.2513C7 12.2509 7 12.2504 7 12.25C7 12.2496 7 12.2491 7 12.2487C6.99929 11.2828 6.21606 10.5 5.25 10.5C4.2835 10.5 3.5 11.2835 3.5 12.25C3.5 13.2165 4.2835 14 5.25 14C6.21606 14 6.99929 13.2172 7 12.2513Z" fill="currentColor"></path></svg>
-          Settings
-        </div>
-        <input type="radio" name="settingsSubpage" value="settings" class="hidden" checked>
-      </div>
-      <div class="segmented-control" id="selectSubpageOutput" onclick="selectSettingsSubpage('output')" data-count="0">
-        <div class="segmented-control__text">
-          <svg height="20" width="20" stroke-linejoin="round" viewBox="0 0 16 16"  style="color: currentcolor;"><path fill-rule="evenodd" clip-rule="evenodd" d="M14.5 2.5H1.5V9.18933L2.96966 7.71967L3.18933 7.5H3.49999H6.63001H6.93933L6.96966 7.46967L10.4697 3.96967L11.5303 3.96967L14.5 6.93934V2.5ZM8.00066 8.55999L9.53034 10.0897L10.0607 10.62L9.00001 11.6807L8.46968 11.1503L6.31935 9H3.81065L1.53032 11.2803L1.5 11.3106V12.5C1.5 13.0523 1.94772 13.5 2.5 13.5H13.5C14.0523 13.5 14.5 13.0523 14.5 12.5V9.06066L11 5.56066L8.03032 8.53033L8.00066 8.55999ZM4.05312e-06 10.8107V12.5C4.05312e-06 13.8807 1.11929 15 2.5 15H13.5C14.8807 15 16 13.8807 16 12.5V9.56066L16.5607 9L16.0303 8.46967L16 8.43934V2.5V1H14.5H1.5H4.05312e-06V2.5V10.6893L-0.0606689 10.75L4.05312e-06 10.8107Z" fill="currentColor"></path></svg>
-          <span>
-            Images
-            <span class="badge">
-              <span id="compressedImageCount" class="badge-text">
-                0
+        <div class="segmented-control" id="selectSubpageOutput" onclick="selectSettingsSubpage('output')" data-count="0">
+          <div class="segmented-control__text">
+            <svg height="20" width="20" stroke-linejoin="round" viewBox="0 0 16 16"  style="color: currentcolor;"><path fill-rule="evenodd" clip-rule="evenodd" d="M14.5 2.5H1.5V9.18933L2.96966 7.71967L3.18933 7.5H3.49999H6.63001H6.93933L6.96966 7.46967L10.4697 3.96967L11.5303 3.96967L14.5 6.93934V2.5ZM8.00066 8.55999L9.53034 10.0897L10.0607 10.62L9.00001 11.6807L8.46968 11.1503L6.31935 9H3.81065L1.53032 11.2803L1.5 11.3106V12.5C1.5 13.0523 1.94772 13.5 2.5 13.5H13.5C14.0523 13.5 14.5 13.0523 14.5 12.5V9.06066L11 5.56066L8.03032 8.53033L8.00066 8.55999ZM4.05312e-06 10.8107V12.5C4.05312e-06 13.8807 1.11929 15 2.5 15H13.5C14.8807 15 16 13.8807 16 12.5V9.56066L16.5607 9L16.0303 8.46967L16 8.43934V2.5V1H14.5H1.5H4.05312e-06V2.5V10.6893L-0.0606689 10.75L4.05312e-06 10.8107Z" fill="currentColor"></path></svg>
+            <span>
+              Images
+              <span class="badge">
+                <span id="compressedImageCount" class="badge-text">
+                  0
+                </span>
               </span>
             </span>
-          </span>
+          </div>
+          <input type="radio" name="settingsSubpage" value="output" class="hidden">
         </div>
-        <input type="radio" name="settingsSubpage" value="output" class="hidden">
       </div>
-    </div>
-
-    <p id="webWorkerLog"></p>
+    </nav>
 
     <section class="image-subpage-container">
       <div class="image-subpage-container__shade-x"></div>
@@ -129,7 +129,7 @@
                     <label class="button-card-radio__label">Limit file size</label>
                     <div class="button-card-radio__description">
                       <div class="button-card-radio__description-text">
-                        Compress the image to a target file size in megabytes (MB).
+                        Compress the image to a target file size.
                       </div>
                     </div>
                   </div>
