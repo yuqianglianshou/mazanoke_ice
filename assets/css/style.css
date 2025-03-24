@@ -356,7 +356,11 @@ button {
   cursor: pointer;
   transition: var(--duration-hover) ease-out;
   background-color: var(--color-surface-high);
-  min-width: 200px;
+  min-width: 100px;
+}
+
+#formatMethodGroup .button-card-radio {
+  min-width: 253px;
 }
 
 .button-card-radio:not(.button-card-radio--is-selected):hover {
