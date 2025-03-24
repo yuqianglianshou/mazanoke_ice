@@ -15,6 +15,7 @@ let imageCount = 0;
 
 /**
  * TODO:
+ * - Prevent color transition on initial load and when switching theme. Use css multiplier during transition to cause duration to be 0?
  * - Handle PNG compression better when quality option is used.
  *  - E.g. convert to jpg first and compress, and convert back to png on output?
  * - Double check state of settings on page load, in case of browser back button.
@@ -479,3 +480,30 @@ function selectCompressMethod(value) {
   document.querySelector(`#compressMethodGroup input[name="compressMethod"][value="${value}"]`).closest('.button-card-radio').classList.add('button-card-radio--is-selected');
   toggleFields();
 }
+
+
+
+function setTheme(themeName) {
+  localStorage.setItem('theme', themeName);
+  document.documentElement.className = themeName;
+}
+
+function toggleTheme() {
+  if (localStorage.getItem('theme') === 'theme-dark') {
+      setTheme('theme-light');
+  }
+  else {
+      setTheme('theme-dark');
+  }
+}
+
+(function () {
+  if (localStorage.getItem('theme') === 'theme-light') {
+      setTheme('theme-light');
+      document.getElementById('themeSwitchThumb').checked = false;
+  }
+  else {
+      setTheme('theme-dark');
+    document.getElementById('themeSwitchThumb').checked = true;
+  }
+})();

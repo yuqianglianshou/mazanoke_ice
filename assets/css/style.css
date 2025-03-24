@@ -130,6 +130,13 @@ img {
   padding: var(--space-xs) var(--space-sm);
 }
 
+.top-nav-actions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  flex: 1;
+}
+
 .content {
   max-width: var(--content-width);
   padding-left: var(--content-width-gutter);
@@ -443,6 +450,65 @@ button {
 
 .button-card-radio--is-selected .button-card-radio__radio-icon::after {
   background-color: var(--color-accent);
+}
+
+/****************************************************
+ *  Input: Switch
+ ****************************************************/
+
+.switch {
+  --switch-width: 70px;
+  --switch-height: 40px;
+  display: inline-flex;
+  align-items: center;
+  width: var(--switch-width);
+  height: var(--switch-height);
+  background: var(--color-surface-higher);
+  border-radius: var(--rounded-full);
+  padding: var(--space-3xs);
+  cursor: pointer;
+}
+
+.switch input {
+  display: none;
+}
+
+.switch-thumb {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: calc(var(--switch-height) - var(--space-2xs));
+  height: calc(var(--switch-height) - var(--space-2xs));
+  background-color: var(--color-surface);
+  color: var(--color-on-surface-higher);
+  box-shadow: var(--shadow-2);
+  border-radius: var(--rounded-full);
+  transition: var(--duration-300);
+  transform: translateX(100%);
+}
+
+
+.switch-icon--light,
+.switch-icon--dark {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate3d(-50%, -50%, 0);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: var(--duration-300);
+  opacity: 0;
+}
+
+html.theme-light .switch-icon--light,
+html.theme-dark .switch-icon--dark {
+  opacity: 1;
+}
+
+html.theme-light .switch-thumb {
+  transform: translateX(0%);
 }
 
 /****************************************************
