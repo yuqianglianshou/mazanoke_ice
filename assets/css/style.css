@@ -1054,7 +1054,7 @@ body.compressing--is-active .drop-zone:hover {
 
 @keyframes bg-pan-up {
   to {
-      background-position: 0% 100%;
+      background-position: 0% -100%;
   }
 }
 
