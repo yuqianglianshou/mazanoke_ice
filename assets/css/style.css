@@ -1277,6 +1277,10 @@ body.compressing--is-active .drop-zone:hover {
   :root {
     --content-width: var(--breakpoint-lg);
   }
+
+  #formatMethodGroup .button-card-radio {
+    min-width: unset; /* To display as one row */
+  }
 }
 
 @media (min-width: 1536px) {
