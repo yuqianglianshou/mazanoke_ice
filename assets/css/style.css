@@ -629,6 +629,7 @@ body.subpage--output .segmented-control__selected-item {
 
 
 .image-subpage {
+  --image-subpage-padding-bottom:  var(--space-3xl);
   position: relative;
   padding: 0 var(--space-lg);
   overflow-y: hidden;
@@ -637,6 +638,7 @@ body.subpage--output .segmented-control__selected-item {
   height: calc(100% + var(--space-lg));
   transform: translate3d(calc((var(--space-lg) / 1)* -1), 0, 0);
   border-radius: var(--rounded-lg);
+  padding-bottom: var(--space-3xl);
 }
 
 
@@ -651,7 +653,6 @@ body.subpage--output .segmented-control__selected-item {
   border-radius: var(--rounded-lg);
   background-color: var(--color-surface-high);
   background-image: var(--subpage-container-bgimage);
-  margin-bottom: var(--space-lg);
   box-shadow: var(--shadow-1);
   opacity: 0;
 }
@@ -660,9 +661,10 @@ body.subpage--output .segmented-control__selected-item {
   position: absolute;
   top: 0;
   left: var(--space-lg);
-  width: calc(100% - var(--space-lg) - var(--space-lg));
-  height: 100%;
   overflow: auto;
+  /* Maintain same width and height as image-options-container */
+  width: calc(100% - var(--space-lg) - var(--space-lg));
+  height: calc(100% - var(--image-subpage-padding-bottom)); 
 }
 
 body.subpage--settings .image-options-container {
