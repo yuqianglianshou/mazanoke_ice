@@ -2,7 +2,6 @@
  *  Default
  ****************************************************/
 
-
 *, *::before, *::after {
   box-sizing: border-box;
   font-family: var(--text-font);
@@ -11,6 +10,11 @@
 html {
   margin: 0;
   padding: 0;
+}
+
+html.animate-0 {
+  /* Disable animation during load, to prevent transition between dark/light mode */
+  --duration-multiplier: 0; 
 }
 
 body {
@@ -22,7 +26,7 @@ body {
   line-height: 1.2;
   margin: 0;
   padding: 0;
-  min-width: 480px;
+  min-width: 240px;
   background-image: linear-gradient(to top, #bcbcbc12 0%, transparent 30%, transparent 100%);
 }
 
@@ -395,6 +399,7 @@ button {
 }
 
 .button-card-radio__label {
+  flex: 1;
   font-size: var(--text-md);
   font-weight: 400;
   color: var(--color-on-surface-high);
@@ -484,6 +489,7 @@ button {
   color: var(--color-on-surface-higher);
   box-shadow: var(--shadow-2);
   border-radius: var(--rounded-full);
+  box-shadow: var(--shadow-1);
   transition: var(--duration-300);
   transform: translateX(100%);
 }
@@ -525,7 +531,6 @@ html.theme-light .switch-thumb {
   background-color: var(--color-surface-high);
   padding: var(--space-xs) var(--space-sm);
   margin-bottom: var(--space-md);
-  overflow: auto;
   box-shadow: var(--shadow-2);
 }
 
@@ -590,6 +595,7 @@ body.subpage--output .segmented-control__selected-item {
   border-radius: var(--rounded-full);
   height: var(--text-sm);
   width: 100%;
+  min-width: 120px;
 }
 
 .slider-fill {
@@ -763,9 +769,17 @@ body:not(.subpage--output):not(.subpage--settings) .image-options-container {
 .image-output__empty-state {
   text-align: center;
 
+  h1, h2, h3, h4, h5, h6 {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
   p {
     line-height: 1.6;
     opacity: 0.7;
+    max-width: 300px;
+    margin-left: auto;
+    margin-right: auto;
   }
 }
 
@@ -1015,6 +1029,7 @@ body.compressing--is-active .drop-zone:hover {
   --badge-color: var(--color-primary);
   --badge-text-color: var(--color-primary-variant);
   position: relative;
+  display: inline-flex;
   padding-top: calc(var(--space-3xs) / 2);
   padding-right: var(--space-2xs);
   padding-bottom: calc(var(--space-3xs) / 2);
@@ -1289,11 +1304,36 @@ body.compressing--is-active .drop-zone:hover {
   :root {
     --content-width: var(--breakpoint-2xs);
   }
+
+  .segmented-control__text,
+  .segmented-control__text .badge {
+    font-size: var(--text-xs);
+  }
+
+  .segmented-control__text svg {
+    display: none;
+  }
+
+  #formatMethodGroup .button-card-radio {
+    min-width: unset;
+  }
+
+  .image-options-container,
+  .image-output-container {
+    padding-left: var(--space-sm);
+    padding-right: var(--space-sm);
+  }
 }
 
 @media (min-width: 640px) {
   :root {
     --content-width: var(--breakpoint-xs);
+  }
+}
+
+@media (max-width: 640px) {
+  .segmented-control-group {
+    overflow: auto;
   }
 }
 
@@ -1304,7 +1344,7 @@ body.compressing--is-active .drop-zone:hover {
 
   #selectSettingsSubpage.segmented-control-group .segmented-control {
     font-size: var(--text-sm);
-    min-width: 100px;
+    min-width: 80px;
   }
 
   #selectSettingsSubpage.segmented-control-group .segmented-control,
@@ -1319,11 +1359,6 @@ body.compressing--is-active .drop-zone:hover {
   }
 }
 
-@media (max-width: 768px) {  
-  :root {
-    --content-width-gutter: var(--space-md);
-  }
-}
 
 @media (min-width: 1024px) {
   :root {
@@ -1342,6 +1377,23 @@ body.compressing--is-active .drop-zone:hover {
 
   .form-group__label-content {
     padding-top: 0;
+  }
+}
+
+
+@media (max-width: 768px) {  
+  :root {
+    --content-width-gutter: var(--space-xs);
+  }
+
+  .button-card-radio-group {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 480px) {
+  :root {
+    --content-width-gutter: var(--space-3xs);
   }
 }
 
@@ -1384,6 +1436,10 @@ body.compressing--is-active .drop-zone:hover {
 
 .flex-row {
   flex-direction: row !important;
+}
+
+.flex-wrap {
+  flex-wrap: wrap !important;
 }
 
 .justify-start {

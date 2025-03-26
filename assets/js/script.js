@@ -485,10 +485,24 @@ function selectCompressMethod(value) {
 
 function setTheme(themeName) {
   localStorage.setItem('theme', themeName);
-  document.documentElement.className = themeName;
+
+  if (themeName === 'theme-light') {
+      document.documentElement.classList.remove('theme-dark');
+  }
+  else {
+    document.documentElement.classList.remove('theme-light');
+  }
+
+  document.documentElement.classList.add(themeName);
+
+  setTimeout(() => {
+    document.documentElement.classList.remove('animate-0');
+}, 300);
 }
 
 function toggleTheme() {
+  document.documentElement.classList.add('animate-0');
+  
   if (localStorage.getItem('theme') === 'theme-dark') {
       setTheme('theme-light');
   }

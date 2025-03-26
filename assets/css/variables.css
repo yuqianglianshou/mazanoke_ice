@@ -12,21 +12,22 @@
   --content-width: 100%;
   --content-width-gutter: var(--space-xl);
 
-  --duration-75: 75ms;
-  --duration-100: 100ms;
-  --duration-150: 150ms;
-  --duration-200: 200ms;
-  --duration-300: 300ms;
-  --duration-400: 400ms;
-  --duration-500: 500ms;
-  --duration-600: 600ms;
-  --duration-700: 700ms;
-  --duration-800: 800ms;
-  --duration-900: 900ms;
-  --duration-1000: 1000ms;
-  --duration-1200: 1200ms;
-  --duration-1400: 1400ms;
-  --duration-2000: 2000ms;
+  --duration-multiplier: 1; /* Allow disabling or increase animation speed */
+  --duration-75: calc(75ms * var(--duration-multiplier));
+  --duration-100: calc(100ms * var(--duration-multiplier));
+  --duration-150: calc(150ms * var(--duration-multiplier));
+  --duration-200: calc(200ms * var(--duration-multiplier));
+  --duration-300: calc(300ms * var(--duration-multiplier));
+  --duration-400: calc(400ms * var(--duration-multiplier));
+  --duration-500: calc(500ms * var(--duration-multiplier));
+  --duration-600: calc(600ms * var(--duration-multiplier));
+  --duration-700: calc(700ms * var(--duration-multiplier));
+  --duration-800: calc(800ms * var(--duration-multiplier));
+  --duration-900: calc(900ms * var(--duration-multiplier));
+  --duration-1000: calc(1000ms * var(--duration-multiplier));
+  --duration-1200: calc(1200ms * var(--duration-multiplier));
+  --duration-1400: calc(1400ms * var(--duration-multiplier));
+  --duration-2000: calc(2000ms * var(--duration-multiplier));
 
   --duration-hover: var(--duration-200);
 
