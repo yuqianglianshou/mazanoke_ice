@@ -27,11 +27,11 @@ MAZANOKE is a simple image compressor and converter that runs entirely in your b
    - Set a target file size.
    - Set max dimensions, to never exceed a certain width/height.
    - Convert between JPG, PNG, and WebP.
-- 🌍 Installable Web App
+- 🌍 **Installable Web App**
    - Use as a Progressive Web App (PWA).
    - Dark and light mode.
    - Fully responsive for desktop, tablet, and mobile.
-- 🔒 Privacy-Focused
+- 🔒 **Privacy-Focused**
    - Works offline.
    - All image processing happens locally.
    - No data is uploaded. Your files stay on your device.
