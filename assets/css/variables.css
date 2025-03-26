@@ -10,7 +10,7 @@
   --breakpoint-2xl: 1920px;
 
   --content-width: 100%;
-  --content-width-gutter: var(--space-xl);
+  --content-width-gutter: var(--space-lg);
 
   --duration-multiplier: 1; /* Allow disabling or increase animation speed */
   --duration-75: calc(75ms * var(--duration-multiplier));

@@ -126,12 +126,24 @@ img {
  ****************************************************/
 
 .top-nav {
-  background: var(--color-surface-high);
   display: flex;
   align-items: center;
   justify-content: flex-start;
+  gap: var(--space-2xs);
   color: var(--color-on-surface);
+  background: var(--color-surface-high);
   padding: var(--space-xs) var(--space-sm);
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+}
+
+.logo-image {
+  width: 40px;
+  height: 40px;
 }
 
 .top-nav-actions {
@@ -1379,10 +1391,6 @@ body.compressing--is-active .drop-zone:hover {
 }
 
 @media (max-width: 1024px) {
-  :root {
-    --content-width-gutter: var(--space-md);
-  }
-
   .form-group {
     flex-direction: column;
   }
