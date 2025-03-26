@@ -9,8 +9,10 @@ const urlsToCache = [
   '/assets/css/style.css',
   '/assets/js/browser-image-compression.js',
   '/assets/js/script.js',
-  '/assets/images/icon-192x192.png',
-  '/assets/images/icon-512x512.png'
+  '/assets/images/android-chrome-192x192.png',
+  '/assets/images/android-chrome-512x512.png',
+  '/assets/images/apple-touch-icon.png',
+  '/assets/images/symbol-192x192'
 ];
 
 self.addEventListener('install', event => {
