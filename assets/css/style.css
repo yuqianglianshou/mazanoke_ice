@@ -1319,8 +1319,7 @@ body.compressing--is-active .drop-zone:hover {
   :root {
     --content-width: var(--breakpoint-2xs);
   }
-
-  .segmented-control__text,
+  
   .segmented-control__text .badge {
     font-size: var(--text-xs);
   }

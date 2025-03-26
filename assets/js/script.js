@@ -211,19 +211,19 @@ function handleCompressionResult(file, output) {
   // File size
   const inputFileSize = parseFloat((file.size / 1024 / 1024).toFixed(3));
   const outputFileSize = parseFloat((output.size / 1024 / 1024).toFixed(3));
-  const filesizeSaved = inputFileSize - outputFileSize;
-  const filesizeSavedPercentage = inputFileSize > 0 ? Math.abs(((filesizeSaved / inputFileSize) * 100).toFixed(2)) : '0.000';
-  const filesizeSavedTrend = filesizeSaved < 0 ? '+' : (filesizeSaved > 0 ? '-' : '');
-  const filesizeSavedClass = filesizeSaved <= 0 ? 'badge--error' : 'badge--success';
+  const fileSizeSaved = inputFileSize - outputFileSize;
+  const fileSizeSavedPercentage = inputFileSize > 0 ? Math.abs(((fileSizeSaved / inputFileSize) * 100).toFixed(2)) : '0.000';
+  const fileSizeSavedTrend = fileSizeSaved < 0 ? '+' : (fileSizeSaved > 0 ? '-' : '');
+  const fileSizeSavedClass = fileSizeSaved <= 0 ? 'badge--error' : 'badge--success';
   const outputFileSizeText = document.createElement("span");
   outputFileSizeText.classList.add('image-output__item-filesize');
   outputFileSizeText.textContent = `${outputFileSize} MB`;
 
   // File saved badge
   const fileSizeSavedBadge = document.createElement("span");
-  fileSizeSavedBadge.className = `image-output__item-filesize-saved badge ${filesizeSavedClass}`;
+  fileSizeSavedBadge.className = `image-output__item-filesize-saved badge ${fileSizeSavedClass}`;
   fileSizeSavedBadge.innerHTML = `
-    <span class="badge-text">${filesizeSavedTrend}${filesizeSavedPercentage}%</span>
+    <span class="badge-text">${fileSizeSavedTrend}${fileSizeSavedPercentage}%</span>
   `;
 
   // File format badge
