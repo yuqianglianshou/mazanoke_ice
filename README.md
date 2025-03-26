@@ -7,7 +7,7 @@
 
 
 ## About
-MAZANOKE is a simple and lightweight image compressor that runs entirely in your browser. No uploads, works offline, and powered by [Browser Image Compression](https://github.com/Donaldcwl/browser-image-compression).
+MAZANOKE is a simple image compressor that runs entirely in your browser. No external uploads, works offline as a web app, and powered by [Browser Image Compression](https://github.com/Donaldcwl/browser-image-compression).
 
 ## License
 

@@ -268,7 +268,6 @@ function handleCompressionResult(file, output) {
   compressedImageCount.textContent = imageCount;
 
   selectSettingsSubpage('output');
-  document.getElementById("previewAfterCompress").src = outputImageBlob;
 }
 
 function updateFileExtension(originalName, format) {
@@ -448,6 +447,10 @@ function toggleTheme() {
 
 
 (function () {
+  // Initiate controller
+  controller = typeof AbortController !== "undefined" && new AbortController();
+
+  // Set theme onload
   if (localStorage.getItem('theme') === 'theme-light') {
       setTheme('theme-light');
       document.getElementById('themeSwitchThumb').checked = false;
