@@ -4,6 +4,7 @@ Thumbs.db
 *.tmp
 *~
 *.bak
+.bak
 *.cache/
 *.env
 .env.local
