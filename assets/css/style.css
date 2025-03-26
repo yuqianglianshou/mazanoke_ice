@@ -1351,6 +1351,11 @@ body.compressing--is-active .drop-zone:hover {
   #selectSettingsSubpage.segmented-control-group .segmented-control__selected-item {
     border-radius: var(--rounded-md);
   }
+
+  #backToTop {
+    bottom: var(--space-sm);
+    right: var(--space-sm);
+  }
 }
 
 @media (min-width: 768px) {  
