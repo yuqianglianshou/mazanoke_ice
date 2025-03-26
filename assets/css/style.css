@@ -1081,7 +1081,7 @@ body.compressing--is-active .drop-zone:hover {
 }
 
 .badge-text {
-  filter: brightness(calc( 1.2 - (0.4 * var(--filter-invert)) ));
+  filter: brightness(calc( 1.5 - (0.7 * var(--filter-invert)) ));
   z-index: 1;
 }
 

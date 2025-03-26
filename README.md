@@ -55,9 +55,9 @@ services:
 </center>
 
 |    |   |
-| ------------- | ------------- |
-| <center>Dark mode<br><img src="git-images/capture-desktop-dark.jpg" alt="mazanoke dark mode" width="50%"></center> | <center>Light mode<br><img src="git-images/capture-desktop-light.jpg" alt="mazanoke light mode" width="50%"></center>  |
-| <center>Settings<br><img src="git-images/capture-desktop-solo-settings-dark.jpg" alt="mazanoke settings" width="50%"></center>  | <center>Download compressed images<br><img src="git-images/capture-desktop-solo-output-dark.jpg" alt="mazanoke settings" width="50%"></center>  |
+| :---: | :---: |
+| Dark mode<br><img src="git-images/capture-desktop-dark.jpg" alt="mazanoke dark mode" width="50%"> | Light mode<br><img src="git-images/capture-desktop-light.jpg" alt="mazanoke light mode" width="50%">  |
+| Settings<br><img src="git-images/capture-desktop-solo-settings-dark.jpg" alt="mazanoke settings" width="50%">  | Download compressed images<br><img src="git-images/capture-desktop-solo-output-dark.jpg" alt="mazanoke settings" width="50%">  |
 
 ## License
 
