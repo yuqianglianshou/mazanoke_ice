@@ -15,14 +15,12 @@ let imageCount = 0;
 
 /**
  * TODO:
- * - Prevent color transition on initial load and when switching theme. Use css multiplier during transition to cause duration to be 0?
- * - Handle PNG compression better when quality option is used.
- *  - E.g. convert to jpg first and compress, and convert back to png on output?
  * - Double check state of settings on page load, in case of browser back button.
  * - Save settings to local storage and restore.
- * - Store compressed images in local storage, and allow clear individual item and all.
- * - Add support for image upload queue.
+ * - Store compressed images in local storage, and allow clear individual items and all items.
+ * - Add support for image upload queue (allowing for batch upload, but still processed one at a time).
  */
+
 
 function resetCompressionState() {
   setTimeout(() => {
@@ -37,9 +35,9 @@ function resetCompressionState() {
   }, 1500);
 }
 
+
 function compressImage(event) {
   const file = event.target.files[0];
-  setupPreview(file);
 
   const options = createCompressionOptions(onProgress, file);
 
@@ -50,14 +48,6 @@ function compressImage(event) {
   webWorkerAbort.classList.remove("hidden");
   progressContainer.classList.remove("hidden");
   progressText.textContent = "Preparing";
-
-/*   convertImage(file)
-    .then((convertedFile) => imageCompression(convertedFile, options))
-    .then((output) => handleCompressionResult(file, output))
-    .catch((error) => alert(error.message))
-    .finally(() => {
-      resetCompressionState();
-    }); */
 
   imageCompression(file, options)
     .then((output) => handleCompressionResult(file, output))
@@ -77,14 +67,6 @@ function compressImage(event) {
   }
 }
 
-function setupPreview(file) {
-  document.getElementById("preview").src = URL.createObjectURL(file);
-  inputFileSize = (file.size / 1024 / 1024).toFixed(2);
-/*   imageCompression.getExifOrientation(file).then((o) =>
-    console.log("ExifOrientation", o)
-  ); */
-  controller = typeof AbortController !== "undefined" && new AbortController();
-}
 
 function updateSlider(value, sliderId) {
   const slider = document.getElementById(sliderId);
@@ -94,6 +76,7 @@ function updateSlider(value, sliderId) {
   fill.style.width = percentage + '%';
   thumb.style.left = Math.min(percentage, 100) + '%';
 }
+
 
 function startSliderDrag(event, inputId) {
   const slider = event.currentTarget;
@@ -120,6 +103,7 @@ function startSliderDrag(event, inputId) {
   document.addEventListener('mousemove', onMouseMove);
   document.addEventListener('mouseup', onMouseUp);
 }
+
 
 function createCompressionOptions(onProgress, file) {
   const compressMethodElement = document.querySelector('input[name="compressMethod"]:checked');
@@ -163,6 +147,7 @@ function createCompressionOptions(onProgress, file) {
   return options;
 }
 
+
 function getFileType(file) {
   const selectedFormat = document.querySelector('input[name="formatSelect"]:checked').value;
   let imageExtension = '';
@@ -192,19 +177,14 @@ function handleCompressionResult(file, output) {
   const { imageExtension } = getFileType(file);
   const outputImageBlob = URL.createObjectURL(output);
 
-  console.log('asd', file);
-
-
   // Thumbnail
   const outputItemThumbnail = document.createElement("img");
   outputItemThumbnail.src = outputImageBlob;
   outputItemThumbnail.classList.add('image-output__item-thumbnail');
 
-
   // outputImageBlob dimensions
   const thumbnail = new Image();
   thumbnail.src = outputImageBlob;
-
 
   // File name and dimensions
   const outputFileNameText = updateFileExtension(file.name, imageExtension);
@@ -228,22 +208,16 @@ function handleCompressionResult(file, output) {
     outputText.appendChild(outputFileDimensions);
   }
 
-
-  
-
-
-  
   // File size
   const outputFileSize = (output.size / 1024 / 1024).toFixed(2);
   const inputFileSize = (file.size / 1024 / 1024).toFixed(2);
   const filesizeSaved = (inputFileSize - outputFileSize).toFixed(2);
-  const filesizeSavedPercentage = ((filesizeSaved / inputFileSize) * 100).toFixed(2);
+  const filesizeSavedPercentage = inputFileSize > 0 ? ((filesizeSaved / inputFileSize) * 100).toFixed(2) : '0.00';
   const filesizeSavedTrend = filesizeSaved < 0 ? '+' : (filesizeSaved > 0 ? '-' : '');
   const filesizeSavedClass = filesizeSaved <= 0 ? 'badge--error' : 'badge--success';
   const outputFileSizeText = document.createElement("span");
   outputFileSizeText.classList.add('image-output__item-filesize');
   outputFileSizeText.textContent = `${outputFileSize} MB`;
-
 
   // File saved badge
   const fileSizeSavedBadge = document.createElement("span");
@@ -252,13 +226,11 @@ function handleCompressionResult(file, output) {
     <span class="badge-text">${filesizeSavedTrend}${filesizeSavedPercentage}%</span>
   `;
 
-    
   // File format badge
   const outputFormatBadge = document.createElement("span");
 
   outputFormatBadge.className = `image-output__item-fileformat badge file-format--${imageExtension}`;
   outputFormatBadge.textContent = imageExtension.toUpperCase() === 'WEBP' ? 'WebP' : imageExtension.toUpperCase();
-
 
   // Download button
   const outputDownload = document.createElement("a");
@@ -271,15 +243,12 @@ function handleCompressionResult(file, output) {
   `;
   console.log("New image file: ", outputFileNameText);
 
-
   // Stats,consolidate: file size, saved, format.
   const outputStats = document.createElement("div");
   outputStats.classList.add('image-output__item-stats');
   outputStats.appendChild(outputFileSizeText);
   outputStats.appendChild(fileSizeSavedBadge);
   outputStats.appendChild(outputFormatBadge);
-
-
 
   // Output item container
   const outputItem = document.createElement("div");
@@ -288,7 +257,6 @@ function handleCompressionResult(file, output) {
   outputItem.appendChild(outputText);
   outputItem.appendChild(outputStats);
   outputItem.appendChild(outputDownload);
-
 
   // Place item first in the output container
   outputDownloadContent.prepend(outputItem);
@@ -299,11 +267,8 @@ function handleCompressionResult(file, output) {
   compressedImageCount.dataset.count = imageCount;
   compressedImageCount.textContent = imageCount;
 
-
   selectSettingsSubpage('output');
   document.getElementById("previewAfterCompress").src = outputImageBlob;
-
-  //return uploadToServer(output);
 }
 
 function updateFileExtension(originalName, format) {
@@ -315,28 +280,6 @@ function updateFileExtension(originalName, format) {
   return baseName + "." + extension;
 }
 
-function convertImage(originalBlob, outputFormat, quality) {
-  // Naive method of converting image; this does not preserve exif data.
-  return new Promise((resolve, reject) => {
-    const img = document.createElement("img");
-    img.src = URL.createObjectURL(originalBlob);
-    img.onload = function () {
-      const canvas = document.createElement("canvas");
-      canvas.width = img.naturalWidth;
-      canvas.height = img.naturalHeight;
-      const ctx = canvas.getContext("2d");
-      ctx.drawImage(img, 0, 0);
-      const dataURL = canvas.toDataURL(outputFormat, quality);
-      fetch(dataURL)
-        .then((res) => res.blob())
-        .then((convertedBlob) => resolve(convertedBlob))
-        .catch((err) => reject(err));
-    };
-    img.onerror = function (err) {
-      reject(err);
-    };
-  });
-}
 
 function abort() {
   if (!controller) return;
@@ -345,16 +288,6 @@ function abort() {
   resetCompressionState();
 }
 
-function uploadToServer(file) {
-  // const formData = new FormData()
-  // formData.append('image', file, file.name)
-  // const url = 'http://localhost:3000/image-upload-api'
-  // return fetch(url, {
-  //   method: 'POST',
-  //   body: formData
-  // }).then(res => res.json())
-  //   .then(body => console.log('got server response', body))
-}
 
 function selectDimensionMethod(value) {
   document.querySelector(`input[name="dimensionMethod"][value="${value}"]`).checked = true;
@@ -372,6 +305,7 @@ function selectDimensionMethod(value) {
 
   return value;
 }
+
 
 function selectFormat(value) {
   document.querySelector(`input[name="formatSelect"][value="${value}"]`).checked = true;
@@ -472,6 +406,7 @@ function toggleFields() {
   }
 }
 
+
 function selectCompressMethod(value) {
   document.querySelector(`input[name="compressMethod"][value="${value}"]`).checked = true;
   document.querySelectorAll('#compressMethodGroup .button-card-radio').forEach((el) => {
@@ -480,7 +415,6 @@ function selectCompressMethod(value) {
   document.querySelector(`#compressMethodGroup input[name="compressMethod"][value="${value}"]`).closest('.button-card-radio').classList.add('button-card-radio--is-selected');
   toggleFields();
 }
-
 
 
 function setTheme(themeName) {
@@ -500,6 +434,7 @@ function setTheme(themeName) {
 }, 300);
 }
 
+
 function toggleTheme() {
   document.documentElement.classList.add('animate-0');
   
@@ -510,6 +445,7 @@ function toggleTheme() {
       setTheme('theme-dark');
   }
 }
+
 
 (function () {
   if (localStorage.getItem('theme') === 'theme-light') {

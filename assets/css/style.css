@@ -41,6 +41,28 @@ body .body-tint-bottom {
   pointer-events: none;
 }
 
+footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: var(--space-xs) var(--space-sm);
+}
+
+footer a.footer-text {
+  text-align: center;
+  font-size: var(--text-sm);
+  font-family: 'geistmono';
+  opacity: 0.5;
+  color: var(--color-on-surface);
+  text-decoration: none;
+  transition: var(--duration-hover) ease-out;
+}
+
+footer a.footer-text:hover {
+  box-shadow: var(--color-on-surface) 0 -1px 0 inset;
+  opacity: 1;
+}
+
 code, pre {
   font-family: 'geistmono', monospace;
 }
@@ -109,7 +131,7 @@ h6 {
   font-size: var(--text-md);
 }
 
-a:not([disabled]):not(.button-cta) {
+a:not([disabled]):not(.button-cta):not(.footer-text) {
   color: var(--color-primary);
   text-decoration: none;
   box-shadow: var(--color-primary) 0 -1px 0 inset;
@@ -477,7 +499,6 @@ button {
   --duration-300: 300ms; /* Override duration multiplier */
 }
 
-
 .switch {
   --switch-width: 70px;
   --switch-height: 40px;
@@ -510,7 +531,6 @@ button {
   transition: var(--duration-300);
   transform: translateX(100%);
 }
-
 
 .switch-icon--light,
 .switch-icon--dark {
@@ -657,8 +677,7 @@ body.subpage--output .segmented-control__selected-item {
  *  Form
  ****************************************************/
 
-
- .form-group {
+.form-group {
   display: flex;
   gap: var(--space-md);
   align-items: flex-start;
@@ -699,24 +718,6 @@ body.subpage--output .segmented-control__selected-item {
   margin-right: var(--content-width-gutter);
 }
 
-/* .image-subpage-container__shade-x {
-  --subpage-shade-x-color: red;
-  position: absolute;
-  top: calc((var(--space-lg) / 2)* -1);
-  left: calc(var(--space-lg)* -1);
-  width: calc(100% + var(--space-lg) + var(--space-lg));
-  height: 100%;
-  pointer-events: none;
-  box-shadow: inset calc(var(--space-lg) * 2) calc(var(--space-lg) * -1) calc(var(--space-lg) * 2) calc(var(--space-lg) * -2) var(--subpage-shade-x-color), 
-              inset var(--space-lg) calc(var(--space-lg) * -1) var(--space-lg) calc(var(--space-lg) / -2) var(--subpage-shade-x-color),
-              inset calc(var(--space-lg) * -2) 0 calc(var(--space-lg) * 2) calc(var(--space-lg) * -2) var(--subpage-shade-x-color),
-              inset calc(var(--space-lg) / -2) 0 var(--space-lg) calc(var(--space-lg) / -2) var(--subpage-shade-x-color);
-  padding: 0 var(--space-lg);
-  transition: var(--duration-200) ease-out;
-  z-index: 5;
-} */
-
-
 .image-subpage {
   --image-subpage-padding-bottom:  var(--space-3xl);
   position: relative;
@@ -730,7 +731,17 @@ body.subpage--output .segmented-control__selected-item {
   padding-bottom: var(--space-3xl);
 }
 
+.image-subpage-title-container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+  margin-bottom: var(--space-md);
+}
 
+.image-subpage-title-description {
+  max-width: 750px;
+  opacity: 0.7;
+}
 
 .image-options-container,
 .image-output-container {
@@ -785,19 +796,24 @@ body:not(.subpage--output):not(.subpage--settings) .image-options-container {
 
 .image-output__empty-state {
   text-align: center;
+}
 
-  h1, h2, h3, h4, h5, h6 {
-    margin-left: auto;
-    margin-right: auto;
-  }
+.image-output__empty-state h1, 
+.image-output__empty-state h2,
+.image-output__empty-state h3,
+.image-output__empty-state h4,
+.image-output__empty-state h5,
+.image-output__empty-state h6 {
+  margin-left: auto;
+  margin-right: auto;
+}
 
-  p {
-    line-height: 1.6;
-    opacity: 0.7;
-    max-width: 300px;
-    margin-left: auto;
-    margin-right: auto;
-  }
+.image-output__empty-state p {
+  line-height: 1.6;
+  opacity: 0.7;
+  max-width: 300px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .image-output-container:not([data-count="0"]) .image-output__empty-state {
@@ -815,7 +831,6 @@ body:not(.subpage--output):not(.subpage--settings) .image-options-container {
   margin-bottom: var(--space-xs);
   background-color: var(--color-surface-higher);
 }
-
 
 .image-output__item-thumbnail {
   width: 70px;
@@ -863,7 +878,6 @@ body:not(.subpage--output):not(.subpage--settings) .image-options-container {
  *  Drop zone
  ****************************************************/
 
-
 .drop-zone {
   position: relative;
   border-radius: 8px;
@@ -883,7 +897,6 @@ body:not(.subpage--output):not(.subpage--settings) .image-options-container {
 body.compressing--is-active .drop-zone:hover {
   cursor: progress;
 }
-
 
 .drop-zone__cell-grid,
 .drop-zone__vignette-outer,
@@ -915,7 +928,6 @@ body.compressing--is-active .drop-zone:hover {
   animation: bg-pan-up 50s linear infinite;
 }
 
-
 .drop-zone__cell-grid {
   --cell-size: 28px;
   --cell-color: var(--color-on-surface);
@@ -926,7 +938,6 @@ body.compressing--is-active .drop-zone:hover {
   transition: var(--duration-1400) ease-out;
   animation: bg-pan-up 100s linear infinite;
 }
-
 
 .drop-zone__border-dashed {
   --border-width: 2px;
@@ -1038,8 +1049,6 @@ body.compressing--is-active .drop-zone:hover {
 
 
 
-
-
 /****************************************************
  *  Badge
  ****************************************************/
@@ -1133,18 +1142,6 @@ body.compressing--is-active .drop-zone:hover {
   border-radius: var(--rounded-full);
   transition: var(--duration-300) ease-out;
 }
-
-
-
-
-
-
-
-/****************************************************
- *  Misc. elements
- ****************************************************/
-
-
 
 
 
@@ -1444,7 +1441,6 @@ body.compressing--is-active .drop-zone:hover {
 /****************************************************
  *  Utilities
  ****************************************************/
-
 
 .flex {
   display: flex !important;
@@ -1815,31 +1811,31 @@ body.compressing--is-active .drop-zone:hover {
 }
 
 .text-2xs {
-  font-size: var(--text-2xs);
+  font-size: var(--text-2xs) !important;
 }
 
 .text-xs {
-  font-size: var(--text-xs);
+  font-size: var(--text-xs) !important;
 }
 
 .text-sm {
-  font-size: var(--text-sm);
+  font-size: var(--text-sm) !important;
 }
 
 .text-md {
-  font-size: var(--text-md);
+  font-size: var(--text-md) !important;
 }
 
 .text-lg {
-  font-size: var(--text-lg);
+  font-size: var(--text-lg) !important;
 }
 
 .text-xl {
-  font-size: var(--text-xl);
+  font-size: var(--text-xl) !important;
 }
 
 .text-2xl {
-  font-size: var(--text-2xl);
+  font-size: var(--text-2xl) !important;
 }
 
 .fade-in-up {
