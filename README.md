@@ -1,4 +1,5 @@
 <h1 align="center">
+  <img src="git-images/mazanoke-app-icon.png" alt="mazanoke icon" width="180">
 
    MAZANOKE
    <br>
@@ -6,15 +7,16 @@
 </h1>
 
 <center>
-   <img src="https://raw.githubusercontent.com/civilblur/mazanoke/refs/heads/main/git-images/featured-desktop-solo-dark.jpg" alt="mazanoke screencapture" width="1000">
+   <img src="git-images/featured-desktop-solo-dark.jpg" alt="mazanoke screencapture" width="1000">
 </center>
 
 ## About
-MAZANOKE is a simple image compressor and converter that runs entirely in your browser. No external uploads, works offline as a web app, and powered by [Browser Image Compression](https://github.com/Donaldcwl/browser-image-compression).
+MAZANOKE is a simple image compressor and converter that runs entirely in your browser. No external uploads, works offline as a web app, and is powered by [Browser Image Compression](https://github.com/Donaldcwl/browser-image-compression).
 
 ## Table of Content
 - [Features](#features)
 - [Install](#install)
+- [Screenshots](#screenshots)
 - [License](#license)
 
 ## Features
@@ -43,6 +45,17 @@ services:
     ports:
       - "3474:80"
 ```
+
+## Screenshots
+
+<center>
+   <img src="git-images/featured-image-mobile-group-dark-light.jpg" alt="mazanoke mobile devices" width="1000">
+</center>
+
+|    |   |
+| ------------- | ------------- |
+| <center>Dark mode<br><img src="git-images/capture-desktop-dark.jpg" alt="mazanoke dark mode" width="50%"></center> | <center>Light mode<br><img src="git-images/capture-desktop-light.jpg" alt="mazanoke light mode" width="50%"></center>  |
+| <center>Settings<br><img src="git-images/capture-desktop-solo-settings-dark.jpg" alt="mazanoke settings" width="50%"></center>  | <center>Download compressed images<br><img src="git-images/capture-desktop-solo-output-dark.jpg" alt="mazanoke settings" width="50%"></center>  |
 
 ## License
 
