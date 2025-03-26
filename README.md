@@ -4,7 +4,7 @@
    MAZANOKE
 </h1>
 
-<h2> A self-hosted local image compressor that runs in your browser.</h2>
+<h2 align="center"> A self-hosted local image compressor that runs in your browser.</h2>
 
 
 <center>
