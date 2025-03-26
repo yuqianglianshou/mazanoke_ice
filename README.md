@@ -36,6 +36,11 @@ MAZANOKE is a simple image compressor and converter that runs entirely in your b
    - All image processing happens locally.
    - No data is uploaded. Your files stay on your device.
 
+**Planned**
+- [ ] Upload queue.
+   - Currently, only one image can be uploaded at a time.
+- [ ] Remember last-used settings.
+
 ## Install
 
 Using [Docker Compose](https://docs.docker.com/compose/):
