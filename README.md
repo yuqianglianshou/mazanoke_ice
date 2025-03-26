@@ -2,9 +2,10 @@
   <img src="git-images/mazanoke-app-icon.png" alt="mazanoke icon" width="180">
 
    MAZANOKE
-   <br>
-   A self-hosted local image compressor that runs in your browser.
 </h1>
+
+<div style="font-size: 1.2rem"> A self-hosted local image compressor that runs in your browser.</div>
+
 
 <center>
    <img src="git-images/featured-desktop-solo-dark.jpg" alt="mazanoke screencapture" width="1000">
@@ -28,6 +29,7 @@ MAZANOKE is a simple image compressor and converter that runs entirely in your b
    - Convert between JPG, PNG, and WebP.
 - 🌍 Installable Web App
    - Use as a Progressive Web App (PWA).
+   - Dark and light mode.
    - Fully responsive for desktop, tablet, and mobile.
 - 🔒 Privacy-Focused
    - Works offline.
