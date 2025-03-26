@@ -124,12 +124,12 @@ function createCompressionOptions(onProgress, file) {
   initialQuality = Math.min(Math.max(parseFloat(initialQualityElement.value) / 100, 0), 1);
   maxWidthOrHeight = Math.max(parseFloat(maxWidthOrHeightElement.value), 1);
 
-  console.log('Input image file size: ', (file.size / 1024 / 1024).toFixed(2), 'MB');
+  console.log('Input image file size: ', (file.size / 1024 / 1024).toFixed(3), 'MB');
 
   const dimensionMethod = dimensionMethodElement.value;
   const { selectedFormat } = getFileType();
   const options = {
-    maxSizeMB: maxSizeMB && compressMethod === "maxSizeMB" ? maxSizeMB : (file.size / 1024 / 1024).toFixed(2),
+    maxSizeMB: maxSizeMB && compressMethod === "maxSizeMB" ? maxSizeMB : (file.size / 1024 / 1024).toFixed(3),
     initialQuality: initialQuality && compressMethod === "initialQuality" ? initialQuality : undefined,
     maxWidthOrHeight: dimensionMethod === "limit" ? parseFloat(maxWidthOrHeightElement.value) : undefined,
     useWebWorker: true,
@@ -209,10 +209,10 @@ function handleCompressionResult(file, output) {
   }
 
   // File size
-  const outputFileSize = (output.size / 1024 / 1024).toFixed(2);
-  const inputFileSize = (file.size / 1024 / 1024).toFixed(2);
-  const filesizeSaved = (inputFileSize - outputFileSize).toFixed(2);
-  const filesizeSavedPercentage = inputFileSize > 0 ? ((filesizeSaved / inputFileSize) * 100).toFixed(2) : '0.00';
+  const inputFileSize = parseFloat((file.size / 1024 / 1024).toFixed(3));
+  const outputFileSize = parseFloat((output.size / 1024 / 1024).toFixed(3));
+  const filesizeSaved = inputFileSize - outputFileSize;
+  const filesizeSavedPercentage = inputFileSize > 0 ? Math.abs(((filesizeSaved / inputFileSize) * 100).toFixed(2)) : '0.000';
   const filesizeSavedTrend = filesizeSaved < 0 ? '+' : (filesizeSaved > 0 ? '-' : '');
   const filesizeSavedClass = filesizeSaved <= 0 ? 'badge--error' : 'badge--success';
   const outputFileSizeText = document.createElement("span");

@@ -884,12 +884,11 @@ body:not(.subpage--output):not(.subpage--settings) .image-options-container {
   text-align: center;
   cursor: pointer;
   border-radius: var(--rounded-lg);
-  margin: var(--space-xl) 0;
   height: 500px;
   overflow: hidden;
-  margin-left: auto;
-  margin-right: auto;
   background-color: var(--color-surface-variant);
+  margin-top: var(--space-xl);
+  margin-bottom: var(--space-xl);
   margin-left: var(--content-width-gutter);
   margin-right: var(--content-width-gutter);
 }
@@ -1388,6 +1387,11 @@ body.compressing--is-active .drop-zone:hover {
 }
 
 @media (max-width: 1024px) {
+  .drop-zone {
+    margin-top: var(--space-md);
+    margin-bottom: var(--space-md);
+  }
+
   .form-group {
     flex-direction: column;
   }
