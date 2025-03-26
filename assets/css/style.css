@@ -998,6 +998,7 @@ body.compressing--is-active .drop-zone:hover {
   align-items: center;
   gap: var(--space-xs);
   flex-direction: column;
+  width: 100%;
   z-index: 10;
   animation: fade-in-scale var(--duration-600) ease-out forwards;
 }
@@ -1005,6 +1006,7 @@ body.compressing--is-active .drop-zone:hover {
 .drop-zone-content__actions-text {
   font-family: 'geistmono';
   font-size: var(--text-md);
+  max-width: 85%;
 }
 
 
