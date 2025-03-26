@@ -1,0 +1,6 @@
+services:
+  mazanoke:
+    image: ghcr.io/civilblur/mazanoke:latest
+    build: .
+    ports:
+      - "3474:80"
