@@ -43,7 +43,9 @@ MAZANOKE is a simple image compressor and converter that runs entirely in your b
 
 ## Install
 
-Using [Docker Compose](https://docs.docker.com/compose/):
+### Docker
+
+1. Using [Docker Compose](https://docs.docker.com/compose/):
 ```
 services:
   mazanoke:
@@ -52,6 +54,15 @@ services:
     ports:
       - "3474:80"
 ```
+
+### Local (Desktop)
+
+1. Download this repository, click and open the `index.html` file. The app will open on your browser.
+
+### Installing as Progressive Web App
+
+1. To install MAZANOKE as a web app, it must be hosted over HTTPS or on a local network, such as with Docker.
+1. If the requirements are met, [click here](https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps/Guides/Installing) for instructions on how to install the web app on your device.
 
 ## Screenshots
 
