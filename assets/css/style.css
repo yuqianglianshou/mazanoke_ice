@@ -1412,6 +1412,22 @@ body.compressing--is-active .drop-zone:hover {
   .button-card-radio-group {
     flex-direction: column;
   }
+
+
+  @keyframes slide-in-up {
+    0% {
+      transform: perspective(450px) rotateX(-7deg) rotateY(0deg) translateY(200px) scale(1.05);
+      opacity: 0.3;
+    }
+    35% {
+      transform: perspective(540px) rotateX(-7deg) rotateY(0deg) translateY(150px) scale(1.1);
+      opacity: 0.7;
+    }
+    100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
 }
 
 @media (max-width: 480px) {
