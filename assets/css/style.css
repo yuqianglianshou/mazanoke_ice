@@ -1115,6 +1115,7 @@ body.compressing--is-active .drop-zone:hover {
 }
 
 .progress-container #webWorkerAbort {
+  cursor: pointer;
   position: absolute;
   top: 100%;
 }

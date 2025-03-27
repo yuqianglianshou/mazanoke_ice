@@ -283,7 +283,6 @@ function updateFileExtension(originalName, format) {
 function abort() {
   if (!controller) return;
   controller.abort(new Error("Image compression is aborted"));
-  alert("aborted");
   resetCompressionState();
 }
 
