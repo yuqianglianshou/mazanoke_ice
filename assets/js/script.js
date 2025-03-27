@@ -15,6 +15,7 @@ let imageCount = 0;
 
 /**
  * TODO:
+ * - Improve error handling
  * - Double check state of settings on page load, in case of browser back button.
  * - Save settings to local storage and restore.
  * - Store compressed images in local storage, and allow clear individual items and all items.
