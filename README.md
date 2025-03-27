@@ -34,7 +34,7 @@ MAZANOKE is a simple image compressor and converter that runs entirely in your b
 - 🔒 **Privacy-Focused**
    - Works offline.
    - All image processing happens locally.
-   - No data is uploaded. Your files stay on your device.
+   - No data is uploaded to external servers. Your files stay on your device.
 
 **Planned**
 - [ ] Upload queue.
