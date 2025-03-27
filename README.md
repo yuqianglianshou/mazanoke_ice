@@ -57,7 +57,8 @@ services:
 
 ### Local (Desktop)
 
-1. Download this repository, click and open the `index.html` file. The app will open on your browser.
+1. Download the [latest source code release](https://github.com/civilblur/mazanoke/releases).
+1. Open the `index.html` file to launch the app in your browser.
 
 ### Installing as Progressive Web App
 
