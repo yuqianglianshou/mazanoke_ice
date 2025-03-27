@@ -25,7 +25,7 @@ MAZANOKE is a simple image compressor and converter that runs entirely in your b
 - 🚀 **Compress & Convert Images Instantly In Your Browser**
    - Adjust image quality (0-100%).
    - Set a target file size.
-   - Set max dimensions, to never exceed a certain width/height.
+   - Set max dimensions, to not exceed a certain width/height.
    - Convert between JPG, PNG, and WebP.
 - 🌍 **Installable Web App**
    - Use as a Progressive Web App (PWA).
