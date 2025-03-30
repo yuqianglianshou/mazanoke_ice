@@ -1,5 +1,5 @@
 <h1 align="center">
-  <img src="git-images/mazanoke-app-icon.png" alt="mazanoke icon" width="180">
+  <img src=".github/images/mazanoke-app-icon.png" alt="mazanoke icon" width="180">
 
    MAZANOKE
 </h1>
@@ -8,7 +8,7 @@
 
 
 <center>
-   <img src="git-images/featured-desktop-solo-dark.jpg" alt="mazanoke screencapture" width="1000">
+   <img src=".github/images/featured-desktop-solo-dark.jpg" alt="mazanoke screencapture" width="1000">
 </center>
 
 ## About
@@ -62,19 +62,27 @@ services:
 
 ### Installing as Progressive Web App
 
-1. To install MAZANOKE as a web app, it must be hosted over HTTPS or on a local network, such as with Docker.
-1. If the requirements are met, [click here](https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps/Guides/Installing) for instructions on how to install the web app on your device.
+1. Visit [MAZANOKE.com](https://mazanoke.com/) or host your own instance for even stronger privacy.
+- 💻 On desktop:
+   1. **Chrome:** Within the address bar on the right, click the computer icon → "Install".
+   1. **Safari:** "Share" icon → "Add to Dock".
+- 📱 On mobile:
+   1. **Firefox:** "More" menu → "Add app to Home Screen".
+   1. **Chrome:** "More" menu → "Add to Home Screen".
+   1. **Safari:** "Share" icon → "Add to Home Screen".
+
+For more detailed instructions with screenshots, [click here](https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps/Guides/Installing).
 
 ## Screenshots
 
 <center>
-   <img src="git-images/featured-image-mobile-group-dark-light.jpg" alt="mazanoke mobile devices" width="1000">
+   <img src=".github/images/featured-image-mobile-group-dark-light.jpg" alt="mazanoke mobile devices" width="1000">
 </center>
 
 |    |   |
 | :---: | :---: |
-| Dark mode<br><img src="git-images/capture-desktop-dark.jpg" alt="mazanoke dark mode" width="50%"> | Light mode<br><img src="git-images/capture-desktop-light.jpg" alt="mazanoke light mode" width="50%">  |
-| Settings<br><img src="git-images/capture-desktop-solo-settings-dark.jpg" alt="mazanoke settings" width="50%">  | Download compressed images<br><img src="git-images/capture-desktop-solo-output-dark.jpg" alt="mazanoke settings" width="50%">  |
+| Dark mode<br><img src=".github/images/capture-desktop-dark.jpg" alt="mazanoke dark mode" width="50%"> | Light mode<br><img src=".github/images/capture-desktop-light.jpg" alt="mazanoke light mode" width="50%">  |
+| Settings<br><img src=".github/images/capture-desktop-solo-settings-dark.jpg" alt="mazanoke settings" width="50%">  | Download compressed images<br><img src=".github/images/capture-desktop-solo-output-dark.jpg" alt="mazanoke settings" width="50%">  |
 
 ## License
 
