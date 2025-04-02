@@ -838,6 +838,7 @@ body:not(.subpage--output):not(.subpage--settings) .image-options-container {
   height: 70px;
   object-fit: cover;
   border-radius: var(--rounded-md);
+  margin-right: auto;
 }
 
 .image-output__item-text {
@@ -1114,11 +1115,23 @@ body.compressing--is-active .drop-zone:hover {
   width: 100%;
 }
 
+.progress-file-name {
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .progress-container #webWorkerAbort {
   cursor: pointer;
   position: absolute;
   top: 100%;
   z-index: 1;
+}
+
+#webWorkerProgressText {
+  display: flex;
+  flex-wrap: wrap;
 }
 
 #webWorkerProgressText[data-progress="0"]::after {

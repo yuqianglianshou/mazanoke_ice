@@ -1,4 +1,5 @@
 const progressContainer = document.querySelector(".progress-container");
+const progressQueueCount = document.querySelector("#webWorkerProgressQueueCount");
 const progressTrack = document.querySelector("#webWorkerProgressTrack");
 const progressBar = document.querySelector("#webWorkerProgressBar");
 const progressText = document.querySelector("#webWorkerProgressText");
@@ -53,9 +54,7 @@ function compressImage(event) {
   console.log('compressQueueCount is', compressQueueTotal);
 
   for (let i = 0; i < file.length; i++) {
-    const options = createCompressionOptions(onProgress, file[i]);
-
-    console.log({file});
+    const options = createCompressionOptions((p) => onProgress(p, file[i].name), file[i]);
 
     // Update to state: processing
     isCompressing = true;
@@ -73,11 +72,14 @@ function compressImage(event) {
         resetCompressionState(compressProcessedCount === compressQueueTotal);
     });
 
-    function onProgress(p) {
+    function onProgress(p, fileName) {
+      // TODO: Images are processed asynchronously, thus for batch upload, the progress bar need to
+      // utilize the compressProcessedCount to show a more reliable progress value.
+      // It is possible to combine it with each individual file's progress for more accurate status. 
+      progressQueueCount.textContent = `${compressProcessedCount + 1} / ${compressQueueTotal}`;
       console.log("Compressing: ", p, '%');
       progressText.dataset.progress = p;
-      //progressText.textContent =  'Compressing ' + p + "%";
-      progressText.textContent =  'Compressing ' + p + "%";
+      progressText.innerHTML = `Compressing "<div class='progress-file-name'>${fileName}</div>"`;
       progressBar.style.width = p + "%";
       if (p === 100 && compressProcessedCount === (compressQueueTotal - 1)) {
         progressText.textContent = "Done";
