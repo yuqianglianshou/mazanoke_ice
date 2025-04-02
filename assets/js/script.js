@@ -134,14 +134,14 @@ function startSliderDrag(event, inputId) {
 function createCompressionOptions(onProgress, file) {
   const compressMethodElement = document.querySelector('input[name="compressMethod"]:checked');
   const maxSizeMBElement = document.querySelector("#maxSizeMB");
+  const maxSizeMB = parseFloat(maxSizeMBElement.value);
   const initialQualityElement = document.querySelector("#initialQuality");
   const maxWidthOrHeightElement = document.querySelector("#maxWidthOrHeight");
   const dimensionMethodElement = document.querySelector('input[name="dimensionMethod"]:checked');
-  const { selectedFormat } = getFileType();
   const dimensionMethod = dimensionMethodElement.value;
+  const { selectedFormat } = getFileType();
 
   compressMethod = compressMethodElement.value;
-  maxSizeMB = parseFloat(maxSizeMBElement.value);
   initialQuality = Math.min(Math.max(parseFloat(initialQualityElement.value) / 100, 0), 1);
   maxWidthOrHeight = Math.max(parseFloat(maxWidthOrHeightElement.value), 1);
 
