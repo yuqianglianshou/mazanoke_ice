@@ -136,14 +136,9 @@ function createCompressionOptions(onProgress, file) {
   const maxSizeMBElement = document.querySelector("#maxSizeMB");
   const initialQualityElement = document.querySelector("#initialQuality");
   const maxWidthOrHeightElement = document.querySelector("#maxWidthOrHeight");
-  const formatSelectElement = document.querySelector('input[name="formatSelect"]:checked');
   const dimensionMethodElement = document.querySelector('input[name="dimensionMethod"]:checked');
-
-  if (!compressMethodElement || !maxSizeMBElement || !initialQualityElement ||
-      !maxWidthOrHeightElement || !formatSelectElement || !dimensionMethodElement) {
-    console.error("One or more required elements are missing.");
-    return;
-  }
+  const { selectedFormat } = getFileType();
+  const dimensionMethod = dimensionMethodElement.value;
 
   compressMethod = compressMethodElement.value;
   maxSizeMB = parseFloat(maxSizeMBElement.value);
@@ -152,8 +147,6 @@ function createCompressionOptions(onProgress, file) {
 
   console.log('Input image file size: ', (file.size / 1024 / 1024).toFixed(3), 'MB');
 
-  const dimensionMethod = dimensionMethodElement.value;
-  const { selectedFormat } = getFileType();
   const options = {
     maxSizeMB: maxSizeMB && compressMethod === "maxSizeMB" ? maxSizeMB : (file.size / 1024 / 1024).toFixed(3),
     initialQuality: initialQuality && compressMethod === "initialQuality" ? initialQuality : undefined,
@@ -163,7 +156,7 @@ function createCompressionOptions(onProgress, file) {
     preserveExif: false,
     fileType: selectedFormat !== 'nochange' && selectedFormat ? selectedFormat : undefined,
     libURL: "./browser-image-compression.js",
-    alwaysKeepResolution: dimensionMethodElement === "limit" ? false : true
+    alwaysKeepResolution: dimensionMethod === "limit" ? false : true
   };
   if (controller) {
     options.signal = controller.signal;
@@ -368,7 +361,7 @@ document.addEventListener("DOMContentLoaded", function () {
   fileInput.addEventListener("change", function (event) {
     if (isCompressing) return;
     if (fileInput.files && fileInput.files.length > 0) {
-      compressImage(event, true);
+      compressImage(event);
     }
   });
 
