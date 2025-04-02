@@ -8,6 +8,9 @@ const selectSubpageOutput = document.querySelector("#selectSubpageOutput");
 const webWorkerAbort = document.getElementById("webWorkerAbort");
 const dropZoneActions = document.getElementById("dropZoneActions");
 const compressedImageCount = document.getElementById("compressedImageCount");
+let controller;
+let compressQueueTotal = 0;
+let compressProcessedCount = 0;
 let compressMethod;
 let isCompressing = false;
 let inputFileSize;
@@ -23,7 +26,14 @@ let imageCount = 0;
  */
 
 
-function resetCompressionState() {
+function resetCompressionState(isAllProcessed) {
+  const delay = isAllProcessed ? 5000 : 0; // To extend the time "Compression Done" is displayed.
+  compressProcessedCount = 0;
+  console.log(`resetCompressionState called | isAllProcessed: ${isAllProcessed} | delay: ${delay}`);
+
+  
+  console.log('delay is... ', delay)
+
   setTimeout(() => {
     document.body.classList.remove("compressing--is-active");
     dropZoneActions.classList.remove("hidden");
@@ -33,39 +43,54 @@ function resetCompressionState() {
     progressText.textContent = "Preparing 0%";
     progressBar.style.width = "0%";
     isCompressing = false;
-  }, 1500);
+  }, delay);
+
 }
 
 
 function compressImage(event) {
-  const file = event.target.files[0];
+  const file = event.target.files;
 
-  const options = createCompressionOptions(onProgress, file);
+  compressProcessedCount = 0;
+  compressQueueTotal = file.length;
 
-  // Update to state: processing
-  isCompressing = true;
-  document.body.classList.add("compressing--is-active");
-  dropZoneActions.classList.add("hidden");
-  webWorkerAbort.classList.remove("hidden");
-  progressContainer.classList.remove("hidden");
-  progressText.textContent = "Preparing";
+  console.log('compressQueueCount is', compressQueueTotal);
 
-  imageCompression(file, options)
-    .then((output) => handleCompressionResult(file, output))
-    .catch((error) => alert(error.message))
-    .finally(() => {
-      resetCompressionState();
-  });
+  for (let i = 0; i < file.length; i++) {
+    const options = createCompressionOptions(onProgress, file);
 
-  function onProgress(p) {
-    console.log("Compressing: ", p, '%');
-    progressText.dataset.progress = p;
-    progressText.textContent =  'Compressing ' + p + "%";
-    progressBar.style.width = p + "%";
-    if (p === 100) {
-      progressText.textContent = "Done";
+
+    // Update to state: processing
+    isCompressing = true;
+    document.body.classList.add("compressing--is-active");
+    dropZoneActions.classList.add("hidden");
+    webWorkerAbort.classList.remove("hidden");
+    progressContainer.classList.remove("hidden");
+    progressText.textContent = "Preparing";
+
+    imageCompression(file[i], options)
+      .then((output) => handleCompressionResult(file[i], output))
+      .catch((error) => alert(error.message))
+      .finally(() => {
+        compressProcessedCount++
+        console.log(
+          `Processed: ${compressProcessedCount}/${compressQueueTotal}, isAllProcessed:`,
+          compressProcessedCount === compressQueueTotal
+        );
+        resetCompressionState(compressProcessedCount === compressQueueTotal);
+    });
+
+    function onProgress(p) {
+      console.log("Compressing: ", p, '%');
+      progressText.dataset.progress = p;
+      progressText.textContent =  'Compressing ' + p + "%";
+      progressBar.style.width = p + "%";
+      if (p === 100 && compressProcessedCount === compressQueueTotal) {
+        progressText.textContent = "Done";
+      }
     }
   }
+
 }
 
 
