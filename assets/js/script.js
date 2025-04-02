@@ -16,6 +16,7 @@ let compressMethod;
 let isCompressing = false;
 let inputFileSize;
 let imageCount = 0;
+let fileProgressMap = {};
 
 /**
  * TODO:
@@ -23,25 +24,26 @@ let imageCount = 0;
  * - Double check state of settings on page load, in case of browser back button.
  * - Save settings to local storage and restore.
  * - Store compressed images in local storage, and allow clear individual items and all items.
- * - Add support for image upload queue (allowing for batch upload, but still processed one at a time).
  */
 
 function resetCompressionState(isAllProcessed) {
   if (isAllProcessed) {
+    completedMessageDelay = 1500;
+
     setTimeout(() => {
       document.body.classList.remove("compressing--is-active");
       dropZoneActions.classList.remove("hidden");
       webWorkerAbort.classList.add("hidden");
       progressContainer.classList.add("hidden");
+      progressText.dataset.progress = 0;
+      progressBar.style.width = "0%";
       isCompressing = false;
-    }, 1500);
-  }
-  else {
+    }, completedMessageDelay);
+  } else if (isCompressing && compressProcessedCount === 0) { 
     progressText.dataset.progress = 0;
     progressText.textContent = "Preparing 0%";
     progressBar.style.width = "0%";
   }
-
 }
 
 
@@ -50,11 +52,10 @@ function compressImage(event) {
 
   compressProcessedCount = 0;
   compressQueueTotal = file.length;
-
-  console.log('compressQueueCount is', compressQueueTotal);
+  fileProgressMap = {};
 
   for (let i = 0; i < file.length; i++) {
-    const options = createCompressionOptions((p) => onProgress(p, file[i].name), file[i]);
+    const options = createCompressionOptions((p) => onProgress(p, i, file[i].name), file[i]);
 
     // Update to state: processing
     isCompressing = true;
@@ -72,21 +73,29 @@ function compressImage(event) {
         resetCompressionState(compressProcessedCount === compressQueueTotal);
     });
 
-    function onProgress(p, fileName) {
-      // TODO: Images are processed asynchronously, thus for batch upload, the progress bar need to
-      // utilize the compressProcessedCount to show a more reliable progress value.
-      // It is possible to combine it with each individual file's progress for more accurate status. 
+    function onProgress(p, index, fileName) {
+      fileProgressMap[index] = p;
+    
+      const overallProgress = calculateOverallProgress(fileProgressMap, compressQueueTotal);
+    
       progressQueueCount.textContent = `${compressProcessedCount + 1} / ${compressQueueTotal}`;
-      console.log("Compressing: ", p, '%');
-      progressText.dataset.progress = p;
-      progressText.innerHTML = `Compressing "<div class='progress-file-name'>${fileName}</div>"`;
-      progressBar.style.width = p + "%";
-      if (p === 100 && compressProcessedCount === (compressQueueTotal - 1)) {
+      const fileNameShort = fileName.length > 15 ? fileName.slice(0, 12) + '...' : fileName;
+      console.log(`Compressing "${fileNameShort}" (${overallProgress}%)`);
+      progressText.dataset.progress = overallProgress;
+      progressText.innerHTML = `Compressing ${overallProgress}%`;
+      progressBar.style.width = overallProgress + "%";
+    
+      if (p === 100 && compressProcessedCount === compressQueueTotal - 1) {
         progressText.textContent = "Done";
       }
     }
   }
 
+}
+
+function calculateOverallProgress(progressMap, totalFiles) {
+  const sum = Object.values(progressMap).reduce((acc, val) => acc + val, 0);
+  return Math.round(sum / totalFiles);
 }
 
 
