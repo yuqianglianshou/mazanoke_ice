@@ -9,7 +9,17 @@ const selectSubpageOutput = document.querySelector("#selectSubpageOutput");
 const webWorkerAbort = document.getElementById("webWorkerAbort");
 const dropZoneActions = document.getElementById("dropZoneActions");
 const compressedImageCount = document.getElementById("compressedImageCount");
+const thumbnailCompressionOptions = {
+  initialQuality: 0.8,
+  maxWidthOrHeight: 100,
+  useWebWorker: true,
+  preserveExif: false,
+  fileType: 'image/jpeg',
+  libURL: "./browser-image-compression.js",
+  alwaysKeepResolution: true
+};
 let controller;
+let compressQueue = [];
 let compressQueueTotal = 0;
 let compressProcessedCount = 0;
 let compressMethod;
@@ -17,6 +27,7 @@ let isCompressing = false;
 let inputFileSize;
 let imageCount = 0;
 let fileProgressMap = {};
+
 
 /**
  * TODO:
@@ -30,10 +41,12 @@ function resetCompressionState(isAllProcessed) {
   if (isAllProcessed) {
     completedMessageDelay = 1500;
 
+    webWorkerAbort.classList.add("hidden");
+    progressBar.style.width = "100%";
+
     setTimeout(() => {
       document.body.classList.remove("compressing--is-active");
       dropZoneActions.classList.remove("hidden");
-      webWorkerAbort.classList.add("hidden");
       progressContainer.classList.add("hidden");
       progressText.dataset.progress = 0;
       progressBar.style.width = "0%";
@@ -50,47 +63,59 @@ function resetCompressionState(isAllProcessed) {
 function compressImage(event) {
   const file = event.target.files;
 
+  compressQueue = Array.from(event.target.files);
+  compressQueueTotal = compressQueue.length;
   compressProcessedCount = 0;
-  compressQueueTotal = file.length;
   fileProgressMap = {};
 
-  for (let i = 0; i < file.length; i++) {
-    const options = createCompressionOptions((p) => onProgress(p, i, file[i].name), file[i]);
+  isCompressing = true;
+  document.body.classList.add("compressing--is-active");
+  dropZoneActions.classList.add("hidden");
+  webWorkerAbort.classList.remove("hidden");
+  progressContainer.classList.remove("hidden");
+  progressText.textContent = "Preparing";
 
-    // Update to state: processing
-    isCompressing = true;
-    document.body.classList.add("compressing--is-active");
-    dropZoneActions.classList.add("hidden");
-    webWorkerAbort.classList.remove("hidden");
-    progressContainer.classList.remove("hidden");
-    progressText.textContent = "Preparing";
+  compressImageQueue();
+}
 
-    imageCompression(file[i], options)
-      .then((output) => handleCompressionResult(file[i], output))
-      .catch((error) => alert(error.message))
-      .finally(() => {
-        compressProcessedCount++
-        resetCompressionState(compressProcessedCount === compressQueueTotal);
+function compressImageQueue() {
+  // Compress images one-by-one
+
+  if (!compressQueue.length) {
+    resetCompressionState(true);
+    return;
+  }
+  const file = compressQueue[0];
+  console.log(compressQueue);
+  const i = compressProcessedCount;
+  const options = createCompressionOptions((p) => onProgress(p, i, file.name), file);
+  imageCompression(file, options)
+    .then((output) => handleCompressionResult(file, output))
+    .catch((error) => alert(error.message))
+    .finally(() => {
+      compressProcessedCount++;
+      compressQueue.shift();
+      resetCompressionState(compressProcessedCount === compressQueueTotal);
+      if (compressProcessedCount < compressQueueTotal) {
+        compressImageQueue();
+      }
     });
 
-    function onProgress(p, index, fileName) {
-      fileProgressMap[index] = p;
-    
-      const overallProgress = calculateOverallProgress(fileProgressMap, compressQueueTotal);
-    
-      progressQueueCount.textContent = `${compressProcessedCount + 1} / ${compressQueueTotal}`;
-      const fileNameShort = fileName.length > 15 ? fileName.slice(0, 12) + '...' : fileName;
-      console.log(`Compressing "${fileNameShort}" (${overallProgress}%)`);
-      progressText.dataset.progress = overallProgress;
-      progressText.innerHTML = `Compressing ${overallProgress}%`;
-      progressBar.style.width = overallProgress + "%";
-    
-      if (p === 100 && compressProcessedCount === compressQueueTotal - 1) {
-        progressText.textContent = "Done";
-      }
+  function onProgress(p, index, fileName) {
+    const overallProgress = calculateOverallProgress(fileProgressMap, compressQueueTotal);
+    const fileNameShort = fileName.length > 15 ? fileName.slice(0, 12) + '...' : fileName;
+    fileProgressMap[index] = p;
+  
+    progressQueueCount.textContent = `${compressProcessedCount + 1} / ${compressQueueTotal}`;
+    progressText.dataset.progress = overallProgress;
+    progressText.innerHTML = `Compressing "<div class='progress-file-name'>${fileName}</div>"`
+    progressBar.style.width = overallProgress + "%";
+    console.log(`Compressing "${fileNameShort}" (${overallProgress}%)`);
+  
+    if (p === 100 && compressProcessedCount === compressQueueTotal - 1) {
+      progressText.textContent = "Done!";
     }
   }
-
 }
 
 function calculateOverallProgress(progressMap, totalFiles) {
@@ -134,7 +159,6 @@ function startSliderDrag(event, inputId) {
   document.addEventListener('mousemove', onMouseMove);
   document.addEventListener('mouseup', onMouseUp);
 }
-
 
 function createCompressionOptions(onProgress, file) {
   const compressMethodElement = document.querySelector('input[name="compressMethod"]:checked');
@@ -205,6 +229,7 @@ function handleCompressionResult(file, output) {
   const outputItemThumbnail = document.createElement("img");
   outputItemThumbnail.src = outputImageBlob;
   outputItemThumbnail.classList.add('image-output__item-thumbnail');
+  outputItemThumbnail.setAttribute('loading', 'lazy');
 
   // outputImageBlob dimensions
   const thumbnail = new Image();
@@ -291,7 +316,15 @@ function handleCompressionResult(file, output) {
   compressedImageCount.dataset.count = imageCount;
   compressedImageCount.textContent = imageCount;
 
-  selectSettingsSubpage('output');
+  if (compressProcessedCount === 0) {
+    // Only auto-select Images subpage for the first processed image
+    selectSettingsSubpage('output');
+  }
+
+  imageCompression(output, thumbnailCompressionOptions)
+    .then(thumbnailBlob => {
+      outputItemThumbnail.src = URL.createObjectURL(thumbnailBlob);
+    });
 }
 
 function updateFileExtension(originalName, format) {
@@ -403,8 +436,8 @@ document.addEventListener("DOMContentLoaded", function () {
   });
   toggleFields(); // Initialize field visibility based on the default selection
   updateSlider(document.getElementById('initialQuality').value, 'initialQualitySlider');
-  selectDimensionMethod(document.querySelector('input[name="dimensionMethod"]:checked').value); // Initialize field visibility based on the default selection
-  selectFormat(document.querySelector('input[name="formatSelect"]:checked').value); // Initialize field visibility based on the default selection
+  selectDimensionMethod(document.querySelector('input[name="dimensionMethod"]:checked').value);
+  selectFormat(document.querySelector('input[name="formatSelect"]:checked').value);
 
   document.getElementById("backToTop").addEventListener("click", function() {
     window.scrollTo({
@@ -470,7 +503,7 @@ function toggleTheme() {
 
 
 (function () {
-  // Initiate controller
+  // Initialize controller
   controller = typeof AbortController !== "undefined" && new AbortController();
 
   // Set theme onload

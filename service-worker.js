@@ -1,4 +1,4 @@
-const APP_VERSION = 'v1.0.0'
+const APP_VERSION = 'v1.0.1'
 const CACHE_VERSION = APP_VERSION;
 const CACHE_NAME = `image-compression-cache-${CACHE_VERSION}`;
 const urlsToCache = [
@@ -24,9 +24,8 @@ self.addEventListener('install', event => {
 self.addEventListener('fetch', event => {
   const requestUrl = new URL(event.request.url);
 
-  // Skip requests with unsupported schemes (e.g., 'chrome-extension://', 'file://')
   if (['chrome-extension:', 'file:', 'about:'].includes(requestUrl.protocol)) {
-    return; // Don't cache or handle requests with unsupported schemes
+    return;
   }
 
   if (event.request.url.includes('/index.html')) {
@@ -35,18 +34,16 @@ self.addEventListener('fetch', event => {
       fetch(event.request).catch(() => caches.match(event.request))
     );
   } else {
-    // Stale-while-revalidate for other resources
     event.respondWith(
       caches.match(event.request).then(cachedResponse => {
         const fetchPromise = fetch(event.request).then(networkResponse => {
-          // Clone the response before putting it in cache
           const responseToCache = networkResponse.clone();
           caches.open(CACHE_NAME).then(cache => {
             cache.put(event.request, responseToCache); // Only cache valid requests
           });
-          return networkResponse;  // Return the network response for the fetch request
+          return networkResponse;
         });
-        return cachedResponse || fetchPromise;  // Return either the cached or the network response
+        return cachedResponse || fetchPromise;
       })
     );
   }
