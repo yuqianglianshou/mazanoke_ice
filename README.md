@@ -4,7 +4,7 @@
    MAZANOKE
 </h1>
 
-<h2 align="center"> A self-hosted local image compressor that runs in your browser.</h2>
+<h2 align="center"> A self-hosted local image optimizer that runs in your browser.</h2>
 
 
 <center>
@@ -27,6 +27,7 @@ MAZANOKE is a simple image optimizer that runs entirely in your browser—no ext
    - Set a target file size.
    - Set max dimensions, to not exceed a certain width/height.
    - Convert between JPG, PNG, and WebP.
+      - Supports GIF, SVG → PNG.
 - 🌍 **Installable Web App**
    - Use as a Progressive Web App (PWA).
    - Dark and light mode.
@@ -39,6 +40,7 @@ MAZANOKE is a simple image optimizer that runs entirely in your browser—no ext
 **Planned**
 - [X] Upload multiple files at once. (Completed)
 - [ ] Remember last-used settings.
+- [ ] Support for more image file types.
 
 ## Install
 
