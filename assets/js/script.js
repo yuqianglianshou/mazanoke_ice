@@ -328,6 +328,7 @@ function handleCompressionResult(file, output) {
   // Output item container
   const outputItem = document.createElement("div");
   outputItem.classList.add('image-output__item');
+  outputItem.dataset.elevation = 3;
   outputItem.appendChild(outputItemThumbnail);
   outputItem.appendChild(outputText);
   outputItem.appendChild(outputStats);
