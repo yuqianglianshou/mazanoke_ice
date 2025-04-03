@@ -1910,6 +1910,19 @@ body.compressing--is-active .drop-zone:hover {
   mask-size: 100%;
 }
 
+:not([aria-busy="true"]) .aria-busy\:visible {
+  display: none !important;
+}
+
+[aria-busy="true"] .aria-busy\:hidden {
+  display: none !important;
+}
+
+[aria-busy="true"] .aria-busy\:visible {
+  display: inherit !important;
+}
+
+
 .hidden {
   display: none !important;
 }

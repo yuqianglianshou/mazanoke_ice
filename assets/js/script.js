@@ -6,6 +6,7 @@ const progressBar = document.querySelector("#webWorkerProgressBar");
 const progressText = document.querySelector("#webWorkerProgressText");
 const outputDownloadContainer = document.querySelector("#outputDownloadContainer");
 const outputDownloadContent = document.querySelector("#outputDownloadContent");
+const downloadAllImagesButton = document.querySelector("#downloadAllImagesButton");
 const selectSubpageOutput = document.querySelector("#selectSubpageOutput");
 const webWorkerAbort = document.getElementById("webWorkerAbort");
 const dropZoneActions = document.getElementById("dropZoneActions");
@@ -482,8 +483,9 @@ async function downloadAllImages() {
     })
   );
 
+  downloadAllImagesButton.setAttribute('aria-busy', 'true');
+
   blobs.forEach((blob, i) => {
-    console.log(blob)
     zip.file(compressedImages[i].download, blob);
   });
   
@@ -493,6 +495,9 @@ async function downloadAllImages() {
       link.href = URL.createObjectURL(zipBlob);
       link.download = "mazanoke-compressed-images.zip";
       link.click();
+    })
+    .finally(() => {
+      downloadAllImagesButton.setAttribute('aria-busy', 'false');
     });
 }
 
