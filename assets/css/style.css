@@ -773,6 +773,20 @@ body.subpage--output .segmented-control__selected-item {
   background-image: var(--subpage-title-bgimage);
 }
 
+.image-subpage-title-content {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: var(--space-xs);
+}
+
+.image-subpage-title__text {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: var(--space-2xs);
+}
+
 .image-subpage-title-description {
   max-width: 750px;
   opacity: 0.7;
@@ -865,7 +879,7 @@ body:not(.subpage--output):not(.subpage--settings) .image-options-container {
   display: none;
 }
 
-.image-output-container[data-count="0"] .image-output__downloadall-container {
+.image-output-container[data-count="0"] .image-output__actions-container {
   display: none;
 }
 
@@ -1401,11 +1415,20 @@ body:not(.compressing--is-active) .drop-zone.drop-zone--is-dragging .drop-zone__
   #formatMethodGroup .button-card-radio {
     min-width: unset;
   }
-
-  .image-options-container,
-  .image-output-container {
+  
+  .image-subpage-title-container,
+  .image-options-container .form-group,
+  .image-output-container .image-output-content {
     padding-left: var(--space-sm);
     padding-right: var(--space-sm);
+  }
+
+  .image-output__actions-container {
+    width: 100%;
+  }
+
+  .image-output__actions-container #downloadAllImagesButton {
+    width: 100%;
   }
 }
 
