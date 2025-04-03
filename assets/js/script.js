@@ -312,6 +312,7 @@ function handleCompressionResult(file, output) {
   const fileSizeSavedClass = fileSizeSaved <= 0 ? 'badge--error' : 'badge--success';
   const outputFileSizeText = document.createElement("span");
   outputFileSizeText.classList.add('image-output__item-filesize');
+  outputFileSizeText.dataset.filesize = output.size;
   outputFileSizeText.textContent = `${outputFileSize} MB`;
 
   // File saved badge
@@ -529,6 +530,7 @@ async function downloadAllImages() {
   downloadAllImagesButton.setAttribute('aria-busy', 'true');
 
   blobs.forEach((blob, i) => {
+    console.log('Zipping file: ', compressedImages[i].download);
     zip.file(compressedImages[i].download, blob);
   });
   
