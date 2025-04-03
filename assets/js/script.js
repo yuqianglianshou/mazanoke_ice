@@ -39,22 +39,42 @@ let fileProgressMap = {};
  * - Store compressed images in local storage, and allow clear individual items and all items.
  */
 
-function resetCompressionState(isAllProcessed) {
-  if (isAllProcessed) {
-    completedMessageDelay = 1000;
+function resetCompressionState(isAllProcessed, aborted) {
+  const resetUI = () => {
+    webWorkerAbort.classList.add("hidden");
+    document.body.classList.remove("compressing--is-active");
+    dropZoneActions.classList.remove("hidden");
+    progressContainer.classList.add("hidden");
+    progressText.dataset.progress = 0;
+    progressBar.style.width = "0%";
+  };
 
+  const resetState = () => {
+    compressProcessedCount = 0;
+    compressQueueTotal = 0;
+    progressQueueCount.textContent = "";
+    compressQueue = [];
+    isCompressing = false;
+  };
+
+  if (aborted) {
+    resetUI();
+    resetState();
+    return;
+  }
+
+  if (isAllProcessed) {
     webWorkerAbort.classList.add("hidden");
     progressBar.style.width = "100%";
-
+    
     setTimeout(() => {
-      document.body.classList.remove("compressing--is-active");
-      dropZoneActions.classList.remove("hidden");
-      progressContainer.classList.add("hidden");
-      progressText.dataset.progress = 0;
-      progressBar.style.width = "0%";
+      resetUI();
       isCompressing = false;
-    }, completedMessageDelay);
-  } else if (isCompressing && compressProcessedCount === 0) { 
+    }, 1000);
+    return;
+  }
+
+  if (isCompressing && compressProcessedCount === 0) {
     progressText.dataset.progress = 0;
     progressText.textContent = "Preparing 0%";
     progressBar.style.width = "0%";
@@ -63,8 +83,7 @@ function resetCompressionState(isAllProcessed) {
 
 
 function compressImage(event) {
-  const file = event.target.files;
-
+  controller = new AbortController();
   compressQueue = Array.from(event.target.files);
   compressQueueTotal = compressQueue.length;
   compressProcessedCount = 0;
@@ -354,27 +373,19 @@ function handleCompressionResult(file, output) {
     });
 }
 
+
 function updateFileExtension(originalName, fileExtension, selectedFormat) {
-  // Derive .jpg, .png, or .webp from selected format
   const baseName = originalName.replace(/\.[^/.]+$/, "");
-  let outputName;
-
-  if (selectedFormat) {
-    outputName = baseName + "." +  mimeToExtension(fileExtension);
-  }
-  else {
-    
-    outputName = baseName + "." +  fileExtension;
-  }
-
-  return outputName;
+  const newExtension = selectedFormat ? mimeToExtension(fileExtension) : fileExtension;
+  return `${baseName}.${newExtension}`;
 }
 
 
-function abort() {
+function abort(event) {
+  event.stopPropagation();
   if (!controller) return;
+  resetCompressionState(false, true);
   controller.abort(new Error("Image compression cancelled"));
-  resetCompressionState();
 }
 
 
@@ -565,9 +576,6 @@ function toggleTheme() {
 
 
 (function () {
-  // Initialize controller
-  controller = typeof AbortController !== "undefined" && new AbortController();
-
   // Set theme onload
   if (localStorage.getItem('theme') === 'theme-light') {
       setTheme('theme-light');

@@ -1169,7 +1169,7 @@ body.compressing--is-active .drop-zone:hover {
   cursor: pointer;
   position: absolute;
   top: 100%;
-  z-index: 1;
+  z-index: 10;
 }
 
 #webWorkerProgressText {
