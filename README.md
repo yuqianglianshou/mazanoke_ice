@@ -37,8 +37,7 @@ MAZANOKE is a simple image compressor that runs entirely in your browser—no ex
    - No data is uploaded to external servers. Your files stay on your device.
 
 **Planned**
-- [ ] Upload queue.
-   - Currently, only one image can be uploaded at a time.
+- [X] Upload multiple files at once.
 - [ ] Remember last-used settings.
 
 ## Install
