@@ -12,13 +12,13 @@
 </center>
 
 ## About
-MAZANOKE is a simple image compressor and converter that runs entirely in your browser. No external uploads, works offline as a web app, and is powered by [Browser Image Compression](https://github.com/Donaldcwl/browser-image-compression).
+MAZANOKE is a simple image compressor that runs entirely in your browser—no external uploads, works offline as a web app, and keeps your images private.
 
 ## Table of Content
 - [Features](#features)
 - [Install](#install)
 - [Screenshots](#screenshots)
-- [License](#license)
+- [Attributions and Licenses](#attribution-and-license)
 
 ## Features
 
@@ -67,7 +67,7 @@ services:
    1. **Chrome:** Within the address bar on the right, click the computer icon → "Install".
    1. **Safari:** "Share" icon → "Add to Dock".
 - 📱 On mobile:
-   1. **Firefox:** "More" menu → "Add app to Home Screen".
+   1. **Firefox:** "More" menu → "Add App to Home Screen".
    1. **Chrome:** "More" menu → "Add to Home Screen".
    1. **Safari:** "Share" icon → "Add to Home Screen".
 
@@ -84,10 +84,13 @@ For more detailed instructions with screenshots, [click here](https://developer.
 | Dark mode<br><img src=".github/images/capture-desktop-dark.jpg" alt="mazanoke dark mode" width="50%"> | Light mode<br><img src=".github/images/capture-desktop-light.jpg" alt="mazanoke light mode" width="50%">  |
 | Settings<br><img src=".github/images/capture-desktop-solo-settings-dark.jpg" alt="mazanoke settings" width="50%">  | Download compressed images<br><img src=".github/images/capture-desktop-solo-output-dark.jpg" alt="mazanoke settings" width="50%">  |
 
-## License
+## Attribution and License
 
 MAZANOKE: [GNU General Public License v3.0](https://github.com/civilblur/mazanoke/blob/main/README.md)
 
-Browser Image Compression: [MIT License](https://github.com/Donaldcwl/browser-image-compression/blob/master/LICENSE)
+Dependencies:
+- Browser Image Compression
+- JSZip
+- Geist, Geist Mono
 
-Geist, Geist Mono: [OFL License](https://github.com/vercel/geist-font/blob/main/LICENSE.txt)
+[View all third-party licenses](./docs/ATTRIBUTIONS.md)
