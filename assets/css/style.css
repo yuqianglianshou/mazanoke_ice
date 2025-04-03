@@ -1107,10 +1107,19 @@ body:not(.compressing--is-active) .drop-zone.drop-zone--is-dragging .drop-zone__
   animation: fade-in-scale var(--duration-600) ease-out forwards;
 }
 
-.drop-zone-content__actions-text {
+.drop-zone-content__actions-title,
+.drop-zone-content__actions-description {
   font-family: 'geistmono';
-  font-size: var(--text-md);
   max-width: 85%;
+}
+
+.drop-zone-content__actions-title {
+  font-size: var(--text-md);
+}
+
+.drop-zone-content__actions-description {
+  font-size: var(--text-sm);
+  opacity: 0.7;
 }
 
 
