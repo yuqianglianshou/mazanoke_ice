@@ -806,6 +806,13 @@ body.subpage--output .segmented-control__selected-item {
   opacity: 0;
 }
 
+.image-output__actions-container {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2xs);
+  flex-wrap: wrap;
+}
+
 .image-options-container .form-group {
   padding-right: var(--space-lg);
   padding-left: var(--space-lg);
@@ -1422,14 +1429,6 @@ body:not(.compressing--is-active) .drop-zone.drop-zone--is-dragging .drop-zone__
     padding-left: var(--space-sm);
     padding-right: var(--space-sm);
   }
-
-  .image-output__actions-container {
-    width: 100%;
-  }
-
-  .image-output__actions-container #downloadAllImagesButton {
-    width: 100%;
-  }
 }
 
 @media (min-width: 640px) {
@@ -1490,6 +1489,14 @@ body:not(.compressing--is-active) .drop-zone.drop-zone--is-dragging .drop-zone__
 
   .form-group__label-content {
     padding-top: 0;
+  }
+
+  .image-output__actions-container {
+    width: 100%;
+  }
+
+  .image-output__actions-container button {
+    flex: 1;
   }
 }
 

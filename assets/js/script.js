@@ -593,6 +593,10 @@ async function downloadAllImages() {
   }
 }
 
+function clearAllImages() {
+  outputDownloadContent.innerHTML = '';
+}
+
 async function triggerDownload(blob, filename) {
   return new Promise((resolve) => {
     const link = document.createElement('a');
