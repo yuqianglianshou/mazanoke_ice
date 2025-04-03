@@ -348,7 +348,6 @@ button {
 }
 /* END: Temporary elevation color management */
 
-
 #backToTop {
   position: fixed;
   bottom: var(--space-lg);

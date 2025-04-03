@@ -92,7 +92,7 @@ function compressImageQueue() {
   const options = createCompressionOptions((p) => onProgress(p, i, file.name), file);
   imageCompression(file, options)
     .then((output) => handleCompressionResult(file, output))
-    .catch((error) => alert(error.message))
+    .catch((error) => console.error(error.message))
     .finally(() => {
       compressProcessedCount++;
       compressQueue.shift();
@@ -373,7 +373,7 @@ function updateFileExtension(originalName, fileExtension, selectedFormat) {
 
 function abort() {
   if (!controller) return;
-  controller.abort(new Error("Image compression is aborted"));
+  controller.abort(new Error("Image compression cancelled"));
   resetCompressionState();
 }
 
