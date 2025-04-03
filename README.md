@@ -12,7 +12,7 @@
 </center>
 
 ## About
-MAZANOKE is a simple image compressor that runs entirely in your browser—no external uploads, works offline as a web app, and keeps your images private.
+MAZANOKE is a simple image optimizer that runs entirely in your browser—no external uploads, works offline as a web app, and keeps your images private.
 
 ## Table of Content
 - [Features](#features)
@@ -22,7 +22,7 @@ MAZANOKE is a simple image compressor that runs entirely in your browser—no ex
 
 ## Features
 
-- 🚀 **Compress & Convert Images Instantly In Your Browser**
+- 🚀 **Optimizes Images Instantly In Your Browser**
    - Adjust image quality (0-100%).
    - Set a target file size.
    - Set max dimensions, to not exceed a certain width/height.
@@ -81,7 +81,7 @@ For more detailed instructions with screenshots, [click here](https://developer.
 |    |   |
 | :---: | :---: |
 | Dark mode<br><img src=".github/images/capture-desktop-dark.jpg" alt="mazanoke dark mode" width="50%"> | Light mode<br><img src=".github/images/capture-desktop-light.jpg" alt="mazanoke light mode" width="50%">  |
-| Settings<br><img src=".github/images/capture-desktop-solo-settings-dark.jpg" alt="mazanoke settings" width="50%">  | Download compressed images<br><img src=".github/images/capture-desktop-solo-output-dark.jpg" alt="mazanoke settings" width="50%">  |
+| Settings<br><img src=".github/images/capture-desktop-solo-settings-dark.jpg" alt="mazanoke settings" width="50%">  | Download optimized images<br><img src=".github/images/capture-desktop-solo-output-dark.jpg" alt="mazanoke settings" width="50%">  |
 
 ## Attribution and License
 

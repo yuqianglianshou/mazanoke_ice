@@ -523,6 +523,11 @@ function selectCompressMethod(value) {
 
 
 async function downloadAllImages() {
+  const GB = 1024 * 1024 * 1024;  
+  const chunkSize = 1 * GB; // Max zip file size before chunking into parts
+  const chunkId = (Math.random().toString(36).substring(2, 6)).toUpperCase(); // Random temporary id to differenciate each download, avoids duplicate zip file names.
+  const zipFileName = `mazanoke-images-${chunkId}`;
+
   try {
     if (isDownloadingAll) return;
     isDownloadingAll = true;
@@ -554,11 +559,13 @@ async function downloadAllImages() {
     let zipIndex = 1;
 
     for (let i = 0; i < validBlobs.length; i++) {
+      // Get the file size of the current image
       const fileSize = parseInt(compressedImages[i].dataset.filesize, 10);
       
-      if (totalSize + fileSize > 1024 * 1024 * 1024) {
+      if (totalSize + fileSize > chunkSize) {
+        // If adding the next image exceeds `chunkSize`, download the current ZIP and start a new zip file.
         const zipBlob = await currentZip.generateAsync({ type: "blob" });
-        await triggerDownload(zipBlob, `mazanoke-optimized-images-part-${zipIndex.toString().padStart(3, '0')}.zip`);
+        await triggerDownload(zipBlob, `${zipFileName}-${zipIndex.toString().padStart(3, '0')}.zip`);
         
         currentZip = new JSZip();
         totalSize = 0;
@@ -571,8 +578,8 @@ async function downloadAllImages() {
 
     if (totalSize > 0) {
       const finalName = zipIndex === 1 
-        ? "mazanoke-optimized-images.zip" 
-        : `mazanoke-optimized-images-part-${zipIndex}.zip`;
+        ? `${zipFileName}.zip` 
+        : `${zipFileName}-${zipIndex.toString().padStart(3, '0')}.zip`;
       const zipBlob = await currentZip.generateAsync({ type: "blob" });
       await triggerDownload(zipBlob, finalName);
     }
