@@ -88,7 +88,6 @@ function compressImageQueue() {
     return;
   }
   const file = compressQueue[0];
-  console.log(compressQueue);
   const i = compressProcessedCount;
   const options = createCompressionOptions((p) => onProgress(p, i, file.name), file);
   imageCompression(file, options)
@@ -170,7 +169,7 @@ function createCompressionOptions(onProgress, file) {
   const maxWidthOrHeightElement = document.querySelector("#maxWidthOrHeight");
   const dimensionMethodElement = document.querySelector('input[name="dimensionMethod"]:checked');
   const dimensionMethod = dimensionMethodElement.value;
-  const { selectedFormat } = getFileType();
+  const { selectedFormat } = getFileType(file);
 
   compressMethod = compressMethodElement.value;
   initialQuality = Math.min(Math.max(parseFloat(initialQualityElement.value) / 100, 0), 1);
@@ -185,7 +184,7 @@ function createCompressionOptions(onProgress, file) {
     useWebWorker: true,
     onProgress,
     preserveExif: false,
-    fileType: selectedFormat !== 'nochange' && selectedFormat ? selectedFormat : undefined,
+    fileType: selectedFormat ? selectedFormat : undefined,
     libURL: "./browser-image-compression.js",
     alwaysKeepResolution: dimensionMethod === "limit" ? false : true
   };
@@ -198,25 +197,51 @@ function createCompressionOptions(onProgress, file) {
 }
 
 
-function getFileType(file = undefined) {
-  const selectedFormat = document.querySelector('input[name="formatSelect"]:checked').value;
-  let imageExtension = '';
+function mimeToExtension(mimeType) {
+  const fileExtensionMap = {
+      'image/jpeg': 'jpg',
+      'image/png': 'png',
+      'image/gif': 'gif',
+      'image/webp': 'webp',
+      'image/svg+xml': 'svg',
+  };
+  
+  return fileExtensionMap[mimeType] || mimeType.replace('image/', '').split('+')[0];
+}
+
+function defaultConversionMapping(mimeType) {
+  const conversionMap = {
+      // Image file types that cannot be compressed to its original file format
+      // are converted to a relevant counterpart.
+      'image/gif': 'image/png',
+      'image/svg+xml': 'image/png',
+  };
+  
+  return conversionMap[mimeType] || mimeType;
+}
+
+
+function getFileType(file) {
+  let selectedFormat = document.querySelector('input[name="formatSelect"]:checked').value; // User-selected format to convert to, e.g. "image/jpeg".
+  let inputFileExtension = ''; // User uploaded image's file extension, e.g. ".jpg".
+  let outputFileExtension = ''; // The processed image's file extension, based on `defaultConversionMapping()`.
 
   if (selectedFormat && selectedFormat !== "nochange") {
-    // If user has specified format to convert to, get file extension based this. 
-    imageExtension = selectedFormat.replace("image/", "");
+    // The user selected format to convert to. 
+    const extension = mimeToExtension(selectedFormat);
+    inputFileExtension = extension;
+    outputFileExtension = extension;
   }
-  else if (file) {
-    // Get file extension based on user uploaded file format.
-    imageExtension = file.type.replace("image/", "");
-  }
-
-  if (imageExtension === "jpeg") {
-    imageExtension = 'jpg';
+  else {
+    // User has not selected a file format, use the input image's file type.
+    selectedFormat = file.type;
+    inputFileExtension = mimeToExtension(file.type);
+    outputFileExtension = mimeToExtension(defaultConversionMapping(file.type));
   }
 
   return {
-    imageExtension,
+    inputFileExtension,
+    outputFileExtension,
     selectedFormat
   };
 }
@@ -224,7 +249,7 @@ function getFileType(file = undefined) {
 
 function handleCompressionResult(file, output) {
 
-  const { imageExtension } = getFileType(file);
+  const { outputFileExtension, selectedFormat } = getFileType(file);
   const outputImageBlob = URL.createObjectURL(output);
 
   // Thumbnail
@@ -238,7 +263,7 @@ function handleCompressionResult(file, output) {
   thumbnail.src = outputImageBlob;
 
   // File name and dimensions
-  const outputFileNameText = updateFileExtension(file.name, imageExtension);
+  const outputFileNameText = updateFileExtension(file.name, outputFileExtension, selectedFormat);
   const outputFileNameStart = outputFileNameText.length > 8 ? outputFileNameText.slice(0, -8) : "";
   const outputFileNameEnd = outputFileNameText.slice(-8);
   const outputText = document.createElement("div");
@@ -279,9 +304,8 @@ function handleCompressionResult(file, output) {
 
   // File format badge
   const outputFormatBadge = document.createElement("span");
-
-  outputFormatBadge.className = `image-output__item-fileformat badge file-format--${imageExtension}`;
-  outputFormatBadge.textContent = imageExtension.toUpperCase() === 'WEBP' ? 'WebP' : imageExtension.toUpperCase();
+  outputFormatBadge.className = `image-output__item-fileformat badge file-format--${outputFileExtension}`;
+  outputFormatBadge.textContent = outputFileExtension.toUpperCase();
 
   // Download button
   const outputDownload = document.createElement("a");
@@ -294,7 +318,7 @@ function handleCompressionResult(file, output) {
   `;
   console.log("New image file: ", outputFileNameText);
 
-  // Stats,consolidate: file size, saved, format.
+  // Stats, consolidate: file size, saved, format.
   const outputStats = document.createElement("div");
   outputStats.classList.add('image-output__item-stats');
   outputStats.appendChild(outputFileSizeText);
@@ -329,13 +353,20 @@ function handleCompressionResult(file, output) {
     });
 }
 
-function updateFileExtension(originalName, format) {
+function updateFileExtension(originalName, fileExtension, selectedFormat) {
   // Derive .jpg, .png, or .webp from selected format
   const baseName = originalName.replace(/\.[^/.]+$/, "");
-  let extension = "jpg";
-  if (format === "image/png" || format === "png") extension = "png";
-  if (format === "image/webp" || format === "webp") extension = "webp";
-  return baseName + "." + extension;
+  let outputName;
+
+  if (selectedFormat) {
+    outputName = baseName + "." +  mimeToExtension(fileExtension);
+  }
+  else {
+    
+    outputName = baseName + "." +  fileExtension;
+  }
+
+  return outputName;
 }
 
 
