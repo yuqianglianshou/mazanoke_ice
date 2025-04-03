@@ -26,6 +26,7 @@ let compressQueueTotal = 0;
 let compressProcessedCount = 0;
 let compressMethod;
 let isCompressing = false;
+let isDownloadingAll = false;
 let inputFileSize;
 let imageCount = 0;
 let fileProgressMap = {};
@@ -389,6 +390,7 @@ function abort(event) {
   if (!controller) return;
   resetCompressionState(false, true);
   controller.abort(new Error("Image compression cancelled"));
+  // TODO: Display abort message in UI
 }
 
 
@@ -521,48 +523,85 @@ function selectCompressMethod(value) {
 
 
 async function downloadAllImages() {
-  downloadAllImagesButton.setAttribute('aria-busy', 'true');
-  let currentZip = new JSZip();
-  let totalSize = 0;
-  let zipIndex = 1;
+  try {
+    if (isDownloadingAll) return;
+    isDownloadingAll = true;
+    downloadAllImagesButton.setAttribute('aria-busy', 'true');
 
-  const compressedImages = document.querySelectorAll('a.image-output__item-download-button[href^="blob:"]');
-  const blobs = await Promise.all(
-    Array.from(compressedImages).map(async link => {
-      const response = await fetch(link.href);
-      return await response.blob();
-    })
-  );
+    const compressedImages = document.querySelectorAll('a.image-output__item-download-button[href^="blob:"]');
+    const blobs = await Promise.all(
+      Array.from(compressedImages).map(async (link, index) => {
+        try {
+          const response = await fetch(link.href);
+          if (!response.ok) throw new Error(`Failed to fetch image ${index + 1}`);
+          return await response.blob();
+        } catch (error) {
+          console.error(`Error downloading image ${index + 1}:`, error);
+          return null;
+        }
+      })
+    );
 
-  for (let i = 0; i < blobs.length; i++) {
-    const fileSize = parseInt(compressedImages[i].dataset.filesize, 10);
-    if (totalSize + fileSize > 1024 * 1024 * 1024) {
-      const zipBlob = await currentZip.generateAsync({ type: "blob" });
-      const link = document.createElement('a');
-      link.href = URL.createObjectURL(zipBlob);
-      link.download = `mazanoke-compressed-images-part-${zipIndex}.zip`;
-      link.click();
-
-      currentZip = new JSZip();
-      totalSize = 0;
-      zipIndex++;
+    // Filter out failed downloads
+    const validBlobs = blobs.filter(blob => blob !== null);
+    
+    if (validBlobs.length === 0) {
+      throw new Error('No valid images to download');
     }
-    currentZip.file(compressedImages[i].download, blobs[i]);
-    totalSize += fileSize;
-  }
 
-  if (totalSize > 0) {
-    const zipBlob = await currentZip.generateAsync({ type: "blob" });
-    const link = document.createElement('a');
-    link.href = URL.createObjectURL(zipBlob);
-    link.download = zipIndex === 1 
-      ? "mazanoke-compressed-images.zip" 
-      : `mazanoke-compressed-images-part-${zipIndex}.zip`;
-    link.click();
-  }
+    let currentZip = new JSZip();
+    let totalSize = 0;
+    let zipIndex = 1;
 
-  downloadAllImagesButton.setAttribute('aria-busy', 'false');
+    for (let i = 0; i < validBlobs.length; i++) {
+      const fileSize = parseInt(compressedImages[i].dataset.filesize, 10);
+      
+      if (totalSize + fileSize > 1024 * 1024 * 1024) {
+        const zipBlob = await currentZip.generateAsync({ type: "blob" });
+        await triggerDownload(zipBlob, `mazanoke-optimized-images-part-${zipIndex.toString().padStart(3, '0')}.zip`);
+        
+        currentZip = new JSZip();
+        totalSize = 0;
+        zipIndex++;
+      }
+
+      currentZip.file(compressedImages[i].download, validBlobs[i]);
+      totalSize += fileSize;
+    }
+
+    if (totalSize > 0) {
+      const finalName = zipIndex === 1 
+        ? "mazanoke-optimized-images.zip" 
+        : `mazanoke-optimized-images-part-${zipIndex}.zip`;
+      const zipBlob = await currentZip.generateAsync({ type: "blob" });
+      await triggerDownload(zipBlob, finalName);
+    }
+
+  } catch (error) {
+    console.error('Download all images as zip failed:', error);
+    // TODO: Display error message in UI
+  } finally {
+    downloadAllImagesButton.setAttribute('aria-busy', 'false');
+    isDownloadingAll = false;
+  }
 }
+
+async function triggerDownload(blob, filename) {
+  return new Promise((resolve) => {
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = filename;
+    document.body.appendChild(link);
+    link.click();
+    
+    setTimeout(() => {
+      document.body.removeChild(link);
+      URL.revokeObjectURL(link.href);
+      resolve();
+    }, 100);
+  });
+}
+
 
 
 function setTheme(themeName) {
