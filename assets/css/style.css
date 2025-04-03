@@ -334,6 +334,21 @@ button {
   box-shadow: inset 0 0 0 1px var(--color-border-hover);
 }
 
+/* BEGIN: Temporary elevation color management */
+[data-elevation="3"] .button-secondary {
+  color: var(--color-on-surface-higher);
+  background-color: var(--color-surface-higher);
+  box-shadow: inset 0 0 0 1px var(--color-border);
+}
+
+[data-elevation="3"] .button-secondary:hover {
+  color: var(--color-on-surface-higher);
+  background-color: var(--color-surface-higher-hover);
+  box-shadow: inset 0 0 0 1px var(--color-border-hover);
+}
+/* END: Temporary elevation color management */
+
+
 #backToTop {
   position: fixed;
   bottom: var(--space-lg);
@@ -866,6 +881,8 @@ body:not(.subpage--output):not(.subpage--settings) .image-options-container {
   object-fit: cover;
   border-radius: var(--rounded-md);
   margin-right: auto;
+  /* Fixed color value, as transparent thumbnails are intentionally converted to jpg with white background. */
+  background-color: #ffffff; 
 }
 
 .image-output__item-text {
