@@ -844,6 +844,10 @@ body:not(.subpage--output):not(.subpage--settings) .image-options-container {
   display: none;
 }
 
+.image-output-container[data-count="0"] .image-output__downloadall-container {
+  display: none;
+}
+
 .image-output__item {
   display: flex;
   justify-content: flex-end;

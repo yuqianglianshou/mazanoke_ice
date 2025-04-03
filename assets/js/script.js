@@ -1,3 +1,4 @@
+const zip = new JSZip();
 const progressContainer = document.querySelector(".progress-container");
 const progressQueueCount = document.querySelector("#webWorkerProgressQueueCount");
 const progressTrack = document.querySelector("#webWorkerProgressTrack");
@@ -39,7 +40,7 @@ let fileProgressMap = {};
 
 function resetCompressionState(isAllProcessed) {
   if (isAllProcessed) {
-    completedMessageDelay = 1500;
+    completedMessageDelay = 1000;
 
     webWorkerAbort.classList.add("hidden");
     progressBar.style.width = "100%";
@@ -283,7 +284,7 @@ function handleCompressionResult(file, output) {
 
   // Download button
   const outputDownload = document.createElement("a");
-  outputDownload.className = 'image-output__item-download-button button-cta button-primary';
+  outputDownload.className = 'image-output__item-download-button button-cta button-secondary';
   outputDownload.href = outputImageBlob;
   outputDownload.download = outputFileNameText;
   outputDownload.innerHTML = `
@@ -469,6 +470,30 @@ function selectCompressMethod(value) {
   });
   document.querySelector(`#compressMethodGroup input[name="compressMethod"][value="${value}"]`).closest('.button-card-radio').classList.add('button-card-radio--is-selected');
   toggleFields();
+}
+
+
+async function downloadAllImages() {
+  const compressedImages = document.querySelectorAll('a.image-output__item-download-button[href^="blob:"]'); 
+  const blobs = await Promise.all(
+    Array.from(compressedImages).map(async link => {
+      const response = await fetch(link.href);
+      return await response.blob();
+    })
+  );
+
+  blobs.forEach((blob, i) => {
+    console.log(blob)
+    zip.file(compressedImages[i].download, blob);
+  });
+  
+  zip.generateAsync({ type: "blob" })
+    .then(zipBlob => {
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(zipBlob);
+      link.download = "mazanoke-compressed-images.zip";
+      link.click();
+    });
 }
 
 
