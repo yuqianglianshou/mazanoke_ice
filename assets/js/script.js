@@ -593,8 +593,12 @@ async function downloadAllImages() {
   }
 }
 
-function clearAllImages() {
+function deleteAllImages() {
   outputDownloadContent.innerHTML = '';
+  outputDownloadContainer.dataset.count = 0;
+  selectSubpageOutput.dataset.count = 0;
+  compressedImageCount.dataset.count = 0;
+  compressedImageCount.textContent = 0;
 }
 
 async function triggerDownload(blob, filename) {
