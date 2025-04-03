@@ -7,7 +7,7 @@ const filePath = path.join('/usr/share/nginx/html', 'index.html');
 
 if (!fs.existsSync(filePath)) {
   console.error(`Error: File not found at ${filePath}`);
-  process.exit(1);
+  return;
 }
 
 let content = fs.readFileSync(filePath, 'utf8');
