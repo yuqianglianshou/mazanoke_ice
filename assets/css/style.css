@@ -427,7 +427,7 @@ button {
 }
 
 #formatMethodGroup .button-card-radio {
-  min-width: 253px;
+  min-width: 270px;
 }
 
 .button-card-radio:not(.button-card-radio--is-selected):hover {
@@ -1532,7 +1532,7 @@ body:not(.compressing--is-active) .drop-zone.drop-zone--is-dragging .drop-zone__
   }
 
   #formatMethodGroup .button-card-radio {
-    min-width: unset; /* To display as one row */
+    min-width: 350px;
   }
 }
 
