@@ -813,6 +813,10 @@ body.subpage--output .segmented-control__selected-item {
   flex-wrap: wrap;
 }
 
+.image-output__actions-container #downloadAllImagesButton {
+  flex: 2;
+}
+
 .image-options-container .form-group {
   padding-right: var(--space-lg);
   padding-left: var(--space-lg);
