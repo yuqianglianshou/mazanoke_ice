@@ -886,6 +886,10 @@ body:not(.subpage--output):not(.subpage--settings) .image-options-container {
   object-fit: cover;
   border-radius: var(--rounded-md);
   margin-right: auto;
+  background-color: var(--color-surface-high);
+}
+
+.file-format--png .image-output__item-thumbnail {
   /* Fixed color value, as transparent thumbnails are intentionally converted to jpg with white background. */
   background-color: #ffffff; 
 }
@@ -964,16 +968,16 @@ body.compressing--is-active .drop-zone:hover {
   pointer-events: none;
 }
 
-.drop-zone:hover .drop-zone__border-dashed,
-.drop-zone.drop-zone--is-dragging .drop-zone__border-dashed {
+body:not(.compressing--is-active) .drop-zone:hover .drop-zone__border-dashed,
+body:not(.compressing--is-active) .drop-zone.drop-zone--is-dragging .drop-zone__border-dashed {
   opacity: 0.8;
   --border-width: 3px;
   --border-color: var(--color-accent);
   animation: border-track 50s linear infinite;
 }
 
-.drop-zone:hover .drop-zone__cell-grid,
-.drop-zone.drop-zone--is-dragging .drop-zone__cell-grid {
+body:not(.compressing--is-active) .drop-zone:hover .drop-zone__cell-grid,
+body:not(.compressing--is-active) .drop-zone.drop-zone--is-dragging .drop-zone__cell-grid {
   transform: scale(1.2);
   animation: bg-pan-up 50s linear infinite;
 }

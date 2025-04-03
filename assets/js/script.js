@@ -330,6 +330,7 @@ function handleCompressionResult(file, output) {
   // Download button
   const outputDownload = document.createElement("a");
   outputDownload.className = 'image-output__item-download-button button-cta button-secondary';
+  outputDownload.dataset.filesize = output.size;
   outputDownload.href = outputImageBlob;
   outputDownload.download = outputFileNameText;
   outputDownload.innerHTML = `
@@ -348,6 +349,7 @@ function handleCompressionResult(file, output) {
   // Output item container
   const outputItem = document.createElement("div");
   outputItem.classList.add('image-output__item');
+  outputItem.classList.add(`file-format--${outputFileExtension}`);
   outputItem.dataset.elevation = 3;
   outputItem.appendChild(outputItemThumbnail);
   outputItem.appendChild(outputText);
@@ -519,7 +521,12 @@ function selectCompressMethod(value) {
 
 
 async function downloadAllImages() {
-  const compressedImages = document.querySelectorAll('a.image-output__item-download-button[href^="blob:"]'); 
+  downloadAllImagesButton.setAttribute('aria-busy', 'true');
+  let currentZip = new JSZip();
+  let totalSize = 0;
+  let zipIndex = 1;
+
+  const compressedImages = document.querySelectorAll('a.image-output__item-download-button[href^="blob:"]');
   const blobs = await Promise.all(
     Array.from(compressedImages).map(async link => {
       const response = await fetch(link.href);
@@ -527,23 +534,34 @@ async function downloadAllImages() {
     })
   );
 
-  downloadAllImagesButton.setAttribute('aria-busy', 'true');
-
-  blobs.forEach((blob, i) => {
-    console.log('Zipping file: ', compressedImages[i].download);
-    zip.file(compressedImages[i].download, blob);
-  });
-  
-  zip.generateAsync({ type: "blob" })
-    .then(zipBlob => {
+  for (let i = 0; i < blobs.length; i++) {
+    const fileSize = parseInt(compressedImages[i].dataset.filesize, 10);
+    if (totalSize + fileSize > 1024 * 1024 * 1024) {
+      const zipBlob = await currentZip.generateAsync({ type: "blob" });
       const link = document.createElement('a');
       link.href = URL.createObjectURL(zipBlob);
-      link.download = "mazanoke-compressed-images.zip";
+      link.download = `mazanoke-compressed-images-part-${zipIndex}.zip`;
       link.click();
-    })
-    .finally(() => {
-      downloadAllImagesButton.setAttribute('aria-busy', 'false');
-    });
+
+      currentZip = new JSZip();
+      totalSize = 0;
+      zipIndex++;
+    }
+    currentZip.file(compressedImages[i].download, blobs[i]);
+    totalSize += fileSize;
+  }
+
+  if (totalSize > 0) {
+    const zipBlob = await currentZip.generateAsync({ type: "blob" });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(zipBlob);
+    link.download = zipIndex === 1 
+      ? "mazanoke-compressed-images.zip" 
+      : `mazanoke-compressed-images-part-${zipIndex}.zip`;
+    link.click();
+  }
+
+  downloadAllImagesButton.setAttribute('aria-busy', 'false');
 }
 
 
