@@ -41,6 +41,7 @@ MAZANOKE is a simple image optimizer that runs entirely in your browser—no ext
 - [X] Upload multiple files at once. (Completed)
 - [ ] Remember last-used settings.
 - [ ] Support for more image file types.
+- [ ] Image cropping.
 
 ## Install
 
