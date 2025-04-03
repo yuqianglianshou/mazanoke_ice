@@ -1,0 +1,7 @@
+# docker compose -f compose.dev.yaml up --build
+
+services:
+  mazanoke:
+    build: .
+    ports:
+      - "3474:80"
