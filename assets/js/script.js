@@ -84,6 +84,8 @@ function resetCompressionState(isAllProcessed, aborted) {
 
 
 function compressImage(event) {
+  
+
   controller = new AbortController();
   compressQueue = Array.from(event.target.files);
   compressQueueTotal = compressQueue.length;
@@ -107,8 +109,21 @@ function compressImageQueue() {
     resetCompressionState(true);
     return;
   }
+
   const file = compressQueue[0];
   const i = compressProcessedCount;
+
+  // Check for supported file types
+  const supportedFileTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/gif', 'image/svg+xml'];
+  if (!supportedFileTypes.includes(file.type)) {
+    // TODO: Display error message in UI
+    console.error(`Unsupported file type: ${file.type}. Skipping "${file.name}".`);
+    progressText.innerHTML = `Unsupported file "<div class='progress-file-name'>${file.name}</div>"`;
+    compressQueue.shift(); // Ignore unsupported file type
+    compressImageQueue();
+    return;
+  }
+
   const options = createCompressionOptions((p) => onProgress(p, i, file.name), file);
   // TODO: Display error message in UI
   imageCompression(file, options)
@@ -127,13 +142,13 @@ function compressImageQueue() {
     const overallProgress = calculateOverallProgress(fileProgressMap, compressQueueTotal);
     const fileNameShort = fileName.length > 15 ? fileName.slice(0, 12) + '...' : fileName;
     fileProgressMap[index] = p;
-  
+
     progressQueueCount.textContent = `${compressProcessedCount + 1} / ${compressQueueTotal}`;
     progressText.dataset.progress = overallProgress;
-    progressText.innerHTML = `Compressing "<div class='progress-file-name'>${fileName}</div>"`
+    progressText.innerHTML = `Compressing "<div class='progress-file-name'>${fileName}</div>"`;
     progressBar.style.width = overallProgress + "%";
     console.log(`Compressing "${fileNameShort}" (${overallProgress}%)`);
-  
+
     if (p === 100 && compressProcessedCount === compressQueueTotal - 1) {
       progressText.textContent = "Done!";
     }
