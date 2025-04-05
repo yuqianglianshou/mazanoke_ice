@@ -23,12 +23,12 @@ const thumbnailCompressionOptions = {
 let controller;
 let compressQueue = [];
 let compressQueueTotal = 0;
-let compressProcessedCount = 0;
+let compressProcessedCount = 0; // Currently compressing number in queue.
 let compressMethod;
 let isCompressing = false;
 let isDownloadingAll = false;
 let inputFileSize;
-let imageCount = 0;
+let imageCount = 0; // Amount of images listed in outputDownloadContent.
 let fileProgressMap = {};
 
 
@@ -84,8 +84,6 @@ function resetCompressionState(isAllProcessed, aborted) {
 
 
 function compressImage(event) {
-  
-
   controller = new AbortController();
   compressQueue = Array.from(event.target.files);
   compressQueueTotal = compressQueue.length;
@@ -615,6 +613,7 @@ function deleteAllImages() {
   selectSubpageOutput.dataset.count = 0;
   compressedImageCount.dataset.count = 0;
   compressedImageCount.textContent = 0;
+  imageCount = 0;
 }
 
 async function triggerDownload(blob, filename) {

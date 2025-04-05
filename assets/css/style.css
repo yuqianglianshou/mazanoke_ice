@@ -903,6 +903,7 @@ body:not(.subpage--output):not(.subpage--settings) .image-options-container {
   border-radius: var(--rounded-md);
   margin-bottom: var(--space-xs);
   background-color: var(--color-surface-higher);
+  overflow: hidden;
 }
 
 .image-output__item-thumbnail {
