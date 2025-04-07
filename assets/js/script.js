@@ -85,6 +85,35 @@ function resetCompressionState(isAllProcessed, aborted) {
   }
 }
 
+function debugBlobImageOutput(blob) {
+  const blobURL = URL.createObjectURL(blob);
+  const img = document.createElement("img");
+  img.src = blobURL;
+  img.style.maxWidth = "100%";
+  img.style.display = "block";
+  document.body.prepend(img);
+}
+
+async function preProcessImage(file) {
+  let preProcessedImage = null;
+  let preProcessedNewFileType = null;
+
+  if (file.type === 'image/heic') {
+    // Convert HEIC to JPEG with reduced quality for better compression.
+    // HEIC is already an optimized format, thus, pre-applying lossy compression avoids increasing final output size.
+    preProcessedImage = await heicTo({
+      blob: file,
+      type: 'image/jpeg',
+      quality: 0.9
+    });
+
+    preProcessedNewFileType = 'image/jpeg';
+  }
+
+  // if (preProcessedImage) { debugBlobImageOutput(blob); }
+
+  return {preProcessedImage, preProcessedNewFileType};
+}
 
 function compressImage(event) {
   controller = new AbortController();
@@ -115,7 +144,7 @@ function compressImageQueue() {
   const i = compressProcessedCount;
 
   // Check for supported file types
-  const supportedFileTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/gif', 'image/svg+xml'];
+  const supportedFileTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/heic', 'image/gif', 'image/svg+xml'];
   if (!supportedFileTypes.includes(file.type)) {
     // TODO: Display error message in UI
     console.error(`Unsupported file type: ${file.type}. Skipping "${file.name}".`);
@@ -125,9 +154,16 @@ function compressImageQueue() {
     return;
   }
 
-  const options = createCompressionOptions((p) => onProgress(p, i, file.name), file);
+  let options = createCompressionOptions((p) => onProgress(p, i, file.name), file);
   // TODO: Display error message in UI
-  imageCompression(file, options)
+
+  preProcessImage(file)
+    .then(({ preProcessedImage, preProcessedNewFileType }) => {
+      if (preProcessedImage) {
+        options.fileType = preProcessedNewFileType;
+      }
+      return imageCompression(preProcessedImage || file, options);
+    })
     .then((output) => handleCompressionResult(file, output))
     .catch((error) => console.error(error.message))
     .finally(() => {
@@ -154,6 +190,7 @@ function compressImageQueue() {
       progressText.textContent = "Done!";
     }
   }
+
 }
 
 function calculateOverallProgress(progressMap, totalFiles) {
@@ -244,6 +281,7 @@ function mimeToExtension(mimeType) {
       'image/gif': 'gif',
       'image/webp': 'webp',
       'image/svg+xml': 'svg',
+      'image/heic': 'heic',
   };
   
   return fileExtensionMap[mimeType] || mimeType.replace('image/', '').split('+')[0];
@@ -255,6 +293,7 @@ function defaultConversionMapping(mimeType) {
       // are converted to a relevant counterpart.
       'image/gif': 'image/png',
       'image/svg+xml': 'image/png',
+      'image/heic': 'image/png',
   };
   
   return conversionMap[mimeType] || mimeType;

@@ -9,12 +9,13 @@ MAZANOKE would not be possible without the projects listed here.
 - **Version**: v2.0.2
 - **Usage**: Image compression
 
-### HEIC2ANY
-- **Author:** Alex Corvi
-- **License**: [MIT License](https://github.com/alexcorvi/heic2any/blob/master/LICENSE.md)  
+### heic-to
+- **Author:** Hopper Gee
+- **License**: [GNU Lesser General Public License v3.0](https://www.npmjs.com/package/heic-to)
+  - Built on top of [libheif](https://github.com/strukturag/libheif) ([LGPL](https://github.com/strukturag/libheif?tab=License-1-ov-file)), [libde265](https://github.com/strukturag/libde265) ([GPLv3](https://github.com/strukturag/libde265?tab=License-1-ov-file#readme))
 - **Source**: https://github.com/alexcorvi/heic2any
-- **Version**: 0.0.4
-- **Usage**: Parsing HEIC file types.
+- **Version**: v1.1.11
+- **Usage**: Parsing HEIC file types. Recompiled the original ES module to be compatible with a vanilla JavaScript environment.
 
 ### JSZip
 - **Author:** Stuart Knightley
