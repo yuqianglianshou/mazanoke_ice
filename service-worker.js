@@ -1,4 +1,4 @@
-const APP_VERSION = 'v1.0.'
+const APP_VERSION = 'v1.0.2'
 const CACHE_VERSION = APP_VERSION;
 const CACHE_NAME = `image-compression-cache-${CACHE_VERSION}`;
 const urlsToCache = [
@@ -8,6 +8,8 @@ const urlsToCache = [
   '/assets/css/variables.css',
   '/assets/css/style.css',
   '/assets/js/browser-image-compression.js',
+  '/assets/js/heic-to-vanilla.js',
+  '/assets/js/jszip.js',
   '/assets/js/script.js',
   '/assets/images/android-chrome-192x192.png',
   '/assets/images/android-chrome-512x512.png',
