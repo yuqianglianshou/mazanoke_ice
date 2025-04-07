@@ -1226,7 +1226,7 @@ body:not(.compressing--is-active) .drop-zone.drop-zone--is-dragging .drop-zone__
   flex-wrap: wrap;
 }
 
-#webWorkerProgressText[data-progress="0"]::after {
+.loading-dots::after {
   content: "";
   animation: loading-dots 2s steps(3, end) infinite;
 }
