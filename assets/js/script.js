@@ -641,6 +641,8 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
+  document.addEventListener("paste", handlePasteImage);
+
   initialQualityInput.addEventListener("change", function (e) {
     if (initialQualityInput.value > 100) {
       initialQualityInput.value = 100;
@@ -849,4 +851,18 @@ async function triggerDownload(blob, filename) {
       resolve();
     }, 100);
   });
+}
+
+function handlePasteImage(e) {
+  if (!e.clipboardData) return;
+  const items = e.clipboardData.items; // NOTE: Firefox only parses the first item
+  const files = [];
+  for (let i = 0; i < items.length; i++) {
+    if (items[i].type.indexOf("image") === 0) {
+      files.push(items[i].getAsFile());
+    }
+  }
+  if (files.length) {
+    compressImage({ target: { files } });
+  }
 }
