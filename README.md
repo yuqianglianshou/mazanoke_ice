@@ -23,19 +23,19 @@ MAZANOKE is a simple image optimizer that runs entirely in your browser—no ext
 ## Features
 
 - 🚀 **Optimizes Images Instantly In Your Browser**
-   - Adjust image quality (0-100%).
-   - Set a target file size.
-   - Set max dimensions, to not exceed a certain width/height.
-   - Convert between JPG, PNG, and WebP.
-      - Supports GIF, SVG → PNG.
+  - Adjust image quality (0-100%).
+  - Set a target file size.
+  - Set max dimensions, to not exceed a certain width/height.
+  - Convert between JPG, PNG, and WebP.
+    - Supports GIF, SVG → PNG.
 - 🌍 **Installable Web App**
-   - Use as a Progressive Web App (PWA).
-   - Dark and light mode.
-   - Fully responsive for desktop, tablet, and mobile.
+  - Use as a Progressive Web App (PWA).
+  - Dark and light mode.
+  - Fully responsive for desktop, tablet, and mobile.
 - 🔒 **Privacy-Focused**
-   - Works offline.
-   - All image processing happens locally.
-   - No data is uploaded to external servers. Your files stay on your device.
+  - Works offline.
+  - All image processing happens locally.
+  - No data is uploaded to external servers. Your files stay on your device.
 
 **Planned**
 - [X] Upload multiple files at once. (Completed)
@@ -66,12 +66,12 @@ services:
 
 1. Visit [MAZANOKE.com](https://mazanoke.com/) or host your own instance for even stronger privacy.
 - 💻 On desktop:
-   1. **Chrome:** Within the address bar on the right, click the computer icon → "Install".
-   1. **Safari:** "Share" icon → "Add to Dock".
+  - **Chrome:** Within the address bar on the right, click the computer icon → "Install".
+  - **Safari:** "Share" icon → "Add to Dock".
 - 📱 On mobile:
-   1. **Firefox:** "More" menu → "Add App to Home Screen".
-   1. **Chrome:** "More" menu → "Add to Home Screen".
-   1. **Safari:** "Share" icon → "Add to Home Screen".
+  - **Firefox:** "More" menu → "Add App to Home Screen".
+  - **Chrome:** "More" menu → "Add to Home Screen".
+  - **Safari:** "Share" icon → "Add to Home Screen".
 
 For more detailed instructions with screenshots, [click here](https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps/Guides/Installing).
 

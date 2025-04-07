@@ -7,6 +7,25 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Online image optimizer for local and private image compression">
   <meta name="robots" content="noindex, nofollow">
+  <script>
+    function setTheme(themeName) {
+      localStorage.setItem('theme', themeName);
+      document.documentElement.classList.toggle('theme-dark', themeName === 'theme-dark');
+      document.documentElement.classList.toggle('theme-light', themeName === 'theme-light');
+      setTimeout(() => document.documentElement.classList.remove('animate-0'), 300);
+    }
+
+    function toggleTheme() {
+      document.documentElement.classList.add('animate-0');
+      setTheme(localStorage.getItem('theme') === 'theme-dark' ? 'theme-light' : 'theme-dark');
+    }
+
+    (function () {
+      const theme = localStorage.getItem('theme') || 'theme-dark';
+      setTheme(theme);
+      document.getElementById('themeSwitchThumb').checked = theme === 'theme-dark';
+    })();
+  </script>
   <link rel="stylesheet" type="text/css" href="./assets/css/fonts.css">
   <link rel="stylesheet" type="text/css" href="./assets/css/variables.css">
   <link rel="stylesheet" type="text/css" href="./assets/css/style.css">
