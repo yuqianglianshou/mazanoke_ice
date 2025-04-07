@@ -164,8 +164,11 @@ function updateSlider(value, sliderId) {
   const fill = slider.querySelector('.slider-fill');
   const thumb = slider.querySelector('.slider-thumb');
   let percentage = value;
-  if (value < 0 || value > 100 || isNaN(value) || value === "") {
+  if (value < 0 || isNaN(value) || value === "") {
     percentage = 0;
+  }
+  else if (value > 100) {
+    percentage = 100;
   }
   fill.style.width = percentage + '%';
   thumb.style.left = Math.min(percentage, 100) + '%';
