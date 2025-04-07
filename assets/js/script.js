@@ -260,7 +260,7 @@ function getFileType(file) {
   let inputFileExtension = ''; // User uploaded image's file extension, e.g. ".jpg".
   let outputFileExtension = ''; // The processed image's file extension, based on `defaultConversionMapping()`.
 
-  if (selectedFormat && selectedFormat !== "nochange") {
+  if (selectedFormat && selectedFormat !== "default") {
     // The user selected format to convert to. 
     const extension = mimeToExtension(selectedFormat);
     inputFileExtension = extension;
@@ -510,6 +510,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 });
+
 
 function toggleFields() {
   const compressMethod = document.querySelector('input[name="compressMethod"]:checked').value;

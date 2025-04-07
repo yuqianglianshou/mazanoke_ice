@@ -2,10 +2,10 @@
 <html class="animate-0" lang="en">
 
 <head>
-  <title>MAZANOKE - Online image optimizer that runs locally and privately</title>
+  <title>MAZANOKE - Online image optimizer that runs directly in your browser, locally and privately</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Online image optimizer for local and private image compression">
+  <meta name="description" content="Optimize images and compress them directly in your browser without uploading to external servers. Your images are processed locally and stay private.">
   <meta name="robots" content="noindex, nofollow">
   <script>
     function setTheme(themeName) {
@@ -317,14 +317,14 @@
             </div>
             <div class="form-group__input-content">
               <div class="button-card-radio-group">
-                <div class="button-card-radio button-card-radio--is-selected" onclick="selectFormat('nochange')">
+                <div class="button-card-radio button-card-radio--is-selected" onclick="selectFormat('default')">
                   <div class="button-card-radio__content">
                     <div class="flex gap-sm w-100">
                       <label class="button-card-radio__label">Default</label>
                       <!-- TODO: Add mapping description of image file extension input -> output file. -->
                       <div class="button-card-radio__radio-input">
                         <div class="button-card-radio__radio-icon"></div>
-                        <input class="hidden" type="radio" name="formatSelect" value="nochange" checked>
+                        <input class="hidden" type="radio" name="formatSelect" value="default" checked>
                       </div>
                     </div>
                     <div class="button-card-radio__description">
@@ -420,7 +420,9 @@
   </div>
 
   <footer>
-    <a class="footer-text" href="https://github.com/civilblur/mazanoke" target="_blank" rel="noopener noreferrer">created by civilblur</a>
+    <a class="footer-text" href="https://github.com/civilblur/mazanoke" target="_blank" rel="noopener noreferrer">
+      created by civilblur
+    </a>
   </footer>
 
   <button id="backToTop">
