@@ -92,6 +92,7 @@ MAZANOKE: [GNU General Public License v3.0](https://github.com/civilblur/mazanok
 
 Dependencies:
 - Browser Image Compression
+- HEIC2ANY
 - JSZip
 - Geist, Geist Mono
 
