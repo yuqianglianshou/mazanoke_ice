@@ -1,4 +1,7 @@
 const zip = new JSZip();
+const initialQualityInput = document.querySelector("#initialQuality");
+const maxWidthOrHeightInput = document.querySelector("#maxWidthOrHeight");
+const maxSizeMBInput = document.querySelector("#maxSizeMB");
 const progressContainer = document.querySelector(".progress-container");
 const progressQueueCount = document.querySelector("#webWorkerProgressQueueCount");
 const progressTrack = document.querySelector("#webWorkerProgressTrack");
@@ -203,24 +206,21 @@ function startSliderDrag(event, inputId) {
 
 function createCompressionOptions(onProgress, file) {
   const compressMethodElement = document.querySelector('input[name="compressMethod"]:checked');
-  const maxSizeMBElement = document.querySelector("#maxSizeMB");
-  const maxSizeMB = parseFloat(maxSizeMBElement.value);
-  const initialQualityElement = document.querySelector("#initialQuality");
-  const maxWidthOrHeightElement = document.querySelector("#maxWidthOrHeight");
+  const maxSizeMB = parseFloat(maxSizeMBInput.value);
   const dimensionMethodElement = document.querySelector('input[name="dimensionMethod"]:checked');
   const dimensionMethod = dimensionMethodElement.value;
   const { selectedFormat } = getFileType(file);
 
   compressMethod = compressMethodElement.value;
-  initialQuality = Math.min(Math.max(parseFloat(initialQualityElement.value) / 100, 0), 1);
-  maxWidthOrHeight = Math.max(parseFloat(maxWidthOrHeightElement.value), 1);
+  initialQuality = Math.min(Math.max(parseFloat(initialQualityInput.value) / 100, 0), 1);
+  maxWidthOrHeight = Math.max(parseFloat(maxWidthOrHeightInput.value), 1);
 
   console.log('Input image file size: ', (file.size / 1024 / 1024).toFixed(3), 'MB');
 
   const options = {
     maxSizeMB: maxSizeMB && compressMethod === "maxSizeMB" ? maxSizeMB : (file.size / 1024 / 1024).toFixed(3),
     initialQuality: initialQuality && compressMethod === "initialQuality" ? initialQuality : undefined,
-    maxWidthOrHeight: dimensionMethod === "limit" ? parseFloat(maxWidthOrHeightElement.value) : undefined,
+    maxWidthOrHeight: dimensionMethod === "limit" ? parseFloat(maxWidthOrHeightInput.value) : undefined,
     useWebWorker: true,
     onProgress,
     preserveExif: false,
@@ -499,6 +499,45 @@ document.addEventListener("DOMContentLoaded", function () {
       fileInput.files = e.dataTransfer.files;
       compressImage({ target: fileInput }, true);
     }
+  });
+
+  initialQualityInput.addEventListener("change", function (e) {
+    if (initialQualityInput.value > 100) {
+      initialQualityInput.value = 100;
+      updateSlider(100, 'initialQualitySlider');
+    }
+    if (initialQualityInput.value < 0 || isNaN(initialQualityInput.value) || initialQualityInput.value === "") {
+      initialQualityInput.value = 0;
+      updateSlider(0, 'initialQualitySlider');
+    }
+    else {
+      initialQualityInput.value = Math.round(initialQualityInput.value);
+      updateSlider(initialQualityInput.value, 'initialQualitySlider');
+    }
+  });
+
+  maxWidthOrHeightInput.addEventListener("change", function (e) {
+    if (maxWidthOrHeightInput.value > 30000) {
+      // Canvas supports around 32k pixels in width and height
+      maxWidthOrHeightInput.value = 30000;
+    }
+    else if (maxWidthOrHeightInput.value <= 0 || isNaN(maxWidthOrHeightInput.value) || maxWidthOrHeightInput.value === "") {
+      maxWidthOrHeightInput.value = 1;
+    }
+    else {
+      maxWidthOrHeightInput.value = Math.round(maxWidthOrHeightInput.value);
+    }
+  });
+
+
+  maxSizeMBInput.addEventListener("change", function (e) {
+    if (maxSizeMBInput.value > 100) {
+      maxSizeMBInput.value = 100;
+    }
+    if (maxSizeMBInput.value <= 0 || isNaN(maxSizeMBInput.value) || maxSizeMBInput.value === "") {
+      maxSizeMBInput.value = 1;
+    }
+    maxSizeMBInput.value = maxSizeMBInput.value;
   });
 
   document.querySelectorAll('input[name="compressMethod"]').forEach((radio) => {
