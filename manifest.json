@@ -1,11 +1,11 @@
 {
   "name": "MAZANOKE",
   "short_name": "MAZANOKE",
-  "description": "text",
+  "description": "Privacy-respecting Image Optimizer",
   "start_url": "/index.html",
   "display": "standalone",
-  "background_color": "#333333",
-  "theme_color": "#333333",
+  "background_color": "#191919",
+  "theme_color": "#191919",
   "icons": [
     {
       "src": "/assets/images/android-chrome-192x192.png",
