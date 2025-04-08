@@ -17,18 +17,18 @@ if (process.env.ENVIRONMENT === 'production') {
   <meta name="robots" content="index, follow">
   <meta name="author" content="MAZANOKE">
 
-  <meta property="og:title" content="MAZANOKE - Online Image Optimizer That Runs Privately in Your Browser">
-  <meta property="og:description" content="Optimize images by compressing and converting directly in your browser. Processing is done locally to ensure privacy.">
+  <meta property="og:title" content="MAZANOKE | Online Image Optimizer That Runs Privately in Your Browser">
+  <meta property="og:description" content="Optimize images locally and privately by converting and compressing them offline in your browser.">
   <meta property="og:url" content="https://www.mazanoke.com">
   <meta property="og:image" content="https://mazanoke.com/assets/images/og-image.jpg">
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
   <meta property="og:type" content="website">
-  <meta property="og:site_name" content="MAZANOKE - Online Image Optimizer That Runs Privately in Your Browser">
+  <meta property="og:site_name" content="MAZANOKE | Online Image Optimizer That Runs Privately in Your Browser">
 
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="MAZANOKE - Online Image Optimizer That Runs Privately in Your Browser">
-  <meta name="twitter:description" content="Optimize images by compressing and converting directly in your browser. Processing is done locally to ensure privacy.">
+  <meta name="twitter:title" content="MAZANOKE | Online Image Optimizer That Runs Privately in Your Browser">
+  <meta name="twitter:description" content="Optimize images locally and privately by converting and compressing them offline in your browser.">
   <meta name="twitter:image" content="https://mazanoke.com/assets/images/og-image.jpg">
 
   <link rel="canonical" href="https://www.mazanoke.com">
