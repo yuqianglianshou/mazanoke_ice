@@ -18,21 +18,21 @@ MAZANOKE is a simple image optimizer that runs entirely in your browser—no ext
 - [Features](#features)
 - [Install](#install)
 - [Screenshots](#screenshots)
-- [Attributions and Licenses](#attribution-and-license)
+- [Attributions and Licenses](#attributions-and-licenses)
 
 ## Features
 
 - 🚀 **Optimizes Images Instantly In Your Browser**
-  - Adjust image quality (0-100%).
+  - Adjust image quality.
   - Set a target file size.
   - Set max dimensions to limit width/height.
+  - Paste images and files directly from your clipboard.
   - Convert between `JPG`, `PNG`, and `WebP`.
     - Also supports conversion from `HEIC`, `AVIF`, `GIF`, `SVG`.
-  - Paste images or files directly from your clipboard.
 - 🌍 **Installable Web App**
   - Use as a Progressive Web App (PWA).
   - Dark and light mode.
-  - Fully responsive for desktop, tablet, and mobile.
+  - Runs on desktop, tablet, and mobile.
 - 🔒 **Privacy-Focused**
   - Works offline.
   - All image processing happens locally. Your files stay on your device.
@@ -83,7 +83,7 @@ services:
 | Dark mode<br><img src=".github/images/capture-desktop-dark.jpg" alt="mazanoke dark mode" width="50%"> | Light mode<br><img src=".github/images/capture-desktop-light.jpg" alt="mazanoke light mode" width="50%">  |
 | Settings<br><img src=".github/images/capture-desktop-solo-settings-dark.jpg" alt="mazanoke settings" width="50%">  | Download optimized images<br><img src=".github/images/capture-desktop-solo-output-dark.jpg" alt="mazanoke settings" width="50%">  |
 
-## Attribution and License
+## Attributions and Licenses
 
 MAZANOKE: [GNU General Public License v3.0](https://github.com/civilblur/mazanoke/blob/main/README.md)
 
@@ -91,6 +91,5 @@ Dependencies:
 - Browser Image Compression
 - heic-to, libheif, libde265
 - JSZip
-- Geist, Geist Mono
 
-[View all third-party licenses](./docs/ATTRIBUTIONS.md)
+[View all dependencies and licenses](./docs/ATTRIBUTIONS.md)
