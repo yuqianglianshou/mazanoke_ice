@@ -141,7 +141,10 @@ img {
   width: 100%;
 }
 
-
+ul {
+  list-style-position: inside;
+  padding-inline-start: 0;
+}
 
 /****************************************************
  *  Layout

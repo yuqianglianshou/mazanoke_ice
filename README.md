@@ -41,7 +41,8 @@ MAZANOKE is a simple image optimizer that runs entirely in your browser—no ext
 
 **Planned**
 - [X] Upload multiple files at once. (Completed)
-- [X] Support for more image file types. (Recently added: HEIC, AVIF, SVG)
+- [X] Support for more image file types.
+  - Recently added conversion from: HEIC, AVIF, GIF, SVG → JPG/PNG/WebP.
 - [ ] Remember last-used settings.
 - [ ] Image cropping.
 
@@ -58,6 +59,7 @@ services:
     ports:
       - "3474:80"
 ```
+1. Access the app at http://localhost:3474
 
 ### Local (Desktop)
 
@@ -66,8 +68,10 @@ services:
 
 ### Installing as Progressive Web App
 
-1. Visit [MAZANOKE.com](https://mazanoke.com/) or host your own instance for even stronger privacy.
-1. If your browser is supported, at the top right of the page, there will be an "Install" button.
+1. Go to [MAZANOKE.com](https://mazanoke.com/), or self-host your own for even stronger privacy.
+1. If your browser supports web apps, you will see an "Install" button in the top-right. Click to install.
+1. A shortcut to MAZANOKE is now added to your device, and can be used even without an internet connection.
+<img src=".github/images/capture-install-button.png" alt="Install MAZANOKE progressive web app button" height="100">
 
 ## Screenshots
 
