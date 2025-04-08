@@ -2016,6 +2016,10 @@ body:not(.compressing--is-active) .drop-zone.drop-zone--is-dragging .drop-zone__
   max-width: auto !important;
 }
 
+.rounded-full {
+  border-radius: var(--rounded-full);
+}
+
 .fade-in-up {
   animation: fade-in-up var(--duration-300) ease-out forwards;
 }
