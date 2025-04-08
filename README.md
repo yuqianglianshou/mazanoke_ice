@@ -67,15 +67,7 @@ services:
 ### Installing as Progressive Web App
 
 1. Visit [MAZANOKE.com](https://mazanoke.com/) or host your own instance for even stronger privacy.
-- 💻 On desktop:
-  - **Chrome:** Within the address bar on the right, click the computer icon → "Install".
-  - **Safari:** "Share" icon → "Add to Dock".
-- 📱 On mobile:
-  - **Firefox:** "More" menu → "Add App to Home Screen".
-  - **Chrome:** "More" menu → "Add to Home Screen".
-  - **Safari:** "Share" icon → "Add to Home Screen".
-
-For more detailed instructions with screenshots, [click here](https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps/Guides/Installing).
+1. If your browser is supported, at the top right of the page, there will be an "Install" button.
 
 ## Screenshots
 

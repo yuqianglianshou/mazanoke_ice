@@ -1432,7 +1432,7 @@ body:not(.compressing--is-active) .drop-zone.drop-zone--is-dragging .drop-zone__
  *  Media queries
  ****************************************************/
 
-@media (max-width: 360px) {
+@media (max-width: 380px) {
   .logo-container .logo-text {
     display: none;
   }
