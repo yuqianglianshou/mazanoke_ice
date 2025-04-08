@@ -45,7 +45,7 @@ let fileProgressMap = {};
  * - Improve error handling
  * - Double check state of settings on page load, in case of browser back button.
  * - Save settings to local storage and restore.
- * - Store compressed images in local storage, and allow clear individual items and all items.
+ * - Allow clear individual items and all items.
  */
 
 function resetCompressionState(isAllProcessed, aborted) {
@@ -652,6 +652,7 @@ document.addEventListener("DOMContentLoaded", function () {
     if (initialQualityInput.value > 100) {
       initialQualityInput.value = 100;
       updateSlider(100, "initialQualitySlider");
+      // TODO: Display toast message in UI
     }
     if (
       initialQualityInput.value < 0 ||
@@ -660,7 +661,9 @@ document.addEventListener("DOMContentLoaded", function () {
     ) {
       initialQualityInput.value = 0;
       updateSlider(0, "initialQualitySlider");
-    } else {
+      // TODO: Display toast message in UI
+    }
+    else {
       initialQualityInput.value = Math.round(initialQualityInput.value);
       updateSlider(initialQualityInput.value, "initialQualitySlider");
     }
@@ -670,13 +673,17 @@ document.addEventListener("DOMContentLoaded", function () {
     if (maxWidthOrHeightInput.value > 30000) {
       // Canvas supports around 32k pixels in width and height
       maxWidthOrHeightInput.value = 30000;
-    } else if (
+      // TODO: Display toast message in UI
+    }
+    else if (
       maxWidthOrHeightInput.value <= 0 ||
       isNaN(maxWidthOrHeightInput.value) ||
       maxWidthOrHeightInput.value === ""
     ) {
       maxWidthOrHeightInput.value = 1;
-    } else {
+      // TODO: Display toast message in UI
+    }
+    else {
       maxWidthOrHeightInput.value = Math.round(maxWidthOrHeightInput.value);
     }
   });
@@ -684,6 +691,7 @@ document.addEventListener("DOMContentLoaded", function () {
   maxSizeMBInput.addEventListener("change", function (e) {
     if (maxSizeMBInput.value > 100) {
       maxSizeMBInput.value = 100;
+      // TODO: Display toast message in UI
     }
     if (
       maxSizeMBInput.value <= 0 ||
@@ -691,6 +699,7 @@ document.addEventListener("DOMContentLoaded", function () {
       maxSizeMBInput.value === ""
     ) {
       maxSizeMBInput.value = 1;
+      // TODO: Display toast message in UI
     }
     maxSizeMBInput.value = maxSizeMBInput.value;
   });
@@ -834,6 +843,8 @@ async function downloadAllImages() {
 }
 
 function deleteAllImages() {
+  // TODO: Display dialog prompt before deleting
+
   outputDownloadContent.innerHTML = "";
   outputDownloadContainer.dataset.count = 0;
   selectSubpageOutput.dataset.count = 0;
