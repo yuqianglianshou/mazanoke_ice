@@ -30,3 +30,9 @@ MAZANOKE would not be possible without the projects listed here.
 - **Source**: https://github.com/vercel/geist-font
 - **Version**: 1.1
 - **Usage**: Fonts, icons
+
+### Coolicons Line Oval Icons
+- **Author:** krystonschwarze
+- **License**: [CC Attribution License](https://www.svgrepo.com/page/licensing/#CC%20Attribution)  
+- **Source**: https://www.svgrepo.com/collection/coolicons-line-oval-icons/
+- **Usage**: Icons
