@@ -1131,7 +1131,7 @@ body:not(.compressing--is-active) .drop-zone.drop-zone--is-dragging .drop-zone__
 
 .drop-zone-content__actions-title {
   font-size: var(--text-md);
-  max-width: min(300px, 85%);
+  max-width: min(400px, 85%);
 }
 
 .drop-zone-content__actions-description {
