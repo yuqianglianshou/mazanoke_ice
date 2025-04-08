@@ -169,11 +169,20 @@ img {
   filter: invert(var(--filter-invert));
 }
 
+.logo-text {
+  font-size: var(--text-xl);
+}
+
 .top-nav-actions {
   display: flex;
   justify-content: flex-end;
   align-items: center;
   flex: 1;
+  gap: var(--space-2xs);
+}
+
+#installPWA {
+  padding: var(--space-2xs) var(--space-sm);
 }
 
 .content {
@@ -1118,11 +1127,11 @@ body:not(.compressing--is-active) .drop-zone.drop-zone--is-dragging .drop-zone__
 .drop-zone-content__actions-title,
 .drop-zone-content__actions-description {
   font-family: 'geistmono';
-  max-width: 85%;
 }
 
 .drop-zone-content__actions-title {
   font-size: var(--text-md);
+  max-width: min(300px, 85%);
 }
 
 .drop-zone-content__actions-description {
@@ -1423,6 +1432,12 @@ body:not(.compressing--is-active) .drop-zone.drop-zone--is-dragging .drop-zone__
  *  Media queries
  ****************************************************/
 
+@media (max-width: 360px) {
+  .logo-container .logo-text {
+    display: none;
+  }
+}
+
 @media (max-width: 480px) {
   :root {
     --content-width: var(--breakpoint-2xs);
@@ -1462,6 +1477,15 @@ body:not(.compressing--is-active) .drop-zone.drop-zone--is-dragging .drop-zone__
   .image-output__item-thumbnail {
     width: 50px;
     height: 50px;
+  }
+
+  .logo-container .logo-image {
+    width: 30px;
+    height: 30px;
+  }
+
+  .logo-container .logo-text {
+    font-size: var(--text-lg);
   }
 }
 
@@ -1981,6 +2005,14 @@ body:not(.compressing--is-active) .drop-zone.drop-zone--is-dragging .drop-zone__
 
 .text-2xl {
   font-size: var(--text-2xl) !important;
+}
+
+.minw-auto {
+  min-width: auto !important;
+}
+
+.maxw-auto {
+  max-width: auto !important;
 }
 
 .fade-in-up {

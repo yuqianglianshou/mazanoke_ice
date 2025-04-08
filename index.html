@@ -41,7 +41,7 @@
   <nav class="top-nav">
     <div class="logo-container">
       <img class="logo-image" src="./assets/images/symbol-192x192.png" alt="MAZANOKE logo">
-      <h1 class="h4">MAZANOKE</h1>
+      <h1 class="logo-text">MAZANOKE</h1>
     </div>
 
     <div class="top-nav-actions">
@@ -57,6 +57,7 @@
             </span>
         </label>
       </div>
+      <button id="installPWA" class="button-cta button-secondary minw-auto">Install</button>
     </div>
   </nav>
 
@@ -77,7 +78,7 @@
         <div class="drop-zone-content__border"></div>
         
         <div id="dropZoneActions" class="drop-zone-content__actions">
-          <div class="drop-zone-content__actions-title">Drop images here to optimize them</div>
+          <div class="drop-zone-content__actions-title">Drop or paste images to start optimizing</div>
           <div class="drop-zone-content__actions-description">jpg, png, webp, heic, avif, gif, svg</div>
           <button class="button-cta button-secondary">
             <svg height="16" stroke-linejoin="round" viewBox="0 0 16 16" width="16" style="color: currentcolor;"><path fill-rule="evenodd" clip-rule="evenodd" d="M14.5 7.5V12.5C14.5 13.0523 14.0523 13.5 13.5 13.5H2.5C1.94772 13.5 1.5 13.0523 1.5 12.5V7.5H14.5ZM14.5 6V4H8.83333C8.29241 4 7.76607 3.82456 7.33333 3.5L6 2.5H1.5V6H14.5ZM0 1H1.5H6.16667C6.38304 1 6.59357 1.07018 6.76667 1.2L8.23333 2.3C8.40643 2.42982 8.61696 2.5 8.83333 2.5H14.5H16V4V12.5C16 13.8807 14.8807 15 13.5 15H2.5C1.11929 15 0 13.8807 0 12.5V2.5V1Z" fill="currentColor"></path></svg>
@@ -443,6 +444,25 @@
         });
       });
     }
+
+    if (!('beforeinstallprompt' in window)) {
+      document.getElementById('installPWA').classList.add('hidden');
+    }
+
+    let deferredPrompt;
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      document.getElementById('installPWA').classList.remove('hidden');
+    });
+
+    document.getElementById('installPWA').addEventListener('click', async () => {
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+        await deferredPrompt.userChoice;
+        deferredPrompt = null;
+      }
+    });
   </script>
 </body>
 
