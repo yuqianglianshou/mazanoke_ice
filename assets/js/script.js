@@ -22,10 +22,10 @@ const dropZoneActions = document.getElementById("dropZoneActions");
 const compressedImageCount = document.getElementById("compressedImageCount");
 const thumbnailCompressionOptions = {
   initialQuality: 0.8,
-  maxWidthOrHeight: 100,
+  maxWidthOrHeight: 70,
   useWebWorker: true,
   preserveExif: false,
-  fileType: "image/jpeg",
+  fileType: "image/png",
   libURL: "./browser-image-compression.js",
   alwaysKeepResolution: true,
 };

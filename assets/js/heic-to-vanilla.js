@@ -111,6 +111,6 @@ var HeicTo = (() => {
   return __toCommonJS(src_exports);
 })();
 
-      window.heicTo = HeicTo.heicTo;
-      window.isHeic = HeicTo.isHeic;
+window.heicTo = HeicTo.heicTo;
+window.isHeic = HeicTo.isHeic;
     

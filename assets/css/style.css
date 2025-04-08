@@ -922,11 +922,7 @@ body:not(.subpage--output):not(.subpage--settings) .image-options-container {
   border-radius: var(--rounded-md);
   margin-right: auto;
   background-color: var(--color-surface-high);
-}
-
-.file-format--png .image-output__item-thumbnail {
-  /* Fixed color value, as transparent thumbnails are intentionally converted to jpg with white background. */
-  background-color: #ffffff; 
+  overflow: hidden;
 }
 
 .image-output__item-text {
