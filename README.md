@@ -25,9 +25,9 @@ MAZANOKE is a simple image optimizer that runs entirely in your browser—no ext
 - 🚀 **Optimizes Images Instantly In Your Browser**
   - Adjust image quality (0-100%).
   - Set a target file size.
-  - Set max dimensions, to not exceed a certain width/height.
-  - Convert between JPG, PNG, and WebP.
-    - Supports HEIC, AVIF, GIF, SVG → JPG/PNG/WebP.
+  - Set max dimensions to limit width/height.
+  - Convert between `JPG`, `PNG`, and `WebP`.
+    - Also supports conversion from `HEIC`, `AVIF`, `GIF`, `SVG`.
   - Paste images or files directly from your clipboard.
 - 🌍 **Installable Web App**
   - Use as a Progressive Web App (PWA).
@@ -35,9 +35,8 @@ MAZANOKE is a simple image optimizer that runs entirely in your browser—no ext
   - Fully responsive for desktop, tablet, and mobile.
 - 🔒 **Privacy-Focused**
   - Works offline.
-  - All image processing happens locally.
-  - Removes EXIF data (gps, date taken, etc.).
-  - No data is uploaded to external servers. Your files stay on your device.
+  - All image processing happens locally. Your files stay on your device.
+  - Removes EXIF data, like location, date, device info, and more.
 
 **Planned**
 - [X] Upload multiple files at once. (Completed)
