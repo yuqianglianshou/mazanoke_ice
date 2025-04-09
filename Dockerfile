@@ -12,6 +12,7 @@ RUN npm init -y
 RUN npm install dotenv
 COPY ./scripts /scripts
 COPY .env /scripts/.env
+RUN node /scripts/environment.common.js
 RUN node /scripts/environment.prod.js
 
 EXPOSE 80

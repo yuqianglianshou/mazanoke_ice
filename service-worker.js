@@ -1,4 +1,4 @@
-const APP_VERSION = 'v1.0.2'
+const APP_VERSION = 'v1.1.0'
 const CACHE_VERSION = APP_VERSION;
 const CACHE_NAME = `image-compression-cache-${CACHE_VERSION}`;
 const urlsToCache = [

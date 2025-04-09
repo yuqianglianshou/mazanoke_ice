@@ -3,14 +3,14 @@ require('dotenv').config();
 const fs = require('fs');
 const path = require('path');
 
-const filePath = path.join('/usr/share/nginx/html', 'index.html');
+const indexPath = path.join('/usr/share/nginx/html', 'index.html');
 
-if (!fs.existsSync(filePath)) {
-  console.error(`Error: File not found at ${filePath}`);
+if (!fs.existsSync(indexPath)) {
+  console.error(`Error: File not found at ${indexPath}`);
   return;
 }
 
-let content = fs.readFileSync(filePath, 'utf8');
+let indexContent = fs.readFileSync(indexPath, 'utf8');
 
 if (process.env.ENVIRONMENT === 'production') {
   const metatags = `
@@ -35,7 +35,7 @@ if (process.env.ENVIRONMENT === 'production') {
   
   <meta name="keywords" content="online image optimizer, image compression, local image processing, offline image optimizer, private image optimizer, convert svg, convert heic, convert png, convert jpg, convert gif">
   `;
-  content = content.replace('<meta name="robots" content="noindex, nofollow">', metatags);
+  indexContent = indexContent.replace('<meta name="robots" content="noindex, nofollow">', metatags);
 }
 
-fs.writeFileSync(filePath, content, 'utf8');
+fs.writeFileSync(indexPath, indexContent, 'utf8');

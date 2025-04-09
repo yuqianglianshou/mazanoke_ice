@@ -49,6 +49,8 @@ footer {
 }
 
 footer a.footer-text {
+  display: flex;
+  gap: var(--space-2xs);
   text-align: center;
   font-size: var(--text-sm);
   font-family: 'geistmono';
@@ -56,6 +58,11 @@ footer a.footer-text {
   color: var(--color-on-surface);
   text-decoration: none;
   transition: var(--duration-hover) ease-out;
+}
+
+footer a.footer-text span,
+footer a.footer-text div {
+  font-family: inherit;
 }
 
 footer a.footer-text:hover {
@@ -1134,9 +1141,18 @@ body:not(.compressing--is-active) .drop-zone.drop-zone--is-dragging .drop-zone__
 }
 
 .drop-zone-content__actions-description {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  row-gap: calc(var(--space-3xs) / 2);
+  column-gap: var(--space-sm);
   font-size: var(--text-sm);
+  text-align: center;
   opacity: 0.7;
-  max-width: 85%;
+}
+
+.drop-zone-content__actions-description span {
+  font-family: inherit;
 }
 
 
@@ -1441,6 +1457,10 @@ body:not(.compressing--is-active) .drop-zone.drop-zone--is-dragging .drop-zone__
 @media (max-width: 480px) {
   :root {
     --content-width: var(--breakpoint-2xs);
+  }
+
+  .drop-zone-content {
+    padding: var(--space-xs);
   }
 
   .segmented-control__text .badge {
@@ -1835,6 +1855,10 @@ body:not(.compressing--is-active) .drop-zone.drop-zone--is-dragging .drop-zone__
   margin-right: var(--space-3xl) !important;
 }
 
+.p-2xs {
+  padding: var(--space-2xs) !important;
+}
+
 .p-xs {
   padding: var(--space-xs) !important;
 }
@@ -1861,6 +1885,10 @@ body:not(.compressing--is-active) .drop-zone.drop-zone--is-dragging .drop-zone__
 
 .p-3xl {
   padding: var(--space-3xl) !important;
+}
+
+.pt-2xs {
+  padding-top: var(--space-2xs) !important;
 }
 
 .pt-xs {
@@ -1891,6 +1919,10 @@ body:not(.compressing--is-active) .drop-zone.drop-zone--is-dragging .drop-zone__
   padding-top: var(--space-3xl) !important;
 }
 
+.pr-2xs {
+  padding-right: var(--space-2xs) !important;
+}
+
 .pr-xs {
   padding-right: var(--space-xs) !important;
 }
@@ -1917,6 +1949,10 @@ body:not(.compressing--is-active) .drop-zone.drop-zone--is-dragging .drop-zone__
 
 .pr-3xl {
   padding-right: var(--space-3xl) !important;
+}
+
+.pb-2xs {
+  padding-bottom: var(--space-2xs) !important;
 }
 
 .pb-xs {
@@ -1949,6 +1985,10 @@ body:not(.compressing--is-active) .drop-zone.drop-zone--is-dragging .drop-zone__
 
 .pl-xs {
   padding-left: var(--space-xs) !important;
+}
+
+.pl-2xs {
+  padding-left: var(--space-2xs) !important;
 }
 
 .pl-sm {
@@ -2044,6 +2084,11 @@ body:not(.compressing--is-active) .drop-zone.drop-zone--is-dragging .drop-zone__
 .hidden {
   display: none !important;
 }
+
+.bg\:surface {
+  background-color: var(--color-surface) !important;
+}
+
 
 @media (max-width: 480px) {
   .xxs\:hidden { display: none !important; }
