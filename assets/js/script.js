@@ -104,8 +104,7 @@ async function preProcessImage(file) {
   let preProcessedNewFileType = null;
 
   if (file.type === "image/heic") {
-    // Convert HEIC to JPEG with reduced quality for better compression.
-    // HEIC is already an optimized format, thus, pre-applying lossy compression avoids increasing final output size.
+    // Convert HEIC to JPG with reduced quality for stronger compression, as HEIC is already a heavily optimized format.
     preProcessedImage = await heicTo({
       blob: file,
       type: "image/jpeg",
@@ -132,8 +131,6 @@ async function preProcessImage(file) {
 
     preProcessedNewFileType = "image/jpeg";
   }
-
-
 
   // if (preProcessedImage) { debugBlobImageOutput(blob); }
 
@@ -415,8 +412,9 @@ function handleCompressionResult(file, output) {
   thumbnail.src = outputImageBlob;
 
   // File name and dimensions
+  const { renamedFileName, isBrowserDefaultFileName } = renameBrowserDefaultFileName(file.name);
   const outputFileNameText = updateFileExtension(
-    file.name,
+    (isBrowserDefaultFileName ? renamedFileName : file.name),
     outputFileExtension,
     selectedFormat
   );
@@ -770,8 +768,7 @@ function selectCompressMethod(value) {
 async function downloadAllImages() {
   const GB = 1024 * 1024 * 1024;
   const chunkSize = 1 * GB; // Max zip file size before chunking into parts
-  const chunkId = Math.random().toString(36).substring(2, 6).toUpperCase(); // Random temporary id to differenciate each download, avoids duplicate zip file names.
-  const zipFileName = `mazanoke-images-${chunkId}`;
+  const zipFileName = appendFileNameId('mazanoke-images');
 
   try {
     if (isDownloadingAll) return;
@@ -873,27 +870,45 @@ async function triggerDownload(blob, filename) {
 
 
 function handlePasteImage(e) {
-  if (!e.clipboardData) return;
+  if (!e.clipboardData || isCompressing) return;
 
   const items = e.clipboardData.items;
   const files = [];
-  
+
   for (let i = 0; i < items.length; i++) {
     const item = items[i];
 
-    if (item.type.indexOf("image") === 0) {
-      const file = item.getAsFile();
-      if (file) {
-        const fileId = Math.random().toString(36).substring(2, 6).toUpperCase();
-        const ext = item.type.split('/')[1] || 'png';
-        const fileName = `image-${fileId}.${ext}`;
-        const renamedFile = new File([file], fileName, { type: file.type });
-        files.push(renamedFile);
-      }
+    if (item.kind === "file" && item.type.startsWith("image/")) {
+      files.push(item.getAsFile());
     }
   }
 
   if (files.length) {
     compressImage({ target: { files } });
   }
+}
+
+
+function appendFileNameId(fileName = "image") {
+  if (typeof fileName !== 'string') return null;
+
+  const lastDotIndex = fileName.lastIndexOf('.');
+  const fileExt = (lastDotIndex === -1 || lastDotIndex === 0) ? '' : fileName.slice(lastDotIndex).toLowerCase();
+  const baseFileName = (lastDotIndex === -1) ? fileName : fileName.slice(0, lastDotIndex);
+
+  const fileId = Math.random().toString(36).substring(2, 6).toUpperCase();
+  return baseFileName + "-" + fileId + fileExt;
+}
+
+
+function renameBrowserDefaultFileName(fileName) {
+  // Naive approach to check if an image was pasted from clipboard and received a default name by the browser,
+  // e.g., `image.png`. This method is potentially browser and language-dependent, if naming conventions vary.
+  // `HEIF image.heic` concerns Apple devices, e.g. when drag-n-dropping a subject cut-out.
+  const defaultNames = [/^image\.\w+$/i, /^HEIF image\.heic$/i];
+
+  if (defaultNames.some(regex => regex.test(fileName))) {
+    return { renamedFileName: appendFileNameId(fileName), isBrowserDefaultFileName: true };
+  }
+  return { renamedFileName: fileName, isBrowserDefaultFileName: false };
 }
