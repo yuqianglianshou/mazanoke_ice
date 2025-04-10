@@ -904,8 +904,8 @@ function appendFileNameId(fileName = "image") {
 function renameBrowserDefaultFileName(fileName) {
   // Naive approach to check if an image was pasted from clipboard and received a default name by the browser,
   // e.g., `image.png`. This method is potentially browser and language-dependent, if naming conventions vary.
-  // `HEIF image.heic` concerns Apple devices, e.g. when drag-n-dropping a subject cut-out.
-  const defaultNames = [/^image\.\w+$/i, /^HEIF image\.heic$/i];
+  // `HEIF Image.heic` concerns iOS devices, e.g. when drag-and-dropping a subject cut-out.
+  const defaultNames = [/^image\.\w+$/i, /^heif image\.heic$/i];
 
   if (defaultNames.some(regex => regex.test(fileName))) {
     return { renamedFileName: appendFileNameId(fileName), isBrowserDefaultFileName: true };

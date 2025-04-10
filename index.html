@@ -467,6 +467,10 @@
         deferredPrompt = null;
       }
     });
+
+    window.addEventListener('appinstalled', (event) => {
+      document.getElementById('installPWA').classList.add('hidden');
+    });
   </script>
 </body>
 
