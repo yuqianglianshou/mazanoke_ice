@@ -508,7 +508,7 @@ button {
   height: var(--text-sm);
   border-radius: var(--rounded-full);
   background-color: var(--color-surface);
-  border: 1px solid var(--color-border);
+  border: 2px solid var(--color-border);
 }
 
 .button-card-radio__radio-icon::after {
@@ -517,8 +517,8 @@ button {
   top: 50%;
   left: 50%;
   transform: translate3d(-50%, -50%, 0);
-  width: calc(var(--text-sm) - 8px);
-  height: calc(var(--text-sm) - 8px);
+  width: calc(var(--text-sm) - (var(--text-sm) / 1.8));
+  height: calc(var(--text-sm) - (var(--text-sm) / 1.8));
   border-radius: var(--rounded-full);
   background-color: var(--color-surface);
 }
