@@ -871,15 +871,28 @@ async function triggerDownload(blob, filename) {
   });
 }
 
+
 function handlePasteImage(e) {
   if (!e.clipboardData) return;
-  const items = e.clipboardData.items; // NOTE: Firefox only parses the first item
+
+  const items = e.clipboardData.items;
   const files = [];
+  
   for (let i = 0; i < items.length; i++) {
-    if (items[i].type.indexOf("image") === 0) {
-      files.push(items[i].getAsFile());
+    const item = items[i];
+
+    if (item.type.indexOf("image") === 0) {
+      const file = item.getAsFile();
+      if (file) {
+        const fileId = Math.random().toString(36).substring(2, 6).toUpperCase();
+        const ext = item.type.split('/')[1] || 'png';
+        const fileName = `image-${fileId}.${ext}`;
+        const renamedFile = new File([file], fileName, { type: file.type });
+        files.push(renamedFile);
+      }
     }
   }
+
   if (files.length) {
     compressImage({ target: { files } });
   }
