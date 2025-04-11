@@ -151,6 +151,7 @@ function compressImage(event) {
   compressImageQueue();
 }
 
+
 function compressImageQueue() {
   // Compress images one-by-one
 
@@ -293,15 +294,11 @@ function createCompressionOptions(onProgress, file) {
     1
   );
 
-  console.log(
-    "Input image file size: ",
-    (file.size / 1024 / 1024).toFixed(3),
-    "MB"
-  );
+  console.log("Input image file size: ", (file.size / 1024 / 1024).toFixed(3), "MB");
 
   let maxSizeMB = limitWeightInput.value;
 
-  if (limitWeightUnitInput.value === 'kb') {
+  if (limitWeightUnitInput.value === "kb") {
     maxSizeMB = (limitWeightInput.value / 1024);
   }
 
@@ -509,24 +506,15 @@ function selectFormat(value) {
 
 
 function selectSettingsSubpage(value) {
-  document.querySelector(
-    `#selectSettingsSubpage input[name="settingsSubpage"][value="${value}"]`
-  ).checked = true;
-  document
-    .querySelectorAll("#selectSettingsSubpage .segmented-control")
-    .forEach((el) => {
+  document.querySelector(`#selectSettingsSubpage input[name="settingsSubpage"][value="${value}"]`).checked = true;
+  document.querySelectorAll("#selectSettingsSubpage .segmented-control")
+    .forEach((el) => { 
       el.classList.remove("segmented-control--is-selected");
     });
-  document
-    .querySelector(
-      `#selectSettingsSubpage input[name="settingsSubpage"][value="${value}"]`
-    )
+  document.querySelector(`#selectSettingsSubpage input[name="settingsSubpage"][value="${value}"]`)
     .closest(".segmented-control")
     .classList.add("segmented-control--is-selected");
-  document.body.className = document.body.className.replace(
-    /\bsubpage--\S+/g,
-    ""
-  );
+  document.body.className = document.body.className.replace(/\bsubpage--\S+/g, "");
   if (value === "settings") {
     document.body.classList.add("subpage--settings");
   } else if (value === "output") {
@@ -733,11 +721,9 @@ function selectCompressMethod(value) {
       el.classList.remove("button-card-radio--is-selected");
     });
   document
-    .querySelector(
-      `#compressMethodGroup input[name="compressMethod"][value="${value}"]`
-    )
-    .closest(".button-card-radio")
-    .classList.add("button-card-radio--is-selected");
+    .querySelector(`#compressMethodGroup input[name="compressMethod"][value="${value}"]`)
+      .closest(".button-card-radio")
+      .classList.add("button-card-radio--is-selected");
   toggleFields();
 }
 
