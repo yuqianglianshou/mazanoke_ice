@@ -57,7 +57,9 @@
             </span>
         </label>
       </div>
-      <button id="installPWA" class="button-cta button-secondary minw-auto hidden">
+      <button id="installPWAPrompt"
+              class="button-cta button-secondary minw-auto hidden"
+              onclick="document.getElementById('installPWADialog').showModal()">
         <svg height="16" stroke-linejoin="round" viewBox="0 0 16 16" width="16" style="color: currentcolor;"><path fill-rule="evenodd" clip-rule="evenodd" d="M8.75 5.25V4.5H7.25V5.25V9.43934L5.78033 7.96967L5.25 7.43934L4.18934 8.5L4.71967 9.03033L7.46967 11.7803C7.76256 12.0732 8.23744 12.0732 8.53033 11.7803L11.2803 9.03033L11.8107 8.5L10.75 7.43934L10.2197 7.96967L8.75 9.43934V5.25ZM1.5 8C1.5 4.41015 4.41015 1.5 8 1.5C11.5899 1.5 14.5 4.41015 14.5 8C14.5 11.5899 11.5899 14.5 8 14.5C4.41015 14.5 1.5 11.5899 1.5 8ZM8 0C3.58172 0 0 3.58172 0 8C0 12.4183 3.58172 16 8 16C12.4183 16 16 12.4183 16 8C16 3.58172 12.4183 0 8 0Z" fill="currentColor"></path></svg>
         <span>Install</span>
       </button>
@@ -427,6 +429,43 @@
 
   </div>
 
+  <dialog id="installPWADialog">
+    <h2 class="h4 text-medium">Install MAZANOKE</h2>
+
+    <div class="pl-sm pr-sm mt-md mb-md text-md" style="max-width: 350px;">
+      <div class="mb-sm">
+        <div class="flex gap-2xs">
+          <svg height="24"  width="24" stroke-linejoin="round" viewBox="0 0 16 16"style="color: currentcolor;"><path fill-rule="evenodd" clip-rule="evenodd" d="M8 0.154663L8.34601 0.334591L14.596 3.58459L15 3.79466V4.25V11.75V12.2053L14.596 12.4154L8.34601 15.6654L8 15.8453L7.65399 15.6654L1.40399 12.4154L1 12.2053V11.75V4.25V3.79466L1.40399 3.58459L7.65399 0.334591L8 0.154663ZM2.5 11.2947V5.44058L7.25 7.81559V13.7647L2.5 11.2947ZM8.75 13.7647L13.5 11.2947V5.44056L8.75 7.81556V13.7647ZM8 1.84534L12.5766 4.22519L7.99998 6.51352L3.42335 4.2252L8 1.84534Z" fill="currentColor"></path></svg>
+          <p>An app shortcut is added to your device.</p>
+        </div>
+      </div>
+      <div class="mb-sm">
+        <div class="flex gap-2xs">
+          <svg height="24"  width="24" stroke-linejoin="round" viewBox="0 0 16 16" style="color: currentcolor;"><path fill-rule="evenodd" clip-rule="evenodd" d="M1 2.5C7.90356 2.5 13.5 8.09644 13.5 15H15C15 7.26801 8.73199 1 1 1V2.5ZM8 15C8 11.134 4.86599 8 1 8V6.5C5.69442 6.5 9.5 10.3056 9.5 15H8ZM2.5 15C2.5 14.1716 1.82843 13.5 1 13.5V12C2.65685 12 4 13.3431 4 15H2.5Z" fill="currentColor"></path></svg>
+          <p>Use even without an internet connection.</p>
+        </div>
+      </div>
+      <div class="mb-sm">
+        <div class="flex gap-2xs">
+          <svg height="24" width="24" stroke-linejoin="round" viewBox="0 0 16 16" style="color: currentcolor;"><path fill-rule="evenodd" clip-rule="evenodd" d="M10 4.5V6H6V4.5C6 3.39543 6.89543 2.5 8 2.5C9.10457 2.5 10 3.39543 10 4.5ZM4.5 6V4.5C4.5 2.567 6.067 1 8 1C9.933 1 11.5 2.567 11.5 4.5V6H12.5H14V7.5V12.5C14 13.8807 12.8807 15 11.5 15H4.5C3.11929 15 2 13.8807 2 12.5V7.5V6H3.5H4.5ZM11.5 7.5H10H6H4.5H3.5V12.5C3.5 13.0523 3.94772 13.5 4.5 13.5H11.5C12.0523 13.5 12.5 13.0523 12.5 12.5V7.5H11.5Z" fill="currentColor"></path></svg>
+          <p>Whether on the web or app, your images are always processed privately on-device.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="button-group button-group--col justify-end mt-md">
+      <button class="button-cta button-secondary minw-auto" onclick="document.getElementById('installPWADialog').close()">
+        Cancel
+      </button>
+      <button id="installPWA" class="button-cta button-primary">
+        <svg height="16" stroke-linejoin="round" viewBox="0 0 16 16" width="16" style="color: currentcolor;"><path fill-rule="evenodd" clip-rule="evenodd" d="M8.75 5.25V4.5H7.25V5.25V9.43934L5.78033 7.96967L5.25 7.43934L4.18934 8.5L4.71967 9.03033L7.46967 11.7803C7.76256 12.0732 8.23744 12.0732 8.53033 11.7803L11.2803 9.03033L11.8107 8.5L10.75 7.43934L10.2197 7.96967L8.75 9.43934V5.25ZM1.5 8C1.5 4.41015 4.41015 1.5 8 1.5C11.5899 1.5 14.5 4.41015 14.5 8C14.5 11.5899 11.5899 14.5 8 14.5C4.41015 14.5 1.5 11.5899 1.5 8ZM8 0C3.58172 0 0 3.58172 0 8C0 12.4183 3.58172 16 8 16C12.4183 16 16 12.4183 16 8C16 3.58172 12.4183 0 8 0Z" fill="currentColor"></path></svg>
+        <span>Install</span>
+      </button>
+    </div>
+  </dialog>
+
+  
   <footer>
     <a class="footer-text" href="https://github.com/civilblur/mazanoke" target="_blank" rel="noopener noreferrer">
       <span>created by civilblur</span>
@@ -457,7 +496,7 @@
     window.addEventListener('beforeinstallprompt', (e) => {
       e.preventDefault();
       deferredPrompt = e;
-      document.getElementById('installPWA').classList.remove('hidden');
+      document.getElementById('installPWAPrompt').classList.remove('hidden');
     });
 
     document.getElementById('installPWA').addEventListener('click', async () => {
@@ -469,7 +508,7 @@
     });
 
     window.addEventListener('appinstalled', (event) => {
-      document.getElementById('installPWA').classList.add('hidden');
+      document.getElementById('installPWAPrompt').classList.add('hidden');
     });
   </script>
 </body>

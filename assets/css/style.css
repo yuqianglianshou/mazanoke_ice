@@ -79,7 +79,9 @@ label {
 }
 
 p {
-  line-height: 1.2;
+  line-height: 1.4;
+  margin-top: 0;
+  margin-bottom: 0;
 }
 
 
@@ -149,8 +151,19 @@ img {
 }
 
 ul {
-  list-style-position: inside;
+  list-style-position: outside;
   padding-inline-start: 0;
+  padding-left: 1em;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+li {
+  margin-bottom: var(--space-2xs);
+}
+
+svg {
+  flex-shrink: 0;
 }
 
 /****************************************************
@@ -191,7 +204,7 @@ ul {
   gap: var(--space-2xs);
 }
 
-#installPWA {
+#installPWAPrompt {
   padding: var(--space-2xs) var(--space-sm);
 }
 
@@ -206,6 +219,36 @@ ul {
 .nav-subpage {
   padding-left: var(--content-width-gutter);
   padding-right: var(--content-width-gutter);
+}
+
+dialog {
+  background-color: var(--color-surface-high);
+  color: var(--color-on-surface-high);
+  border: none;
+  border-radius: var(--rounded-lg);
+  padding: var(--space-md);
+  animation: fade-in-up var(--duration-200) ease-out forwards;
+}
+
+::backdrop {
+  background-color: rgba(0,0,0,0.75);
+  animation: fade-in var(--duration-200) ease-out forwards;
+}
+
+.button-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2xs);
+  align-items: center;
+}
+
+.button-group--col {
+  flex-direction: column;
+  align-items: initial;
+}
+
+.button-group--col button {
+  flex: 1;
 }
 
 /****************************************************
@@ -2049,6 +2092,30 @@ body:not(.compressing--is-active) .drop-zone.drop-zone--is-dragging .drop-zone__
 
 .minw-auto {
   min-width: auto !important;
+}
+
+.text-light {
+  font-weight: 300;
+}
+
+.text-normal {
+  font-weight: 400;
+}
+
+.text-medium {
+  font-weight: 500;
+}
+
+.text-semibold {
+  font-weight: 600;
+}
+
+.text-bold {
+  font-weight: 700;
+}
+
+.list-none {
+  list-style-type: none;
 }
 
 .maxw-auto {
