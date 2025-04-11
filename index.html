@@ -163,13 +163,13 @@
             <div class="form-group__input-content">
 
               <div class="button-card-radio-group">
-                <div class="button-card-radio button-card-radio--is-selected" onclick="selectCompressMethod('initialQuality')">
+                <div class="button-card-radio button-card-radio--is-selected" onclick="selectCompressMethod('quality')">
                   <div class="button-card-radio__content">
                     <div class="flex gap-sm w-100">
                       <label class="button-card-radio__label">Set image quality</label>
                       <div class="button-card-radio__radio-input">
                         <div class="button-card-radio__radio-icon"></div>
-                        <input class="hidden" type="radio" name="compressMethod" value="initialQuality" checked>
+                        <input class="hidden" type="radio" name="compressMethod" value="quality" checked>
                       </div>
                     </div>
                     <div class="button-card-radio__description">
@@ -232,7 +232,7 @@
 
           <div class="form-group hidden">
             <div class="form-group__label-content">
-              <label class="form-group__label-text" for="initialQuality">
+              <label class="form-group__label-text" for="quality">
                 <!-- Quality -->
               </label>
             </div>
@@ -241,12 +241,12 @@
                 <label class="mb-2xs">Quality</label>
                 <div class="flex items-center gap-sm flex-wrap">
                   <div class="form-field-container form-field-container--suffix">
-                    <input type="number" id="initialQuality" name="initialQuality" value="80" min="0" max="100" step="1" oninput="updateSlider(this.value, 'initialQualitySlider')" />
-                    <label for="initialQuality" class="form-field-suffix">
+                    <input type="number" id="quality" name="quality" value="80" min="0" max="100" step="1" oninput="updateSlider(this.value, 'qualitySlider')" />
+                    <label for="quality" class="form-field-suffix">
                       %
                     </label>
                   </div>
-                  <div class="slider-track flex-1" id="initialQualitySlider" onmousedown="startSliderDrag(event, 'initialQuality')">
+                  <div class="slider-track flex-1" id="qualitySlider" onmousedown="startSliderDrag(event, 'quality')">
                     <div class="slider-fill"></div>
                     <div class="slider-thumb"></div>
                   </div>

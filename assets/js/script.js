@@ -2,7 +2,7 @@ const zip = new JSZip();
 const installPWADialog = document.querySelector("#installPWADialog");
 const updateToast = document.querySelector("#updateToast");
 const updateToastRefreshButton = document.querySelector("#updateToastRefreshButton");
-const initialQualityInput = document.querySelector("#initialQuality");
+const qualityInput = document.querySelector("#quality");
 const limitDimensionsInput = document.querySelector("#limitDimensions");
 const limitWeightInput = document.querySelector("#limitWeight");
 const limitWeightLabels = document.querySelectorAll('label[for="limitWeight"]');
@@ -117,7 +117,7 @@ async function preProcessImage(file) {
     }, 5000);
 
     preProcessedImage = await imageCompression(file, {
-      initialQuality: 0.8,
+      quality: 0.8,
       fileType: "image/jpeg",
       useWebWorker: true,
       preserveExif: false,
@@ -289,8 +289,8 @@ function createCompressionOptions(onProgress, file) {
   const { selectedFormat } = getFileType(file);
 
   compressMethod = compressMethodElement.value;
-  initialQuality = Math.min(
-    Math.max(parseFloat(initialQualityInput.value) / 100, 0),
+  quality = Math.min(
+    Math.max(parseFloat(qualityInput.value) / 100, 0),
     1
   );
 
@@ -308,8 +308,8 @@ function createCompressionOptions(onProgress, file) {
         ? maxSizeMB
         : (file.size / 1024 / 1024).toFixed(3),
     initialQuality:
-      initialQuality && compressMethod === "initialQuality"
-        ? initialQuality
+      quality && compressMethod === "quality"
+        ? quality
         : undefined,
     maxWidthOrHeight:
       dimensionMethod === "limit"
@@ -569,24 +569,24 @@ document.addEventListener("DOMContentLoaded", (e) => {
 
   document.addEventListener("paste", handlePasteImage);
 
-  initialQualityInput.addEventListener("change", () => {
-    if (initialQualityInput.value > 100) {
-      initialQualityInput.value = 100;
-      updateSlider(100, "initialQualitySlider");
+  qualityInput.addEventListener("change", () => {
+    if (qualityInput.value > 100) {
+      qualityInput.value = 100;
+      updateSlider(100, "qualitySlider");
       // TODO: Display toast message in UI
     }
     if (
-      initialQualityInput.value < 0 ||
-      isNaN(initialQualityInput.value) ||
-      initialQualityInput.value === ""
+      qualityInput.value < 0 ||
+      isNaN(qualityInput.value) ||
+      qualityInput.value === ""
     ) {
-      initialQualityInput.value = 0;
-      updateSlider(0, "initialQualitySlider");
+      qualityInput.value = 0;
+      updateSlider(0, "qualitySlider");
       // TODO: Display toast message in UI
     }
     else {
-      initialQualityInput.value = Math.round(initialQualityInput.value);
-      updateSlider(initialQualityInput.value, "initialQualitySlider");
+      qualityInput.value = Math.round(qualityInput.value);
+      updateSlider(qualityInput.value, "qualitySlider");
     }
   });
 
@@ -651,8 +651,8 @@ document.addEventListener("DOMContentLoaded", (e) => {
   });
   toggleFields(); // Initialize field visibility based on the default selection
   updateSlider(
-    document.getElementById("initialQuality").value,
-    "initialQualitySlider"
+    document.getElementById("quality").value,
+    "qualitySlider"
   );
   selectDimensionMethod(
     document.querySelector('input[name="dimensionMethod"]:checked').value
@@ -697,16 +697,16 @@ function toggleFields() {
   const maxWeightField = document
     .querySelector("label[for='maxWeight']")
     .closest(".form-group");
-  const initialQualityField = document
-    .querySelector("label[for='initialQuality']")
+  const qualityField = document
+    .querySelector("label[for='quality']")
     .closest(".form-group");
 
   if (compressMethod === "maxWeight") {
     maxWeightField.classList.remove("hidden");
-    initialQualityField.classList.add("hidden");
+    qualityField.classList.add("hidden");
   } else {
     maxWeightField.classList.add("hidden");
-    initialQualityField.classList.remove("hidden");
+    qualityField.classList.remove("hidden");
   }
 }
 
