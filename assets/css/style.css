@@ -228,6 +228,7 @@ dialog {
   border-radius: var(--rounded-lg);
   padding: var(--space-md);
   animation: fade-in-up var(--duration-200) ease-out forwards;
+  box-shadow: var(--shadow-2);
 }
 
 ::backdrop {
@@ -822,6 +823,7 @@ body.subpage--output .segmented-control__selected-item {
 .form-group__input-content {
   display: flex;
   flex: 1;
+  gap: var(--space-xs);
   min-height: 50px;
   width: 100%;
 }
