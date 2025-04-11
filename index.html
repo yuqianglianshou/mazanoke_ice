@@ -564,6 +564,7 @@
 
     window.addEventListener('appinstalled', (event) => {
       document.getElementById('installPWAPrompt').classList.add('hidden');
+      installPWADialog.close();
     });
   </script>
 </body>
