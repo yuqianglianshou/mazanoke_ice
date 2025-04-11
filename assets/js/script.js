@@ -1,20 +1,28 @@
 const zip = new JSZip();
 const installPWADialog = document.querySelector("#installPWADialog");
 const updateToast = document.querySelector("#updateToast");
-const updateToastRefreshButton = document.querySelector("#updateToastRefreshButton");
+const updateToastRefreshButton = document.querySelector(
+  "#updateToastRefreshButton"
+);
 const qualityInput = document.querySelector("#quality");
 const limitDimensionsInput = document.querySelector("#limitDimensions");
 const limitWeightInput = document.querySelector("#limitWeight");
 const limitWeightLabels = document.querySelectorAll('label[for="limitWeight"]');
 const limitWeightUnitInput = document.getElementById("limitWeightUnit");
 const progressContainer = document.querySelector(".progress-container");
-const progressQueueCount = document.querySelector("#webWorkerProgressQueueCount");
+const progressQueueCount = document.querySelector(
+  "#webWorkerProgressQueueCount"
+);
 const progressTrack = document.querySelector("#webWorkerProgressTrack");
 const progressBar = document.querySelector("#webWorkerProgressBar");
 const progressText = document.querySelector("#webWorkerProgressText");
-const outputDownloadContainer = document.querySelector("#outputDownloadContainer");
+const outputDownloadContainer = document.querySelector(
+  "#outputDownloadContainer"
+);
 const outputDownloadContent = document.querySelector("#outputDownloadContent");
-const downloadAllImagesButton = document.querySelector("#downloadAllImagesButton");
+const downloadAllImagesButton = document.querySelector(
+  "#downloadAllImagesButton"
+);
 const selectSubpageOutput = document.querySelector("#selectSubpageOutput");
 const webWorkerAbort = document.getElementById("webWorkerAbort");
 const dropZoneActions = document.getElementById("dropZoneActions");
@@ -30,8 +38,11 @@ const thumbnailCompressionOptions = {
 };
 const limitWeightMin = 0.01; // 0.01MB, 10KB
 const limitWeightMax = 100; // 100MB
-let maxWeightSuffixLabel = Array.from(limitWeightLabels).find(label => label.hasAttribute('data-suffix'));
-let maxWeightSuffixLabelValue = maxWeightSuffixLabel.dataset.suffix.toLowerCase();
+let maxWeightSuffixLabel = Array.from(limitWeightLabels).find((label) =>
+  label.hasAttribute("data-suffix")
+);
+let maxWeightSuffixLabelValue =
+  maxWeightSuffixLabel.dataset.suffix.toLowerCase();
 let controller;
 let compressQueue = [];
 let compressQueueTotal = 0;
@@ -50,7 +61,6 @@ let fileProgressMap = {};
  * - Save settings to local storage and restore.
  * - Allow clear individual items and all items.
  */
-
 
 function resetCompressionState(isAllProcessed, aborted) {
   const resetUI = () => {
@@ -94,7 +104,6 @@ function resetCompressionState(isAllProcessed, aborted) {
   }
 }
 
-
 async function preProcessImage(file) {
   let preProcessedImage = null;
   let preProcessedNewFileType = null;
@@ -111,7 +120,6 @@ async function preProcessImage(file) {
   }
 
   if (file.type === "image/avif") {
-
     setTimeout(() => {
       progressText.innerHTML = `Please wait. AVIF files may take longer to prepare<span class="loading-dots">`;
     }, 5000);
@@ -133,7 +141,6 @@ async function preProcessImage(file) {
   return { preProcessedImage, preProcessedNewFileType };
 }
 
-
 function compressImage(event) {
   controller = new AbortController();
   compressQueue = Array.from(event.target.files);
@@ -150,7 +157,6 @@ function compressImage(event) {
 
   compressImageQueue();
 }
-
 
 function compressImageQueue() {
   // Compress images one-by-one
@@ -228,12 +234,10 @@ function compressImageQueue() {
   }
 }
 
-
 function calculateOverallProgress(progressMap, totalFiles) {
   const sum = Object.values(progressMap).reduce((acc, val) => acc + val, 0);
   return Math.round(sum / totalFiles);
 }
-
 
 function updateSlider(value, sliderId) {
   const slider = document.getElementById(sliderId);
@@ -248,7 +252,6 @@ function updateSlider(value, sliderId) {
   fill.style.width = percentage + "%";
   thumb.style.left = Math.min(percentage, 100) + "%";
 }
-
 
 function startSliderDrag(event, inputId) {
   const slider = event.currentTarget;
@@ -276,7 +279,6 @@ function startSliderDrag(event, inputId) {
   document.addEventListener("mouseup", onMouseUp);
 }
 
-
 function createCompressionOptions(onProgress, file) {
   const compressMethod = document.querySelector(
     'input[name="compressMethod"]:checked'
@@ -289,23 +291,21 @@ function createCompressionOptions(onProgress, file) {
 
   quality = Math.min(Math.max(parseFloat(qualityInput.value) / 100, 0), 1);
 
-  console.log("Input image file size: ", (file.size / 1024 / 1024).toFixed(3), "MB");
+  console.log(
+    "Input image file size: ",
+    (file.size / 1024 / 1024).toFixed(3),
+    "MB"
+  );
 
-  let maxSizeMB = limitWeightInput.value;
-
-  if (limitWeightUnitInput.value === "kb") {
-    maxSizeMB = (limitWeightInput.value / 1024);
-  }
-
+  let maxWeightMB = limitWeightUnitInput.value === "kb" ? limitWeightInput.value / 1024 : limitWeightInput.value;
+  
   const options = {
     maxSizeMB:
       maxWeight && compressMethod === "maxWeight"
-        ? maxSizeMB
+        ? maxWeightMB
         : (file.size / 1024 / 1024).toFixed(3),
     initialQuality:
-      quality && compressMethod === "quality"
-        ? quality
-        : undefined,
+      quality && compressMethod === "quality" ? quality : undefined,
     maxWidthOrHeight:
       dimensionMethod === "limit"
         ? parseFloat(limitDimensionsInput.value)
@@ -325,7 +325,6 @@ function createCompressionOptions(onProgress, file) {
   return options;
 }
 
-
 function handleCompressionResult(file, output) {
   const { outputFileExtension, selectedFormat } = getFileType(file);
   const outputImageBlob = URL.createObjectURL(output);
@@ -341,9 +340,10 @@ function handleCompressionResult(file, output) {
   thumbnail.src = outputImageBlob;
 
   // File name and dimensions
-  const { renamedFileName, isBrowserDefaultFileName } = renameBrowserDefaultFileName(file.name);
+  const { renamedFileName, isBrowserDefaultFileName } =
+    renameBrowserDefaultFileName(file.name);
   const outputFileNameText = updateFileExtension(
-    (isBrowserDefaultFileName ? renamedFileName : file.name),
+    isBrowserDefaultFileName ? renamedFileName : file.name,
     outputFileExtension,
     selectedFormat
   );
@@ -456,7 +456,6 @@ function abort(event) {
   // TODO: Display abort message in UI
 }
 
-
 function selectDimensionMethod(value) {
   document.querySelector(
     `input[name="dimensionMethod"][value="${value}"]`
@@ -483,7 +482,6 @@ function selectDimensionMethod(value) {
   return value;
 }
 
-
 function selectFormat(value) {
   document.querySelector(
     `input[name="formatSelect"][value="${value}"]`
@@ -499,24 +497,31 @@ function selectFormat(value) {
     .classList.add("button-card-radio--is-selected");
 }
 
-
 function selectSettingsSubpage(value) {
-  document.querySelector(`#selectSettingsSubpage input[name="settingsSubpage"][value="${value}"]`).checked = true;
-  document.querySelectorAll("#selectSettingsSubpage .segmented-control")
-    .forEach((el) => { 
+  document.querySelector(
+    `#selectSettingsSubpage input[name="settingsSubpage"][value="${value}"]`
+  ).checked = true;
+  document
+    .querySelectorAll("#selectSettingsSubpage .segmented-control")
+    .forEach((el) => {
       el.classList.remove("segmented-control--is-selected");
     });
-  document.querySelector(`#selectSettingsSubpage input[name="settingsSubpage"][value="${value}"]`)
+  document
+    .querySelector(
+      `#selectSettingsSubpage input[name="settingsSubpage"][value="${value}"]`
+    )
     .closest(".segmented-control")
     .classList.add("segmented-control--is-selected");
-  document.body.className = document.body.className.replace(/\bsubpage--\S+/g, "");
+  document.body.className = document.body.className.replace(
+    /\bsubpage--\S+/g,
+    ""
+  );
   if (value === "settings") {
     document.body.classList.add("subpage--settings");
   } else if (value === "output") {
     document.body.classList.add("subpage--output");
   }
 }
-
 
 document.addEventListener("DOMContentLoaded", (e) => {
   const dropZone = document.getElementById("webWorkerDropZone");
@@ -578,8 +583,7 @@ document.addEventListener("DOMContentLoaded", (e) => {
       qualityInput.value = 0;
       updateSlider(0, "qualitySlider");
       // TODO: Display toast message in UI
-    }
-    else {
+    } else {
       qualityInput.value = Math.round(qualityInput.value);
       updateSlider(qualityInput.value, "qualitySlider");
     }
@@ -590,32 +594,31 @@ document.addEventListener("DOMContentLoaded", (e) => {
       // Canvas supports around 32k pixels in width and height
       limitDimensionsInput.value = 30000;
       // TODO: Display toast message in UI
-    }
-    else if (
+    } else if (
       limitDimensionsInput.value <= 0 ||
       isNaN(limitDimensionsInput.value) ||
       limitDimensionsInput.value === ""
     ) {
       limitDimensionsInput.value = 1;
       // TODO: Display toast message in UI
-    }
-    else {
+    } else {
       limitDimensionsInput.value = Math.round(limitDimensionsInput.value);
     }
   });
 
   limitWeightInput.addEventListener("change", (e) => {
-    const {value, message} = validateWeight(limitWeightInput.value, limitWeightUnitInput.value);
+    const { value, message } = validateWeight(
+      limitWeightInput.value,
+      limitWeightUnitInput.value
+    );
 
     if (!value) {
       // TODO: Display toast message in UI using `message`
-    }
-    else if (value && message) {
+    } else if (value && message) {
       // Value was clamped due to exceeding allowed min or max weight.
       // TODO: Display toast message in UI using `message`
       limitWeightInput.value = value;
-    }
-    else if (value) {
+    } else if (value) {
       limitWeightInput.value = value;
     }
   });
@@ -623,13 +626,12 @@ document.addEventListener("DOMContentLoaded", (e) => {
   limitWeightUnitInput.addEventListener("change", (e) => {
     const previousUnit = maxWeightSuffixLabelValue.toUpperCase();
 
-    if (previousUnit === 'KB') {
+    if (previousUnit === "KB") {
       const kbToMb = Number(limitWeightInput.value / 1000);
       if (kbToMb < limitWeightInput.value) {
         limitWeightInput.value = kbToMb;
       }
-    }
-    else if (previousUnit === 'MB') {
+    } else if (previousUnit === "MB") {
       // Convert from MB to KB
       const mbToKb = Number(limitWeightInput.value * 1000);
       if (mbToKb > limitWeightInput.value) {
@@ -645,10 +647,7 @@ document.addEventListener("DOMContentLoaded", (e) => {
     radio.addEventListener("change", toggleFields);
   });
   toggleFields(); // Initialize field visibility based on the default selection
-  updateSlider(
-    document.getElementById("quality").value,
-    "qualitySlider"
-  );
+  updateSlider(document.getElementById("quality").value, "qualitySlider");
   selectDimensionMethod(
     document.querySelector('input[name="dimensionMethod"]:checked').value
   );
@@ -663,7 +662,6 @@ document.addEventListener("DOMContentLoaded", (e) => {
     });
   });
 });
-
 
 function handlePasteImage(e) {
   if (!e.clipboardData || isCompressing) return;
@@ -683,7 +681,6 @@ function handlePasteImage(e) {
     compressImage({ target: { files } });
   }
 }
-
 
 function toggleFields() {
   const compressMethod = document.querySelector(
@@ -705,26 +702,28 @@ function toggleFields() {
   }
 }
 
-
 function selectCompressMethod(value) {
-  document.querySelector(`input[name="compressMethod"][value="${value}"]`).checked = true;
+  document.querySelector(
+    `input[name="compressMethod"][value="${value}"]`
+  ).checked = true;
   document
     .querySelectorAll("#compressMethodGroup .button-card-radio")
     .forEach((el) => {
       el.classList.remove("button-card-radio--is-selected");
     });
   document
-    .querySelector(`#compressMethodGroup input[name="compressMethod"][value="${value}"]`)
-      .closest(".button-card-radio")
-      .classList.add("button-card-radio--is-selected");
+    .querySelector(
+      `#compressMethodGroup input[name="compressMethod"][value="${value}"]`
+    )
+    .closest(".button-card-radio")
+    .classList.add("button-card-radio--is-selected");
   toggleFields();
 }
-
 
 async function downloadAllImages() {
   const GB = 1024 * 1024 * 1024;
   const chunkSize = 1 * GB; // Max zip file size before chunking into parts
-  const zipFileName = appendFileNameId('mazanoke-images');
+  const zipFileName = appendFileNameId("mazanoke-images");
 
   try {
     if (isDownloadingAll) return;
@@ -797,7 +796,6 @@ async function downloadAllImages() {
   }
 }
 
-
 function deleteAllImages() {
   // TODO: Display toast to allow undo action
 
@@ -808,7 +806,6 @@ function deleteAllImages() {
   compressedImageCount.textContent = 0;
   imageCount = 0;
 }
-
 
 async function triggerDownload(blob, filename) {
   return new Promise((resolve) => {
