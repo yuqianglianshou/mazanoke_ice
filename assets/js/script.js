@@ -278,21 +278,16 @@ function startSliderDrag(event, inputId) {
 
 
 function createCompressionOptions(onProgress, file) {
-  const compressMethodElement = document.querySelector(
+  const compressMethod = document.querySelector(
     'input[name="compressMethod"]:checked'
-  );
+  ).value;
   const maxWeight = parseFloat(limitWeightInput.value);
-  const dimensionMethodElement = document.querySelector(
+  const dimensionMethod = document.querySelector(
     'input[name="dimensionMethod"]:checked'
-  );
-  const dimensionMethod = dimensionMethodElement.value;
+  ).value;
   const { selectedFormat } = getFileType(file);
 
-  compressMethod = compressMethodElement.value;
-  quality = Math.min(
-    Math.max(parseFloat(qualityInput.value) / 100, 0),
-    1
-  );
+  quality = Math.min(Math.max(parseFloat(qualityInput.value) / 100, 0), 1);
 
   console.log("Input image file size: ", (file.size / 1024 / 1024).toFixed(3), "MB");
 
@@ -712,9 +707,7 @@ function toggleFields() {
 
 
 function selectCompressMethod(value) {
-  document.querySelector(
-    `input[name="compressMethod"][value="${value}"]`
-  ).checked = true;
+  document.querySelector(`input[name="compressMethod"][value="${value}"]`).checked = true;
   document
     .querySelectorAll("#compressMethodGroup .button-card-radio")
     .forEach((el) => {
