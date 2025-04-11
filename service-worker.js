@@ -1,4 +1,4 @@
-const APP_VERSION = 'v1.1.0'
+const APP_VERSION = 'v1.1.0.0'
 const CACHE_VERSION = APP_VERSION;
 const CACHE_NAME = `image-compression-cache-${CACHE_VERSION}`;
 const urlsToCache = [
@@ -63,4 +63,10 @@ self.addEventListener('activate', event => {
       );
     })
   );
+});
+
+self.addEventListener('message', (event) => {
+  if (event.data === 'SKIP_WAITING') {
+      self.skipWaiting();
+  }
 });

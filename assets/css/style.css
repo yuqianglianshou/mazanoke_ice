@@ -404,6 +404,18 @@ button {
 }
 
 /* BEGIN: Temporary elevation color management */
+[data-elevation="2"] .button-secondary {
+  color: var(--color-on-surface-high);
+  background-color: var(--color-surface-high);
+  box-shadow: inset 0 0 0 1px var(--color-border);
+}
+
+[data-elevation="2"] .button-secondary:hover {
+  color: var(--color-on-surface-high);
+  background-color: var(--color-surface-high-hover);
+  box-shadow: inset 0 0 0 1px var(--color-border-hover);
+}
+
 [data-elevation="3"] .button-secondary {
   color: var(--color-on-surface-higher);
   background-color: var(--color-surface-higher);
@@ -1318,7 +1330,49 @@ body:not(.compressing--is-active) .drop-zone.drop-zone--is-dragging .drop-zone__
   transition: var(--duration-300) ease-out;
 }
 
+/****************************************************
+ *  Toast
+ ****************************************************/
 
+.toast {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  column-gap: var(--space-md);
+  row-gap: var(--space-xs);
+  padding: var(--space-xs) var(--space-sm);
+  background: var(--color-surface-higher);
+  border-radius: var(--rounded-md);
+  position: fixed;
+  bottom: var(--space-md);
+  right: var(--space-md);
+  z-index: 20;
+  box-shadow: var(--shadow-2);
+}
+
+.toast-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex: 1;
+}
+
+.toast-title {
+  font-size: var(--text-md);
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.toast-message {
+  max-width: 300px;
+  min-width: 150px;
+  font-size: var(--text-sm);
+}
+
+.toast-actions {
+  display: flex;
+  gap: var(--space-2xs);
+}
 
 /****************************************************
  *  Animations
@@ -1550,6 +1604,20 @@ body:not(.compressing--is-active) .drop-zone.drop-zone--is-dragging .drop-zone__
   .logo-container .logo-text {
     font-size: var(--text-lg);
   }
+
+  #updateToast.toast {
+    width: calc(100% - var(--space-sm) - var(--space-sm));
+    bottom: var(--space-sm);
+    right: var(--space-sm);
+  }
+
+  #updateToast.toast .toast-actions  {
+    width: 100%;
+  }
+
+  #updateToast.toast .toast-actions button  {
+    flex: 1;
+  }
 }
 
 @media (max-width: 768px) {
@@ -1676,6 +1744,10 @@ body:not(.compressing--is-active) .drop-zone.drop-zone--is-dragging .drop-zone__
 
 .flex {
   display: flex !important;
+}
+
+.inline-flex {
+  display: inline-flex !important;
 }
 
 .flex-col {
@@ -2154,6 +2226,14 @@ body:not(.compressing--is-active) .drop-zone.drop-zone--is-dragging .drop-zone__
 
 .bg\:surface {
   background-color: var(--color-surface) !important;
+}
+
+.bg\:surface-high {
+  background-color: var(--color-surface-high) !important;
+}
+
+.bg\:surface-higher {
+  background-color: var(--color-surface-higher) !important;
 }
 
 

@@ -1,21 +1,18 @@
 const zip = new JSZip();
+const installPWADialog = document.querySelector("#installPWADialog");
+const updateToast = document.querySelector("#updateToast");
+const updateToastRefreshButton = document.querySelector("#updateToastRefreshButton");
 const initialQualityInput = document.querySelector("#initialQuality");
 const maxWidthOrHeightInput = document.querySelector("#maxWidthOrHeight");
 const maxSizeMBInput = document.querySelector("#maxSizeMB");
 const progressContainer = document.querySelector(".progress-container");
-const progressQueueCount = document.querySelector(
-  "#webWorkerProgressQueueCount"
-);
+const progressQueueCount = document.querySelector("#webWorkerProgressQueueCount");
 const progressTrack = document.querySelector("#webWorkerProgressTrack");
 const progressBar = document.querySelector("#webWorkerProgressBar");
 const progressText = document.querySelector("#webWorkerProgressText");
-const outputDownloadContainer = document.querySelector(
-  "#outputDownloadContainer"
-);
+const outputDownloadContainer = document.querySelector("#outputDownloadContainer");
 const outputDownloadContent = document.querySelector("#outputDownloadContent");
-const downloadAllImagesButton = document.querySelector(
-  "#downloadAllImagesButton"
-);
+const downloadAllImagesButton = document.querySelector("#downloadAllImagesButton");
 const selectSubpageOutput = document.querySelector("#selectSubpageOutput");
 const webWorkerAbort = document.getElementById("webWorkerAbort");
 const dropZoneActions = document.getElementById("dropZoneActions");

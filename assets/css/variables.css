@@ -152,6 +152,7 @@ html.theme-light {
   --color-surface-variant: #e6e6e6;
   --color-surface-high: #f5f5f5;
   --color-surface-higher: #e3e3e3;
+  --color-surface-higher-hover: #cfcfcf;
 
   /* Glyphs */
   --color-on-surface: #333333;
