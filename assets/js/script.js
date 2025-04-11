@@ -3,10 +3,10 @@ const installPWADialog = document.querySelector("#installPWADialog");
 const updateToast = document.querySelector("#updateToast");
 const updateToastRefreshButton = document.querySelector("#updateToastRefreshButton");
 const initialQualityInput = document.querySelector("#initialQuality");
-const maxWidthOrHeightInput = document.querySelector("#maxWidthOrHeight");
-const maxSizeMBInput = document.querySelector("#maxSizeMB");
-const maxSizeMBLabels = document.querySelectorAll('label[for="maxSizeMB"]');
-const maxSizeMBCustomUnitInput = document.getElementById("maxSizeMBCustomUnit");
+const limitDimensionsInput = document.querySelector("#limitDimensions");
+const limitWeightInput = document.querySelector("#limitWeight");
+const limitWeightLabels = document.querySelectorAll('label[for="limitWeight"]');
+const limitWeightUnitInput = document.getElementById("limitWeightUnit");
 const progressContainer = document.querySelector(".progress-container");
 const progressQueueCount = document.querySelector("#webWorkerProgressQueueCount");
 const progressTrack = document.querySelector("#webWorkerProgressTrack");
@@ -28,10 +28,10 @@ const thumbnailCompressionOptions = {
   libURL: "./browser-image-compression.js",
   alwaysKeepResolution: true,
 };
-const minSizeMBLimit = 0.01; // 10KB
-const maxSizeMBLimit = 100; // 100MB
-let maxSizeMBSuffixLabel = Array.from(maxSizeMBLabels).find(label => label.hasAttribute('data-suffix'));
-let maxSizeMBSuffixLabelValue = maxSizeMBSuffixLabel.dataset.suffix.toLowerCase();
+const limitWeightMin = 0.01; // 0.01MB, 10KB
+const limitWeightMax = 100; // 100MB
+let maxWeightSuffixLabel = Array.from(limitWeightLabels).find(label => label.hasAttribute('data-suffix'));
+let maxWeightSuffixLabelValue = maxWeightSuffixLabel.dataset.suffix.toLowerCase();
 let controller;
 let compressQueue = [];
 let compressQueueTotal = 0;
@@ -282,7 +282,7 @@ function createCompressionOptions(onProgress, file) {
   const compressMethodElement = document.querySelector(
     'input[name="compressMethod"]:checked'
   );
-  const maxSizeMB = parseFloat(maxSizeMBInput.value);
+  const maxWeight = parseFloat(limitWeightInput.value);
   const dimensionMethodElement = document.querySelector(
     'input[name="dimensionMethod"]:checked'
   );
@@ -294,7 +294,6 @@ function createCompressionOptions(onProgress, file) {
     Math.max(parseFloat(initialQualityInput.value) / 100, 0),
     1
   );
-  maxWidthOrHeight = Math.max(parseFloat(maxWidthOrHeightInput.value), 1);
 
   console.log(
     "Input image file size: ",
@@ -304,8 +303,8 @@ function createCompressionOptions(onProgress, file) {
 
   const options = {
     maxSizeMB:
-      maxSizeMB && compressMethod === "maxSizeMB"
-        ? maxSizeMB
+      maxWeight && compressMethod === "maxWeight"
+        ? maxWeight
         : (file.size / 1024 / 1024).toFixed(3),
     initialQuality:
       initialQuality && compressMethod === "initialQuality"
@@ -313,7 +312,7 @@ function createCompressionOptions(onProgress, file) {
         : undefined,
     maxWidthOrHeight:
       dimensionMethod === "limit"
-        ? parseFloat(maxWidthOrHeightInput.value)
+        ? parseFloat(limitDimensionsInput.value)
         : undefined,
     useWebWorker: true,
     onProgress,
@@ -672,60 +671,60 @@ document.addEventListener("DOMContentLoaded", (e) => {
     }
   });
 
-  maxWidthOrHeightInput.addEventListener("change", (e) => {
-    if (maxWidthOrHeightInput.value > 30000) {
+  limitDimensionsInput.addEventListener("change", (e) => {
+    if (limitDimensionsInput.value > 30000) {
       // Canvas supports around 32k pixels in width and height
-      maxWidthOrHeightInput.value = 30000;
+      limitDimensionsInput.value = 30000;
       // TODO: Display toast message in UI
     }
     else if (
-      maxWidthOrHeightInput.value <= 0 ||
-      isNaN(maxWidthOrHeightInput.value) ||
-      maxWidthOrHeightInput.value === ""
+      limitDimensionsInput.value <= 0 ||
+      isNaN(limitDimensionsInput.value) ||
+      limitDimensionsInput.value === ""
     ) {
-      maxWidthOrHeightInput.value = 1;
+      limitDimensionsInput.value = 1;
       // TODO: Display toast message in UI
     }
     else {
-      maxWidthOrHeightInput.value = Math.round(maxWidthOrHeightInput.value);
+      limitDimensionsInput.value = Math.round(limitDimensionsInput.value);
     }
   });
 
-  maxSizeMBInput.addEventListener("change", (e) => {
-    if (maxSizeMBInput.value > 100) {
-      maxSizeMBInput.value = 100;
-      // TODO: Display toast message in UI
+  limitWeightInput.addEventListener("change", (e) => {
+    const {value, message} = validateWeight(limitWeightInput.value, limitWeightUnitInput.value);
+
+    if (!value) {
+      // TODO: Display toast message in UI using `message`
     }
-    if (
-      maxSizeMBInput.value <= 0 ||
-      isNaN(maxSizeMBInput.value) ||
-      maxSizeMBInput.value === ""
-    ) {
-      maxSizeMBInput.value = 1;
-      // TODO: Display toast message in UI
+    else if (value && message) {
+      // Value was clamped due to exceeding allowed min or max weight.
+      // TODO: Display toast message in UI using `message`
+      limitWeightInput.value = value;
     }
-    maxSizeMBInput.value = maxSizeMBInput.value;
+    else if (value) {
+      limitWeightInput.value = value;
+    }
   });
 
-  maxSizeMBCustomUnitInput.addEventListener("change", (e) => {
-    const previousCustomUnit = maxSizeMBSuffixLabelValue.toUpperCase();
+  limitWeightUnitInput.addEventListener("change", (e) => {
+    const previousUnit = maxWeightSuffixLabelValue.toUpperCase();
 
-    if (previousCustomUnit === 'KB') {
-      const kbToMb = Number(maxSizeMBInput.value / 1000);
-      if (kbToMb < maxSizeMBInput.value) {
-        maxSizeMBInput.value = kbToMb;
+    if (previousUnit === 'KB') {
+      const kbToMb = Number(limitWeightInput.value / 1000);
+      if (kbToMb < limitWeightInput.value) {
+        limitWeightInput.value = kbToMb;
       }
     }
-    else if (previousCustomUnit === 'MB') {
+    else if (previousUnit === 'MB') {
       // Convert from MB to KB
-      const mbToKb = Number(maxSizeMBInput.value * 1000);
-      if (mbToKb > maxSizeMBInput.value) {
-        maxSizeMBInput.value = Number(maxSizeMBInput.value * 1000);
+      const mbToKb = Number(limitWeightInput.value * 1000);
+      if (mbToKb > limitWeightInput.value) {
+        limitWeightInput.value = Number(limitWeightInput.value * 1000);
       }
     }
 
-    maxSizeMBSuffixLabelValue = maxSizeMBCustomUnitInput.value.toUpperCase(); // Data attribute
-    maxSizeMBSuffixLabel.textContent = maxSizeMBCustomUnitInput.value.toUpperCase(); // UI
+    maxWeightSuffixLabelValue = limitWeightUnitInput.value.toUpperCase(); // Data attribute
+    maxWeightSuffixLabel.textContent = limitWeightUnitInput.value.toUpperCase(); // UI
   });
 
   document.querySelectorAll('input[name="compressMethod"]').forEach((radio) => {
@@ -755,18 +754,18 @@ function toggleFields() {
   const compressMethod = document.querySelector(
     'input[name="compressMethod"]:checked'
   ).value;
-  const maxSizeMBField = document
-    .querySelector("label[for='maxSizeMB']")
+  const maxWeightField = document
+    .querySelector("label[for='maxWeight']")
     .closest(".form-group");
   const initialQualityField = document
     .querySelector("label[for='initialQuality']")
     .closest(".form-group");
 
-  if (compressMethod === "maxSizeMB") {
-    maxSizeMBField.classList.remove("hidden");
+  if (compressMethod === "maxWeight") {
+    maxWeightField.classList.remove("hidden");
     initialQualityField.classList.add("hidden");
   } else {
-    maxSizeMBField.classList.add("hidden");
+    maxWeightField.classList.add("hidden");
     initialQualityField.classList.remove("hidden");
   }
 }
@@ -935,4 +934,27 @@ function renameBrowserDefaultFileName(fileName) {
     return { renamedFileName: appendFileNameId(fileName), isBrowserDefaultFileName: true };
   }
   return { renamedFileName: fileName, isBrowserDefaultFileName: false };
+}
+
+
+function validateWeight(value, unit = "mb") {
+  value = Number(value);
+  let [min, max] = [limitWeightMin, limitWeightMax];
+  min = unit === "kb" ? min * 1000 : min; 
+  max = unit === "kb" ? max * 1000 : max; 
+
+  if (typeof value !== 'number' || isNaN(value) || !Number.isFinite(value)) {
+    const message = "Invalid value, not a number.";
+    return {value: null, message}
+  }
+  else if (value < min) {
+    const message = `Minimum file size is ${limitWeightMin * 1000}KB or ${limitWeightMin}MB.`;
+    return {value: min, message}
+  }
+  else if (value > max) {
+    const message = `Max file size is ${limitWeightMax}MB.`;
+    return {value: max, message}
+  }
+
+  return {value, message: null}
 }

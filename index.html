@@ -180,13 +180,13 @@
                   </div>
 
                 </div>
-                <div class="button-card-radio" onclick="selectCompressMethod('maxSizeMB')">
+                <div class="button-card-radio" onclick="selectCompressMethod('maxWeight')">
                   <div class="button-card-radio__content">
                     <div class="flex gap-sm w-100">
                       <label class="button-card-radio__label">Limit file size</label>
                       <div class="button-card-radio__radio-input">
                         <div class="button-card-radio__radio-icon"></div>
-                        <input class="hidden" type="radio" name="compressMethod" value="maxSizeMB">
+                        <input class="hidden" type="radio" name="compressMethod" value="maxWeight">
                       </div>
                     </div>
                     <div class="button-card-radio__description">
@@ -203,7 +203,7 @@
 
           <div class="form-group hidden">
             <div class="form-group__label-content">
-              <label class="form-group__label-text" for="maxSizeMB">
+              <label class="form-group__label-text" for="maxWeight">
                 <!-- Target file size -->
               </label>
             </div>
@@ -214,12 +214,12 @@
                 <div class="form-field-container gap-xs">
                   <div class="flex-1">
                     <div class="form-field-container form-field-container--suffix w-100">
-                      <input type="number" id="maxSizeMB" name="maxSizeMB" value="2" class="flex-1" />
-                      <label for="maxSizeMB" class="form-field-suffix" data-suffix="MB">MB</label>
+                      <input type="number" id="limitWeight" name="limitWeight" value="2" class="flex-1" />
+                      <label for="limitWeight" class="form-field-suffix" data-suffix="MB">MB</label>
                     </div>
                   </div>
                   <div class="flex-1">
-                    <select id="maxSizeMBCustomUnit" class="w-100">
+                    <select id="limitWeightUnit" class="w-100">
                       <option value="mb">Megabytes (MB)</option>
                       <option value="kb">Kilobytes (KB)</option>
                     </select>
@@ -260,7 +260,7 @@
 
           <div class="form-group mt-lg">
             <div class="form-group__label-content">
-              <label class="form-group__label-text" for="maxWidthOrHeight">
+              <label class="form-group__label-text" for="limitDimensions">
                 Dimensions
               </label>
               <div class="form-group__description">
@@ -308,7 +308,7 @@
 
           <div class="form-group hidden" id="resizeDimensionsField">
             <div class="form-group__label-content">
-              <label class="form-group__label-text" for="maxWidthOrHeight">
+              <label class="form-group__label-text" for="limitDimensions">
                 <!-- Max dimension -->
               </label>
             </div>
@@ -316,8 +316,8 @@
               <div class="fade-in-up w-100">
                 <label class="mb-2xs">Max dimension</label>
                 <div class="form-field-container form-field-container--suffix">
-                  <input type="number" id="maxWidthOrHeight" name="maxWidthOrHeight" value="1200" class="w-100" />
-                  <label for="maxWidthOrHeight" class="form-field-suffix">
+                  <input type="number" id="limitDimensions" name="limitDimensions" value="1200" class="w-100" />
+                  <label for="limitDimensions" class="form-field-suffix">
                     px
                   </label>
                 </div>
