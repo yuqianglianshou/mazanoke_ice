@@ -10,6 +10,7 @@ const urlsToCache = [
   '/assets/js/browser-image-compression.js',
   '/assets/js/heic-to-vanilla.js',
   '/assets/js/jszip.js',
+  '/assets/js/utilities.js',
   '/assets/js/script.js',
   '/assets/images/android-chrome-192x192.png',
   '/assets/images/android-chrome-512x512.png',
