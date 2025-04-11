@@ -211,11 +211,19 @@
               <div class="fade-in-up w-100">
                 <label class="mb-2xs">Max file size</label>
 
-                <div class="form-field-container form-field-container--suffix">
-                  <input type="number" id="maxSizeMB" name="maxSizeMB" value="2" class="w-100" />
-                  <label for="maxSizeMB" class="form-field-suffix">
-                    MB
-                  </label>
+                <div class="form-field-container gap-xs">
+                  <div class="flex-1">
+                    <div class="form-field-container form-field-container--suffix w-100">
+                      <input type="number" id="maxSizeMB" name="maxSizeMB" value="2" class="flex-1" />
+                      <label for="maxSizeMB" class="form-field-suffix" data-suffix="MB">MB</label>
+                    </div>
+                  </div>
+                  <div class="flex-1">
+                    <select id="maxSizeMBCustomUnit" class="w-100">
+                      <option value="mb">Megabytes (MB)</option>
+                      <option value="kb">Kilobytes (KB)</option>
+                    </select>
+                  </div>
                 </div>
               </div>
             </div>

@@ -5,6 +5,8 @@ const updateToastRefreshButton = document.querySelector("#updateToastRefreshButt
 const initialQualityInput = document.querySelector("#initialQuality");
 const maxWidthOrHeightInput = document.querySelector("#maxWidthOrHeight");
 const maxSizeMBInput = document.querySelector("#maxSizeMB");
+const maxSizeMBLabels = document.querySelectorAll('label[for="maxSizeMB"]');
+const maxSizeMBCustomUnitInput = document.getElementById("maxSizeMBCustomUnit");
 const progressContainer = document.querySelector(".progress-container");
 const progressQueueCount = document.querySelector("#webWorkerProgressQueueCount");
 const progressTrack = document.querySelector("#webWorkerProgressTrack");
@@ -26,6 +28,10 @@ const thumbnailCompressionOptions = {
   libURL: "./browser-image-compression.js",
   alwaysKeepResolution: true,
 };
+const minSizeMBLimit = 0.01; // 10KB
+const maxSizeMBLimit = 100; // 100MB
+let maxSizeMBSuffixLabel = Array.from(maxSizeMBLabels).find(label => label.hasAttribute('data-suffix'));
+let maxSizeMBSuffixLabelValue = maxSizeMBSuffixLabel.dataset.suffix.toLowerCase();
 let controller;
 let compressQueue = [];
 let compressQueueTotal = 0;
@@ -599,41 +605,41 @@ function selectSettingsSubpage(value) {
   }
 }
 
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", (e) => {
   const dropZone = document.getElementById("webWorkerDropZone");
   const fileInput = document.getElementById("webWorker");
 
-  dropZone.addEventListener("click", function () {
+  dropZone.addEventListener("click", (e) => {
     if (isCompressing) return;
     fileInput.click();
   });
 
-  fileInput.addEventListener("change", function (event) {
+  fileInput.addEventListener("change", (e) => {
     if (isCompressing) return;
     if (fileInput.files && fileInput.files.length > 0) {
-      compressImage(event);
+      compressImage(e);
     }
   });
 
-  dropZone.addEventListener("dragenter", function (e) {
+  dropZone.addEventListener("dragenter", (e) => {
     if (isCompressing) return;
     e.preventDefault();
     dropZone.classList.add("drop-zone--is-dragging");
   });
 
-  dropZone.addEventListener("dragover", function (e) {
+  dropZone.addEventListener("dragover", (e) => {
     if (isCompressing) return;
     e.preventDefault();
     dropZone.classList.add("drop-zone--is-dragging");
   });
 
-  dropZone.addEventListener("dragleave", function (e) {
+  dropZone.addEventListener("dragleave", (e) => {
     if (isCompressing) return;
     e.preventDefault();
     dropZone.classList.remove("drop-zone--is-dragging");
   });
 
-  dropZone.addEventListener("drop", function (e) {
+  dropZone.addEventListener("drop", (e) => {
     if (isCompressing) return;
     e.preventDefault();
     dropZone.classList.remove("drop-zone--is-dragging");
@@ -645,7 +651,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   document.addEventListener("paste", handlePasteImage);
 
-  initialQualityInput.addEventListener("change", function (e) {
+  initialQualityInput.addEventListener("change", () => {
     if (initialQualityInput.value > 100) {
       initialQualityInput.value = 100;
       updateSlider(100, "initialQualitySlider");
@@ -666,7 +672,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
-  maxWidthOrHeightInput.addEventListener("change", function (e) {
+  maxWidthOrHeightInput.addEventListener("change", (e) => {
     if (maxWidthOrHeightInput.value > 30000) {
       // Canvas supports around 32k pixels in width and height
       maxWidthOrHeightInput.value = 30000;
@@ -685,7 +691,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
-  maxSizeMBInput.addEventListener("change", function (e) {
+  maxSizeMBInput.addEventListener("change", (e) => {
     if (maxSizeMBInput.value > 100) {
       maxSizeMBInput.value = 100;
       // TODO: Display toast message in UI
@@ -699,6 +705,27 @@ document.addEventListener("DOMContentLoaded", function () {
       // TODO: Display toast message in UI
     }
     maxSizeMBInput.value = maxSizeMBInput.value;
+  });
+
+  maxSizeMBCustomUnitInput.addEventListener("change", (e) => {
+    const previousCustomUnit = maxSizeMBSuffixLabelValue.toUpperCase();
+
+    if (previousCustomUnit === 'KB') {
+      const kbToMb = Number(maxSizeMBInput.value / 1000);
+      if (kbToMb < maxSizeMBInput.value) {
+        maxSizeMBInput.value = kbToMb;
+      }
+    }
+    else if (previousCustomUnit === 'MB') {
+      // Convert from MB to KB
+      const mbToKb = Number(maxSizeMBInput.value * 1000);
+      if (mbToKb > maxSizeMBInput.value) {
+        maxSizeMBInput.value = Number(maxSizeMBInput.value * 1000);
+      }
+    }
+
+    maxSizeMBSuffixLabelValue = maxSizeMBCustomUnitInput.value.toUpperCase(); // Data attribute
+    maxSizeMBSuffixLabel.textContent = maxSizeMBCustomUnitInput.value.toUpperCase(); // UI
   });
 
   document.querySelectorAll('input[name="compressMethod"]').forEach((radio) => {
@@ -839,7 +866,7 @@ async function downloadAllImages() {
 }
 
 function deleteAllImages() {
-  // TODO: Display dialog prompt before deleting
+  // TODO: Display toast to allow undo action
 
   outputDownloadContent.innerHTML = "";
   outputDownloadContainer.dataset.count = 0;

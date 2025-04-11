@@ -255,13 +255,29 @@ dialog {
  *  Input: Input text and number fields
  ****************************************************/
 
-input {
+input,
+select,
+textarea {
   font-size: var(--text-sm);
 }
 
+select {
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  appearance: none;
+  border: none;
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" fill="rgb(221, 221, 221)" height="20" width="20" stroke-linejoin="round" viewBox="0 0 16 16"><path fill-rule="evenodd" clip-rule="evenodd" d="M14.0607 5.49999L13.5303 6.03032L8.7071 10.8535C8.31658 11.2441 7.68341 11.2441 7.29289 10.8535L2.46966 6.03032L1.93933 5.49999L2.99999 4.43933L3.53032 4.96966L7.99999 9.43933L12.4697 4.96966L13 4.43933L14.0607 5.49999Z"></path></svg>');
+  background-repeat: no-repeat;
+  background-position: right var(--space-2xs) top 50%;
+}
+
+.theme-light select {
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" fill="rgb(51, 51, 51)" height="20" width="20" stroke-linejoin="round" viewBox="0 0 16 16"><path fill-rule="evenodd" clip-rule="evenodd" d="M14.0607 5.49999L13.5303 6.03032L8.7071 10.8535C8.31658 11.2441 7.68341 11.2441 7.29289 10.8535L2.46966 6.03032L1.93933 5.49999L2.99999 4.43933L3.53032 4.96966L7.99999 9.43933L12.4697 4.96966L13 4.43933L14.0607 5.49999Z"></path></svg>');
+}
 
 input[type="text"],
 input[type="number"],
+select,
 textarea,
 .form-field-suffix {
   --input-border-color: var(--color-border);
@@ -272,6 +288,7 @@ textarea,
 
 input[type="text"],
 input[type="number"],
+select,
 textarea {
   display: flex;
   box-shadow: inset 0 0 0 var(--input-border-width) var(--input-border-color);
@@ -287,6 +304,7 @@ textarea {
 
 input[type="text"]:hover,
 input[type="number"]:hover,
+select:hover,
 textarea:hover {
   --input-border-color: var(--color-border-hover);
 }
@@ -295,6 +313,8 @@ input[type="text"]:focus,
 input[type="text"]:active,
 input[type="number"]:focus,
 input[type="number"]:active,
+select:focus,
+select:active,
 textarea:focus,
 textarea:active,
 input[type="text"]:focus ~ .form-field-suffix,
@@ -324,16 +344,16 @@ textarea:active ~ .form-field-suffix {
   display: flex;
   justify-content: center;
   align-items: center;
-  min-width: 42px;
+  min-width: 60px;
   box-shadow: inset calc(var(--input-border-width)* -1) 0px 0 0px var(--input-border-color),
               inset 0px var(--input-border-width) 0 0px var(--input-border-color),
               inset 0px calc(var(--input-border-width)* -1) 0 0px var(--input-border-color);
   border-top-right-radius: var(--rounded-md);
   border-bottom-right-radius: var(--rounded-md);
   padding-top: var(--space-xs);
-  padding-right: var(--space-sm);
+  padding-right: var(--space-xs);
   padding-bottom: var(--space-xs);
-  padding-left: var(--space-sm);
+  padding-left: var(--space-xs);
   background-color: var(--color-surface-higher);
   color: var(--color-on-surface-high);
 }
