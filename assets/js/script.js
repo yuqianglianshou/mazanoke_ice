@@ -317,7 +317,7 @@ function createCompressionOptions(onProgress, file) {
     preserveExif: false,
     fileType: selectedFormat ? selectedFormat : undefined,
     libURL: "./browser-image-compression.js",
-    alwaysKeepResolution: dimensionMethod === "limit" ? false : true,
+    alwaysKeepResolution: true,
   };
   if (controller) {
     options.signal = controller.signal;
