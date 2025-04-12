@@ -130,6 +130,12 @@ function validateWeight(value, unit = "mb") {
 }
 
 
+function getCheckedValue(nodeList) {
+  // Find the currently select radio button value.
+  return [...nodeList].find((el) => el.checked)?.value || null;
+}
+
+
 function getImageDimensions(imageInput, callback) {
   const img = new Image();
 

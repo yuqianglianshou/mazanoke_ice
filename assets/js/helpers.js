@@ -47,9 +47,3 @@ function buildOutputItemHTML({
     </div>
   `;
 }
-
-
-function getCheckedValue(nodeList) {
-  // Find the currently select radio button value.
-  return [...nodeList].find((el) => el.checked)?.value || null;
-}
