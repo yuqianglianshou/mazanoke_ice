@@ -133,12 +133,12 @@
   /* Misc. */
   --filter-invert: 0; /* For non-variable shades applied */
   --subpage-shade-x-color: var(--color-surface); /* The shade around the subpage container */
-  --subpage-container-bgimage: linear-gradient(
+  --subpage-title-shade: linear-gradient(275deg, rgb(0 0 0 / 17%) 0%, rgba(0, 0, 0, 0.01) 75%, rgba(0, 0, 0, 0) 100%);
+  --surface-shade: linear-gradient(
     to bottom right, 
     hsl(0deg 0% 50% / 2%), 
     hsl(0deg 0% 0% / 39%)
-  ); /* Subpage container surface */
-  --subpage-title-bgimage: linear-gradient(275deg, rgb(0 0 0 / 17%) 0%, rgba(0, 0, 0, 0.01) 75%, rgba(0, 0, 0, 0) 100%);
+  ); /* Subpage, dialog, toast container surface */
 }
 
 html.theme-light {
@@ -173,6 +173,6 @@ html.theme-light {
   /* Misc. */
   --filter-invert: 1;
   --subpage-shade-x-color: var(--color-surface-variant);
-  --subpage-container-bgimage: linear-gradient(to bottom right, hsl(0deg 0% 100%), hsl(0deg 0% 93.94%));
-  --subpage-title-bgimage: linear-gradient(275deg, rgb(247 247 247 / 39%) 0%, rgb(255 255 255 / 65%) 75%, rgb(255 255 255) 100%);
+  --subpage-title-shade: linear-gradient(275deg, rgb(247 247 247 / 39%) 0%, rgb(255 255 255 / 65%) 75%, rgb(255 255 255) 100%);
+  --surface-shade: linear-gradient(to bottom right, hsl(0deg 0% 100%), hsl(0deg 0% 93.94%));
 }

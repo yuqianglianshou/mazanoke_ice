@@ -227,6 +227,7 @@ dialog {
   border: none;
   border-radius: var(--rounded-lg);
   padding: var(--space-md);
+  background-image: var(--subpage-container-bgimage);
   animation: fade-in-up var(--duration-200) ease-out forwards;
   box-shadow: var(--shadow-2);
 }
@@ -865,7 +866,7 @@ body.subpage--output .segmented-control__selected-item {
   backdrop-filter: blur(10px);
   border-top-left-radius: var(--rounded-lg);
   border-top-right-radius: var(--rounded-lg);
-  background-image: var(--subpage-title-bgimage);
+  background-image: var(--subpage-title-shade);
 }
 
 .image-subpage-title-content {
@@ -896,7 +897,7 @@ body.subpage--output .segmented-control__selected-item {
   padding-bottom: var(--space-xl);
   border-radius: var(--rounded-lg);
   background-color: var(--color-surface-high);
-  background-image: var(--subpage-container-bgimage);
+  background-image: var(--surface-shade);
   box-shadow: var(--shadow-1);
   opacity: 0;
 }
@@ -1363,7 +1364,8 @@ body:not(.compressing--is-active) .drop-zone.drop-zone--is-dragging .drop-zone__
   column-gap: var(--space-md);
   row-gap: var(--space-xs);
   padding: var(--space-xs) var(--space-sm);
-  background: var(--color-surface-higher);
+  background-color: var(--color-surface-higher);
+  background-image: var(--surface-shade);
   border-radius: var(--rounded-md);
   position: fixed;
   bottom: var(--space-md);
