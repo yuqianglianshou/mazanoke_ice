@@ -108,7 +108,7 @@ async function preProcessImage(file) {
   let preProcessedImage = null;
   let preProcessedNewFileType = null;
 
-  if (file.type === "image/heic") {
+  if (file.type === "image/heic" || file.type === "image/heif") {
     // Convert HEIC to JPG with reduced quality for stronger compression, as HEIC is already a heavily optimized format.
     preProcessedImage = await heicTo({
       blob: file,
@@ -298,7 +298,7 @@ function createCompressionOptions(onProgress, file) {
   );
 
   let maxWeightMB = limitWeightUnitInput.value === "kb" ? limitWeightInput.value / 1024 : limitWeightInput.value;
-  
+
   const options = {
     maxSizeMB:
       maxWeight && compressMethod === "maxWeight"

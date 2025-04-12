@@ -5,6 +5,7 @@ function isFileTypeSupported(fileType) {
     "image/png",
     "image/webp",
     "image/heic",
+    "image/heif",
     "image/avif",
     "image/gif",
     "image/svg+xml",
@@ -20,6 +21,7 @@ function mimeToExtension(mimeType) {
     "image/png": "png",
     "image/webp": "webp",
     "image/heic": "heic",
+    "image/heic": "heif",
     "image/avif": "avif",
     "image/gif": "gif",
     "image/svg+xml": "svg",
@@ -36,6 +38,7 @@ function defaultConversionMapping(mimeType) {
     // Image file types that cannot be compressed to its original file format
     // are converted to a relevant counterpart.
     "image/heic": "image/png",
+    "image/heif": "image/png",
     "image/avif": "image/png",
     "image/gif": "image/png",
     "image/svg+xml": "image/png",
