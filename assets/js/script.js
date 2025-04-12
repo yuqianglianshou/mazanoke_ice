@@ -1,28 +1,20 @@
 const zip = new JSZip();
 const installPWADialog = document.querySelector("#installPWADialog");
 const updateToast = document.querySelector("#updateToast");
-const updateToastRefreshButton = document.querySelector(
-  "#updateToastRefreshButton"
-);
+const updateToastRefreshButton = document.querySelector("#updateToastRefreshButton");
 const qualityInput = document.querySelector("#quality");
 const limitDimensionsInput = document.querySelector("#limitDimensions");
 const limitWeightInput = document.querySelector("#limitWeight");
 const limitWeightLabels = document.querySelectorAll('label[for="limitWeight"]');
 const limitWeightUnitInput = document.getElementById("limitWeightUnit");
 const progressContainer = document.querySelector(".progress-container");
-const progressQueueCount = document.querySelector(
-  "#webWorkerProgressQueueCount"
-);
+const progressQueueCount = document.querySelector("#webWorkerProgressQueueCount");
 const progressTrack = document.querySelector("#webWorkerProgressTrack");
 const progressBar = document.querySelector("#webWorkerProgressBar");
 const progressText = document.querySelector("#webWorkerProgressText");
-const outputDownloadContainer = document.querySelector(
-  "#outputDownloadContainer"
-);
+const outputDownloadContainer = document.querySelector("#outputDownloadContainer");
 const outputDownloadContent = document.querySelector("#outputDownloadContent");
-const downloadAllImagesButton = document.querySelector(
-  "#downloadAllImagesButton"
-);
+const downloadAllImagesButton = document.querySelector("#downloadAllImagesButton");
 const selectSubpageOutput = document.querySelector("#selectSubpageOutput");
 const webWorkerAbort = document.getElementById("webWorkerAbort");
 const dropZoneActions = document.getElementById("dropZoneActions");
@@ -41,8 +33,7 @@ const limitWeightMax = 100; // 100MB
 let maxWeightSuffixLabel = Array.from(limitWeightLabels).find((label) =>
   label.hasAttribute("data-suffix")
 );
-let maxWeightSuffixLabelValue =
-  maxWeightSuffixLabel.dataset.suffix.toLowerCase();
+let maxWeightSuffixLabelValue = maxWeightSuffixLabel.dataset.suffix.toLowerCase();
 let controller;
 let compressQueue = [];
 let compressQueueTotal = 0;
@@ -61,6 +52,7 @@ let fileProgressMap = {};
  * - Save settings to local storage and restore.
  * - Allow clear individual items and all items.
  */
+
 
 function resetCompressionState(isAllProcessed, aborted) {
   const resetUI = () => {
@@ -104,6 +96,7 @@ function resetCompressionState(isAllProcessed, aborted) {
   }
 }
 
+
 async function preProcessImage(file) {
   let preProcessedImage = null;
   let preProcessedNewFileType = null;
@@ -141,6 +134,7 @@ async function preProcessImage(file) {
   return { preProcessedImage, preProcessedNewFileType };
 }
 
+
 function compressImage(event) {
   controller = new AbortController();
   compressQueue = Array.from(event.target.files);
@@ -157,6 +151,7 @@ function compressImage(event) {
 
   compressImageQueue();
 }
+
 
 function compressImageQueue() {
   // Compress images one-by-one
@@ -234,10 +229,12 @@ function compressImageQueue() {
   }
 }
 
+
 function calculateOverallProgress(progressMap, totalFiles) {
   const sum = Object.values(progressMap).reduce((acc, val) => acc + val, 0);
   return Math.round(sum / totalFiles);
 }
+
 
 function updateSlider(value, sliderId) {
   const slider = document.getElementById(sliderId);
@@ -252,6 +249,7 @@ function updateSlider(value, sliderId) {
   fill.style.width = percentage + "%";
   thumb.style.left = Math.min(percentage, 100) + "%";
 }
+
 
 function startSliderDrag(event, inputId) {
   const slider = event.currentTarget;
@@ -279,37 +277,23 @@ function startSliderDrag(event, inputId) {
   document.addEventListener("mouseup", onMouseUp);
 }
 
+
 function createCompressionOptions(onProgress, file) {
-  const compressMethod = document.querySelector(
-    'input[name="compressMethod"]:checked'
-  ).value;
+  const compressMethod = document.querySelector('input[name="compressMethod"]:checked').value;
   const maxWeight = parseFloat(limitWeightInput.value);
-  const dimensionMethod = document.querySelector(
-    'input[name="dimensionMethod"]:checked'
-  ).value;
+  const dimensionMethod = document.querySelector('input[name="dimensionMethod"]:checked').value;
   const { selectedFormat } = getFileType(file);
 
   quality = Math.min(Math.max(parseFloat(qualityInput.value) / 100, 0), 1);
 
-  console.log(
-    "Input image file size: ",
-    (file.size / 1024 / 1024).toFixed(3),
-    "MB"
-  );
+  console.log("Input image file size: ", (file.size / 1024 / 1024).toFixed(3), "MB");
 
   let maxWeightMB = limitWeightUnitInput.value === "kb" ? limitWeightInput.value / 1024 : limitWeightInput.value;
 
   const options = {
-    maxSizeMB:
-      maxWeight && compressMethod === "maxWeight"
-        ? maxWeightMB
-        : (file.size / 1024 / 1024).toFixed(3),
-    initialQuality:
-      quality && compressMethod === "quality" ? quality : undefined,
-    maxWidthOrHeight:
-      dimensionMethod === "limit"
-        ? parseFloat(limitDimensionsInput.value)
-        : undefined,
+    maxSizeMB: maxWeight && compressMethod === "maxWeight" ? maxWeightMB : (file.size / 1024 / 1024).toFixed(3),
+    initialQuality: quality && compressMethod === "quality" ? quality : undefined,
+    maxWidthOrHeight: dimensionMethod === "limit" ? parseFloat(limitDimensionsInput.value) : undefined,
     useWebWorker: true,
     onProgress,
     preserveExif: false,
@@ -324,6 +308,7 @@ function createCompressionOptions(onProgress, file) {
   console.log("Settings:", options);
   return options;
 }
+
 
 function handleCompressionResult(file, output) {
   const { outputFileExtension, selectedFormat } = getFileType(file);
@@ -340,15 +325,13 @@ function handleCompressionResult(file, output) {
   thumbnail.src = outputImageBlob;
 
   // File name and dimensions
-  const { renamedFileName, isBrowserDefaultFileName } =
-    renameBrowserDefaultFileName(file.name);
+  const { renamedFileName, isBrowserDefaultFileName } =  renameBrowserDefaultFileName(file.name);
   const outputFileNameText = updateFileExtension(
     isBrowserDefaultFileName ? renamedFileName : file.name,
     outputFileExtension,
     selectedFormat
   );
-  const outputFileNameStart =
-    outputFileNameText.length > 8 ? outputFileNameText.slice(0, -8) : "";
+  const outputFileNameStart = outputFileNameText.length > 8 ? outputFileNameText.slice(0, -8) : "";
   const outputFileNameEnd = outputFileNameText.slice(-8);
   const outputText = document.createElement("div");
   outputText.classList.add("image-output__item-text");
@@ -448,6 +431,7 @@ function handleCompressionResult(file, output) {
   );
 }
 
+
 function abort(event) {
   event.stopPropagation();
   if (!controller) return;
@@ -455,6 +439,7 @@ function abort(event) {
   controller.abort(new Error("Image compression cancelled"));
   // TODO: Display abort message in UI
 }
+
 
 function selectDimensionMethod(value) {
   document.querySelector(
@@ -482,10 +467,9 @@ function selectDimensionMethod(value) {
   return value;
 }
 
+
 function selectFormat(value) {
-  document.querySelector(
-    `input[name="formatSelect"][value="${value}"]`
-  ).checked = true;
+  document.querySelector(`input[name="formatSelect"][value="${value}"]`).checked = true;
   document
     .querySelectorAll("#formatMethodGroup .button-card-radio")
     .forEach((el) => {
@@ -523,49 +507,47 @@ function selectSettingsSubpage(value) {
   }
 }
 
+
 document.addEventListener("DOMContentLoaded", (e) => {
   const dropZone = document.getElementById("webWorkerDropZone");
   const fileInput = document.getElementById("webWorker");
 
-  dropZone.addEventListener("click", (e) => {
+  const compressingGuard = (handler) => (e) => {
     if (isCompressing) return;
-    fileInput.click();
-  });
+    handler(e);
+  };
 
-  fileInput.addEventListener("change", (e) => {
-    if (isCompressing) return;
-    if (fileInput.files && fileInput.files.length > 0) {
-      compressImage(e);
-    }
-  });
+  dropZone.addEventListener("click", compressingGuard(() => fileInput.click()));
 
-  dropZone.addEventListener("dragenter", (e) => {
-    if (isCompressing) return;
+  fileInput.addEventListener("change", compressingGuard((e) => {
+    if (fileInput.files?.length) compressImage(e);
+  }));
+
+  const toggleDragging = (add) => dropZone.classList.toggle("drop-zone--is-dragging", add);
+
+  dropZone.addEventListener("dragenter", compressingGuard((e) => {
     e.preventDefault();
-    dropZone.classList.add("drop-zone--is-dragging");
-  });
+    toggleDragging(true);
+  }));
 
-  dropZone.addEventListener("dragover", (e) => {
-    if (isCompressing) return;
+  dropZone.addEventListener("dragover", compressingGuard((e) => {
     e.preventDefault();
-    dropZone.classList.add("drop-zone--is-dragging");
-  });
+    toggleDragging(true);
+  }));
 
-  dropZone.addEventListener("dragleave", (e) => {
-    if (isCompressing) return;
+  dropZone.addEventListener("dragleave", compressingGuard((e) => {
     e.preventDefault();
-    dropZone.classList.remove("drop-zone--is-dragging");
-  });
+    toggleDragging(false);
+  }));
 
-  dropZone.addEventListener("drop", (e) => {
-    if (isCompressing) return;
+  dropZone.addEventListener("drop", compressingGuard((e) => {
     e.preventDefault();
-    dropZone.classList.remove("drop-zone--is-dragging");
-    if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+    toggleDragging(false);
+    if (e.dataTransfer.files?.length) {
       fileInput.files = e.dataTransfer.files;
       compressImage({ target: fileInput }, true);
     }
-  });
+  }));
 
   document.addEventListener("paste", handlePasteImage);
 
@@ -663,6 +645,7 @@ document.addEventListener("DOMContentLoaded", (e) => {
   });
 });
 
+
 function handlePasteImage(e) {
   if (!e.clipboardData || isCompressing) return;
 
@@ -681,6 +664,7 @@ function handlePasteImage(e) {
     compressImage({ target: { files } });
   }
 }
+
 
 function toggleFields() {
   const compressMethod = document.querySelector(
@@ -702,6 +686,7 @@ function toggleFields() {
   }
 }
 
+
 function selectCompressMethod(value) {
   document.querySelector(
     `input[name="compressMethod"][value="${value}"]`
@@ -719,6 +704,7 @@ function selectCompressMethod(value) {
     .classList.add("button-card-radio--is-selected");
   toggleFields();
 }
+
 
 async function downloadAllImages() {
   const GB = 1024 * 1024 * 1024;
