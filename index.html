@@ -209,12 +209,12 @@
             </div>
             <div class="form-group__input-content">
               <div class="fade-in-up w-100">
-                <label class="mb-2xs">Max file size</label>
+                <label class="mb-2xs">Target max file size</label>
 
                 <div class="form-field-container gap-xs">
                   <div class="flex-1">
                     <div class="form-field-container form-field-container--suffix w-100">
-                      <input type="number" id="limitWeight" name="limitWeight" value="2" class="flex-1" />
+                      <input type="number" id="limitWeight" name="limitWeight" value="2" step="0.1" class="w-100" />
                       <label for="limitWeight" class="form-field-suffix" data-suffix="MB">MB</label>
                     </div>
                   </div>
@@ -296,7 +296,7 @@
                     </div>
                     <div class="button-card-radio__description">
                       <div class="button-card-radio__description-text">
-                        Limit the width and height of the image, applies to whichever is longer.
+                        Limit the width and height of the image.
                       </div>
                     </div>
                   </div>
@@ -314,7 +314,7 @@
             </div>
             <div class="form-group__input-content">
               <div class="fade-in-up w-100">
-                <label class="mb-2xs">Max dimension</label>
+                <label class="mb-2xs">Limit dimensions</label>
                 <div class="form-field-container form-field-container--suffix">
                   <input type="number" id="limitDimensions" name="limitDimensions" value="1200" class="w-100" />
                   <label for="limitDimensions" class="form-field-suffix">
