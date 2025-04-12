@@ -81,3 +81,8 @@ App.state = {
   fileProgressMap: {},
   limitWeightUnit: "MB",
 };
+
+const ui = App.ui;
+const config = App.config;
+const state = App.state;
+zip = new JSZip();

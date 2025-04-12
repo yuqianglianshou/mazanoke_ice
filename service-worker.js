@@ -1,18 +1,22 @@
-const APP_VERSION = 'v1.1.0'
+const APP_VERSION = 'v1.1.0';
 const CACHE_VERSION = APP_VERSION;
-const CACHE_NAME = `image-compression-cache-${CACHE_VERSION}`;
+const CACHE_NAME = `mazanoke-cache-${CACHE_VERSION}`;
 const urlsToCache = [
   '/',
   '/index.html',
   '/assets/css/fonts.css',
   '/assets/css/variables.css',
   '/assets/css/style.css',
-  '/assets/js/browser-image-compression.js',
-  '/assets/js/heic-to-vanilla.js',
-  '/assets/js/jszip.js',
+  '/assets/vendor/browser-image-compression.js',
+  '/assets/vendor/heic-to-vanilla.js',
+  '/assets/vendor/jszip.js',
   '/assets/js/global.js',
+  '/assets/js/ui.js',
+  '/assets/js/events.js',
+  '/assets/js/helpers.js',
+  '/assets/js/compression.js',
+  '/assets/js/download.js',
   '/assets/js/utilities.js',
-  '/assets/js/script.js',
   '/assets/images/android-chrome-192x192.png',
   '/assets/images/android-chrome-512x512.png',
   '/assets/images/apple-touch-icon.png',
@@ -58,7 +62,7 @@ self.addEventListener('activate', event => {
     caches.keys().then(cacheNames => {
       return Promise.all(
         cacheNames.map(cacheName => {
-          if (cacheName.startsWith('image-compression-cache-') && cacheName !== CACHE_NAME) {
+          if (cacheName.startsWith('mazanoke-cache-') && cacheName !== CACHE_NAME) {
             return caches.delete(cacheName);
           }
         })
@@ -69,6 +73,6 @@ self.addEventListener('activate', event => {
 
 self.addEventListener('message', (event) => {
   if (event.data === 'SKIP_WAITING') {
-      self.skipWaiting();
+    self.skipWaiting();
   }
 });
