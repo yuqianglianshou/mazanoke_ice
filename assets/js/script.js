@@ -138,6 +138,7 @@ async function compressImageQueue() {
       if (state.compressProcessedCount < state.compressQueueTotal) {
         compressImageQueue();
       }
+
     });
 
   function onProgress(p, index, fileName) {
@@ -265,6 +266,13 @@ function buildOutputItemHTML({
   fileSizeSavedPercentage,
   fileSizeSavedClass,
 }) {
+  const fileSizeInMB = fileSize / 1024 / 1024;
+  let fileSizeDisplay;
+  if (fileSizeInMB < 1) {
+    fileSizeDisplay = Math.round(fileSizeInMB * 1024) + " KB";
+  } else {
+    fileSizeDisplay = fileSizeInMB.toFixed(2) + " MB";
+  }
   return `
     <div class="image-output__item file-format--${outputFileExtension}" data-elevation="3">
       <img src="${thumbnailDataURL}" class="image-output__item-thumbnail" loading="lazy">
@@ -278,7 +286,7 @@ function buildOutputItemHTML({
         </div>
       </div>
       <div class="image-output__item-stats">
-        <span class="image-output__item-filesize" data-filesize="${fileSize}">${(fileSize/1024/1024).toFixed(3)} MB</span>
+        <span class="image-output__item-filesize" data-filesize="${fileSize}">${fileSizeDisplay}</span>
         <span class="image-output__item-filesize-saved badge ${fileSizeSavedClass}">
           <span class="badge-text">${fileSizeSavedTrend}${fileSizeSavedPercentage}%</span>
         </span>
@@ -343,7 +351,9 @@ function handleCompressionResult(file, output) {
       ui.output.imageCount.dataset.count = state.imageCount;
       ui.output.imageCount.textContent = state.imageCount;
 
-      if (state.compressProcessedCount === 0) {
+      console.log(state.compressProcessedCount)
+
+      if (state.compressProcessedCount === 1) {
         selectSettingsSubpage("output");
       }
     });
