@@ -1,49 +1,7 @@
-const zip = new JSZip();
-const installPWADialog = document.querySelector("#installPWADialog");
-const updateToast = document.querySelector("#updateToast");
-const updateToastRefreshButton = document.querySelector("#updateToastRefreshButton");
-const qualityInput = document.querySelector("#quality");
-const limitDimensionsInput = document.querySelector("#limitDimensions");
-const limitWeightInput = document.querySelector("#limitWeight");
-const limitWeightLabels = document.querySelectorAll('label[for="limitWeight"]');
-const limitWeightUnitInput = document.getElementById("limitWeightUnit");
-const progressContainer = document.querySelector(".progress-container");
-const progressQueueCount = document.querySelector("#webWorkerProgressQueueCount");
-const progressTrack = document.querySelector("#webWorkerProgressTrack");
-const progressBar = document.querySelector("#webWorkerProgressBar");
-const progressText = document.querySelector("#webWorkerProgressText");
-const outputDownloadContainer = document.querySelector("#outputDownloadContainer");
-const outputDownloadContent = document.querySelector("#outputDownloadContent");
-const downloadAllImagesButton = document.querySelector("#downloadAllImagesButton");
-const selectSubpageOutput = document.querySelector("#selectSubpageOutput");
-const webWorkerAbort = document.getElementById("webWorkerAbort");
-const dropZoneActions = document.getElementById("dropZoneActions");
-const compressedImageCount = document.getElementById("compressedImageCount");
-const thumbnailCompressionOptions = {
-  initialQuality: 0.8,
-  maxWidthOrHeight: 70,
-  useWebWorker: true,
-  preserveExif: false,
-  fileType: "image/png",
-  libURL: "./browser-image-compression.js",
-  alwaysKeepResolution: true,
-};
-const limitWeightMin = 0.01; // 0.01MB, 10KB
-const limitWeightMax = 100; // 100MB
-let maxWeightSuffixLabel = Array.from(limitWeightLabels).find((label) =>
-  label.hasAttribute("data-suffix")
-);
-let maxWeightSuffixLabelValue = maxWeightSuffixLabel.dataset.suffix.toLowerCase();
-let controller;
-let compressQueue = [];
-let compressQueueTotal = 0;
-let compressProcessedCount = 0; // Currently compressing number in queue.
-let compressMethod;
-let isCompressing = false;
-let isDownloadingAll = false;
-let inputFileSize;
-let imageCount = 0; // Amount of images listed in outputDownloadContent.
-let fileProgressMap = {};
+const ui = App.ui;
+const config = App.config;
+const state = App.state;
+zip = new JSZip();
 
 /**
  * TODO:
@@ -53,23 +11,22 @@ let fileProgressMap = {};
  * - Allow clear individual items and all items.
  */
 
+function resetUI() {
+  ui.actions.abort.classList.add("hidden");
+  document.body.classList.remove("compressing--is-active");
+  ui.actions.dropZone.classList.remove("hidden");
+  ui.progress.container.classList.add("hidden");
+  ui.progress.text.dataset.progress = 0;
+  ui.progress.bar.style.width = "0%";
+}
 
 function resetCompressionState(isAllProcessed, aborted) {
-  const resetUI = () => {
-    webWorkerAbort.classList.add("hidden");
-    document.body.classList.remove("compressing--is-active");
-    dropZoneActions.classList.remove("hidden");
-    progressContainer.classList.add("hidden");
-    progressText.dataset.progress = 0;
-    progressBar.style.width = "0%";
-  };
-
   const resetState = () => {
-    compressProcessedCount = 0;
-    compressQueueTotal = 0;
-    progressQueueCount.textContent = "";
-    compressQueue = [];
-    isCompressing = false;
+    state.compressProcessedCount = 0;
+    state.compressQueueTotal = 0;
+    ui.progress.queueCount.textContent = "";
+    state.compressQueue = [];
+    state.isCompressing = false;
   };
 
   if (aborted) {
@@ -79,30 +36,28 @@ function resetCompressionState(isAllProcessed, aborted) {
   }
 
   if (isAllProcessed) {
-    webWorkerAbort.classList.add("hidden");
-    progressBar.style.width = "100%";
+    ui.actions.abort.classList.add("hidden");
+    ui.progress.bar.style.width = "100%";
 
     setTimeout(() => {
       resetUI();
-      isCompressing = false;
+      state.isCompressing = false;
     }, 1000);
     return;
   }
 
-  if (isCompressing && compressProcessedCount === 0) {
-    progressText.dataset.progress = 0;
-    progressText.textContent = "Preparing 0%";
-    progressBar.style.width = "0%";
+  if (state.isCompressing && state.compressProcessedCount === 0) {
+    ui.progress.text.dataset.progress = 0;
+    ui.progress.text.textContent = "Preparing 0%";
+    ui.progress.bar.style.width = "0%";
   }
 }
-
 
 async function preProcessImage(file) {
   let preProcessedImage = null;
   let preProcessedNewFileType = null;
 
   if (file.type === "image/heic" || file.type === "image/heif") {
-    // Convert HEIC to JPG with reduced quality for stronger compression, as HEIC is already a heavily optimized format.
     preProcessedImage = await heicTo({
       blob: file,
       type: "image/jpeg",
@@ -114,7 +69,7 @@ async function preProcessImage(file) {
 
   if (file.type === "image/avif") {
     setTimeout(() => {
-      progressText.innerHTML = `Please wait. AVIF files may take longer to prepare<span class="loading-dots">`;
+      ui.progress.text.innerHTML = `Please wait. AVIF files may take longer to prepare<span class="loading-dots">`;
     }, 5000);
 
     preProcessedImage = await imageCompression(file, {
@@ -129,95 +84,81 @@ async function preProcessImage(file) {
     preProcessedNewFileType = "image/jpeg";
   }
 
-  // if (preProcessedImage) { debugBlobImageOutput(blob); }
-
   return { preProcessedImage, preProcessedNewFileType };
 }
 
-
 function compressImage(event) {
-  controller = new AbortController();
-  compressQueue = Array.from(event.target.files);
-  compressQueueTotal = compressQueue.length;
-  compressProcessedCount = 0;
-  fileProgressMap = {};
+  state.controller = new AbortController();
+  state.compressQueue = Array.from(event.target.files);
+  state.compressQueueTotal = state.compressQueue.length;
+  state.compressProcessedCount = 0;
+  state.fileProgressMap = {};
 
-  isCompressing = true;
+  state.isCompressing = true;
   document.body.classList.add("compressing--is-active");
-  dropZoneActions.classList.add("hidden");
-  webWorkerAbort.classList.remove("hidden");
-  progressContainer.classList.remove("hidden");
-  progressText.innerHTML = `Preparing<span class="loading-dots">`;
+  ui.actions.dropZone.classList.add("hidden");
+  ui.actions.abort.classList.remove("hidden");
+  ui.progress.container.classList.remove("hidden");
+  ui.progress.text.innerHTML = `Preparing<span class="loading-dots">`;
 
   compressImageQueue();
 }
 
-
-function compressImageQueue() {
-  // Compress images one-by-one
-
-  if (!compressQueue.length) {
+async function compressImageQueue() {
+  if (!state.compressQueue.length) {
     resetCompressionState(true);
     return;
   }
 
-  const file = compressQueue[0];
-  const i = compressProcessedCount;
+  const file = state.compressQueue[0];
+  const i = state.compressProcessedCount;
 
   if (!isFileTypeSupported(file.type)) {
-    // TODO: Display error message in UI
-    console.error(
-      `Unsupported file type: ${file.type}. Skipping "${file.name}".`
-    );
-    progressText.innerHTML = `Unsupported file "<div class='progress-file-name'>${file.name}</div>"`;
-    compressQueue.shift(); // Ignore unsupported file type
-    compressImageQueue();
+    console.error(`Unsupported file type: ${file.type}. Skipping "${file.name}".`);
+    ui.progress.text.innerHTML = `Unsupported file "<div class='progress-file-name'>${file.name}</div>"`;
+    state.compressQueue.shift();
+    await compressImageQueue();
     return;
   }
 
-  let options = createCompressionOptions(
-    (p) => onProgress(p, i, file.name),
-    file
-  );
+  const options = await createCompressionOptions((p) => onProgress(p, i, file.name), file);
+  const { preProcessedImage, preProcessedNewFileType } = await preProcessImage(file);
 
-  // TODO: Display error message in UI
-  preProcessImage(file)
-    .then(({ preProcessedImage, preProcessedNewFileType }) => {
-      if (preProcessedImage) {
-        options.fileType = preProcessedNewFileType;
-      }
-      return imageCompression(preProcessedImage || file, options);
-    })
+  if (preProcessedImage) {
+    options.fileType = preProcessedNewFileType;
+  }
+
+  imageCompression(preProcessedImage || file, options)
     .then((output) => handleCompressionResult(file, output))
     .catch((error) => console.error(error.message))
     .finally(() => {
-      compressProcessedCount++;
-      compressQueue.shift();
-      resetCompressionState(compressProcessedCount === compressQueueTotal);
-      if (compressProcessedCount < compressQueueTotal) {
+      state.compressProcessedCount++;
+      state.compressQueue.shift();
+      resetCompressionState(state.compressProcessedCount === state.compressQueueTotal);
+      if (state.compressProcessedCount < state.compressQueueTotal) {
         compressImageQueue();
       }
     });
 
   function onProgress(p, index, fileName) {
     const overallProgress = calculateOverallProgress(
-      fileProgressMap,
-      compressQueueTotal
+      state.fileProgressMap,
+      state.compressQueueTotal
     );
     const fileNameShort =
       fileName.length > 15 ? fileName.slice(0, 12) + "..." : fileName;
-    fileProgressMap[index] = p;
+    state.fileProgressMap[index] = p;
 
-    progressQueueCount.textContent = `${
-      compressProcessedCount + 1
-    } / ${compressQueueTotal}`;
-    progressText.dataset.progress = overallProgress;
-    progressText.innerHTML = `Optimizing "<div class='progress-file-name'>${fileName}</div>"`;
-    progressBar.style.width = overallProgress + "%";
+    ui.progress.queueCount.textContent = `${
+      state.compressProcessedCount + 1
+    } / ${state.compressQueueTotal}`;
+    ui.progress.text.dataset.progress = overallProgress;
+    ui.progress.text.innerHTML = `Optimizing "<div class='progress-file-name'>${fileName}</div>"`;
+    ui.progress.bar.style.width = overallProgress + "%";
     console.log(`Optimizing "${fileNameShort}" (${overallProgress}%)`);
 
-    if (p === 100 && compressProcessedCount === compressQueueTotal - 1) {
-      progressText.innerHTML = `
+    if (p === 100 && state.compressProcessedCount === state.compressQueueTotal - 1) {
+      ui.progress.text.innerHTML = `
         <div class="badge badge--success pt-2xs pb-2xs bg:surface">
           <div class="badge-text flex items-center gap-3xs">
             <svg height="16" stroke-linejoin="round" viewBox="0 0 16 16" width="16" style="color: currentcolor;"><path fill-rule="evenodd" clip-rule="evenodd" d="M14.5 8C14.5 11.5899 11.5899 14.5 8 14.5C4.41015 14.5 1.5 11.5899 1.5 8C1.5 4.41015 4.41015 1.5 8 1.5C11.5899 1.5 14.5 4.41015 14.5 8ZM16 8C16 12.4183 12.4183 16 8 16C3.58172 16 0 12.4183 0 8C0 3.58172 3.58172 0 8 0C12.4183 0 16 3.58172 16 8ZM11.5303 6.53033L12.0607 6L11 4.93934L10.4697 5.46967L6.5 9.43934L5.53033 8.46967L5 7.93934L3.93934 9L4.46967 9.53033L5.96967 11.0303C6.26256 11.3232 6.73744 11.3232 7.03033 11.0303L11.5303 6.53033Z" fill="currentColor"></path></svg>
@@ -229,12 +170,10 @@ function compressImageQueue() {
   }
 }
 
-
 function calculateOverallProgress(progressMap, totalFiles) {
   const sum = Object.values(progressMap).reduce((acc, val) => acc + val, 0);
   return Math.round(sum / totalFiles);
 }
-
 
 function updateSlider(value, sliderId) {
   const slider = document.getElementById(sliderId);
@@ -249,7 +188,6 @@ function updateSlider(value, sliderId) {
   fill.style.width = percentage + "%";
   thumb.style.left = Math.min(percentage, 100) + "%";
 }
-
 
 function startSliderDrag(event, inputId) {
   const slider = event.currentTarget;
@@ -277,55 +215,54 @@ function startSliderDrag(event, inputId) {
   document.addEventListener("mouseup", onMouseUp);
 }
 
-
-function createCompressionOptions(onProgress, file) {
-  const compressMethod = document.querySelector('input[name="compressMethod"]:checked').value;
-  const maxWeight = parseFloat(limitWeightInput.value);
-  const dimensionMethod = document.querySelector('input[name="dimensionMethod"]:checked').value;
+async function createCompressionOptions(onProgress, file) {
+  const compressMethod = getCheckedValue(ui.inputs.compressMethod);
+  const dimensionMethod = getCheckedValue(ui.inputs.dimensionMethod);
+  console.log(dimensionMethod)
+  const maxWeight = parseFloat(ui.inputs.limitWeight.value);
   const { selectedFormat } = getFileType(file);
 
-  quality = Math.min(Math.max(parseFloat(qualityInput.value) / 100, 0), 1);
+  quality = Math.min(Math.max(parseFloat(ui.inputs.quality.value) / 100, 0), 1);
 
   console.log("Input image file size: ", (file.size / 1024 / 1024).toFixed(3), "MB");
 
-  let maxWeightMB = limitWeightUnitInput.value === "kb" ? limitWeightInput.value / 1024 : limitWeightInput.value;
+  let maxWeightMB = ui.inputs.weightUnit.value.toUpperCase() === "KB" ? 
+    ui.inputs.limitWeight.value / 1024 : 
+    ui.inputs.limitWeight.value;
+
+  let limitDimensionsValue = dimensionMethod === "limit" ? 
+    await getAdjustedDimensions(file, ui.inputs.limitDimensions.value) : 
+    undefined;
 
   const options = {
     maxSizeMB: maxWeight && compressMethod === "maxWeight" ? maxWeightMB : (file.size / 1024 / 1024).toFixed(3),
     initialQuality: quality && compressMethod === "quality" ? quality : undefined,
-    maxWidthOrHeight: dimensionMethod === "limit" ? parseFloat(limitDimensionsInput.value) : undefined,
+    maxWidthOrHeight: limitDimensionsValue,
     useWebWorker: true,
     onProgress,
     preserveExif: false,
-    fileType: selectedFormat ? selectedFormat : undefined,
+    fileType: selectedFormat || undefined,
     libURL: "./browser-image-compression.js",
     alwaysKeepResolution: true,
   };
-  if (controller) {
-    options.signal = controller.signal;
+  if (state.controller) {
+    options.signal = state.controller.signal;
   }
 
   console.log("Settings:", options);
   return options;
 }
 
-
 function handleCompressionResult(file, output) {
   const { outputFileExtension, selectedFormat } = getFileType(file);
   const outputImageBlob = URL.createObjectURL(output);
 
-  // Thumbnail
   const outputItemThumbnail = document.createElement("img");
   outputItemThumbnail.src = outputImageBlob;
   outputItemThumbnail.classList.add("image-output__item-thumbnail");
   outputItemThumbnail.setAttribute("loading", "lazy");
 
-  // outputImageBlob dimensions
-  const thumbnail = new Image();
-  thumbnail.src = outputImageBlob;
-
-  // File name and dimensions
-  const { renamedFileName, isBrowserDefaultFileName } =  renameBrowserDefaultFileName(file.name);
+  const { renamedFileName, isBrowserDefaultFileName } = renameBrowserDefaultFileName(file.name);
   const outputFileNameText = updateFileExtension(
     isBrowserDefaultFileName ? renamedFileName : file.name,
     outputFileExtension,
@@ -344,14 +281,13 @@ function handleCompressionResult(file, output) {
   outputText.appendChild(outputFileName);
   const outputFileDimensions = document.createElement("div");
   outputFileDimensions.classList.add("image-output__item-dimensions");
-  thumbnail.onload = function () {
+  getImageDimensions(outputImageBlob, thumbnail => {
     outputFileDimensions.innerHTML = `
     <div class="image-output__item-dimensions">${thumbnail.width}x${thumbnail.height}</div>
   `;
     outputText.appendChild(outputFileDimensions);
-  };
+  }); 
 
-  // File size
   const inputFileSize = parseFloat((file.size / 1024 / 1024).toFixed(3));
   const outputFileSize = parseFloat((output.size / 1024 / 1024).toFixed(3));
   const fileSizeSaved = inputFileSize - outputFileSize;
@@ -368,19 +304,16 @@ function handleCompressionResult(file, output) {
   outputFileSizeText.dataset.filesize = output.size;
   outputFileSizeText.textContent = `${outputFileSize} MB`;
 
-  // File saved badge
   const fileSizeSavedBadge = document.createElement("span");
   fileSizeSavedBadge.className = `image-output__item-filesize-saved badge ${fileSizeSavedClass}`;
   fileSizeSavedBadge.innerHTML = `
     <span class="badge-text">${fileSizeSavedTrend}${fileSizeSavedPercentage}%</span>
   `;
 
-  // File format badge
   const outputFormatBadge = document.createElement("span");
   outputFormatBadge.className = `image-output__item-fileformat badge file-format--${outputFileExtension}`;
   outputFormatBadge.textContent = outputFileExtension.toUpperCase();
 
-  // Download button
   const outputDownload = document.createElement("a");
   outputDownload.className =
     "image-output__item-download-button button-cta button-secondary";
@@ -393,14 +326,12 @@ function handleCompressionResult(file, output) {
   `;
   console.log("New image file: ", outputFileNameText);
 
-  // Stats, consolidate: file size, saved, format.
   const outputStats = document.createElement("div");
   outputStats.classList.add("image-output__item-stats");
   outputStats.appendChild(outputFileSizeText);
   outputStats.appendChild(fileSizeSavedBadge);
   outputStats.appendChild(outputFormatBadge);
 
-  // Output item container
   const outputItem = document.createElement("div");
   outputItem.classList.add("image-output__item");
   outputItem.classList.add(`file-format--${outputFileExtension}`);
@@ -410,36 +341,31 @@ function handleCompressionResult(file, output) {
   outputItem.appendChild(outputStats);
   outputItem.appendChild(outputDownload);
 
-  // Place item first in the output container
-  outputDownloadContent.prepend(outputItem);
+  ui.output.content.prepend(outputItem);
 
-  imageCount++;
-  outputDownloadContainer.dataset.count = imageCount;
-  selectSubpageOutput.dataset.count = imageCount;
-  compressedImageCount.dataset.count = imageCount;
-  compressedImageCount.textContent = imageCount;
+  state.imageCount++;
+  ui.output.container.dataset.count = state.imageCount;
+  ui.output.subpageOutput.dataset.count = state.imageCount;
+  ui.output.imageCount.dataset.count = state.imageCount;
+  ui.output.imageCount.textContent = state.imageCount;
 
-  if (compressProcessedCount === 0) {
-    // Only auto-select Images subpage for the first processed image
+  if (state.compressProcessedCount === 0) {
     selectSettingsSubpage("output");
   }
 
-  imageCompression(output, thumbnailCompressionOptions).then(
+  imageCompression(output, config.thumbnailOptions).then(
     (thumbnailBlob) => {
       outputItemThumbnail.src = URL.createObjectURL(thumbnailBlob);
     }
   );
 }
 
-
 function abort(event) {
   event.stopPropagation();
-  if (!controller) return;
+  if (!state.controller) return;
   resetCompressionState(false, true);
-  controller.abort(new Error("Image compression cancelled"));
-  // TODO: Display abort message in UI
+  state.controller.abort(new Error("Image compression cancelled"));
 }
-
 
 function selectDimensionMethod(value) {
   document.querySelector(
@@ -467,53 +393,79 @@ function selectDimensionMethod(value) {
   return value;
 }
 
-
 function selectFormat(value) {
-  document.querySelector(`input[name="formatSelect"][value="${value}"]`).checked = true;
-  document
-    .querySelectorAll("#formatMethodGroup .button-card-radio")
-    .forEach((el) => {
-      el.classList.remove("button-card-radio--is-selected");
-    });
-  document
-    .querySelector(`input[name="formatSelect"][value="${value}"]`)
-    .closest(".button-card-radio")
-    .classList.add("button-card-radio--is-selected");
-}
-
-function selectSettingsSubpage(value) {
-  document.querySelector(
-    `#selectSettingsSubpage input[name="settingsSubpage"][value="${value}"]`
-  ).checked = true;
-  document
-    .querySelectorAll("#selectSettingsSubpage .segmented-control")
-    .forEach((el) => {
-      el.classList.remove("segmented-control--is-selected");
-    });
-  document
-    .querySelector(
-      `#selectSettingsSubpage input[name="settingsSubpage"][value="${value}"]`
-    )
-    .closest(".segmented-control")
-    .classList.add("segmented-control--is-selected");
-  document.body.className = document.body.className.replace(
-    /\bsubpage--\S+/g,
-    ""
-  );
-  if (value === "settings") {
-    document.body.classList.add("subpage--settings");
-  } else if (value === "output") {
-    document.body.classList.add("subpage--output");
+  ui.inputs.formatSelect.forEach(input => {
+    input.checked = input.value === value;
+  });
+  
+  ui.groups.formatMethod.querySelectorAll(".button-card-radio").forEach(el => {
+    el.classList.remove("button-card-radio--is-selected");
+  });
+  
+  const selectedInput = Array.from(ui.inputs.formatSelect).find(input => input.value === value);
+  if (selectedInput) {
+    selectedInput.closest(".button-card-radio").classList.add("button-card-radio--is-selected");
   }
 }
 
+function selectSettingsSubpage(value) {
+  ui.inputs.settingsSubpage.forEach(input => {
+    input.checked = input.value === value;
+  });
+  
+  ui.groups.settingsSubpage.querySelectorAll(".segmented-control").forEach(el => {
+    el.classList.remove("segmented-control--is-selected");
+  });
+  
+  const selectedInput = Array.from(ui.inputs.settingsSubpage).find(input => input.value === value);
+  if (selectedInput) {
+    selectedInput.closest(".segmented-control").classList.add("segmented-control--is-selected");
+  }
+  
+  document.body.className = document.body.className.replace(/\bsubpage--\S+/g, "");
+  document.body.classList.add(`subpage--${value}`);
+}
+
+function getCheckedValue(nodeList) {
+  return [...nodeList].find((el) => el.checked)?.value || null;
+}
+
+function toggleFields() {
+  const compressMethod = getCheckedValue(ui.inputs.compressMethod);
+  
+  if (compressMethod === "maxWeight") {
+    ui.groups.maxWeight.classList.remove("hidden");
+    ui.groups.quality.classList.add("hidden");
+  }
+  else {
+    ui.groups.maxWeight.classList.add("hidden");
+    ui.groups.quality.classList.remove("hidden");
+  }
+}
+
+function selectCompressMethod(value) {
+  ui.inputs.compressMethod.forEach(input => {
+    input.checked = input.value === value;
+  });
+  
+  ui.groups.compressMethod.querySelectorAll(".button-card-radio").forEach(el => {
+    el.classList.remove("button-card-radio--is-selected");
+  });
+  
+  const selectedInput = Array.from(ui.inputs.compressMethod).find(input => input.value === value);
+  if (selectedInput) {
+    selectedInput.closest(".button-card-radio").classList.add("button-card-radio--is-selected");
+  }
+  
+  toggleFields();
+}
 
 document.addEventListener("DOMContentLoaded", (e) => {
-  const dropZone = document.getElementById("webWorkerDropZone");
-  const fileInput = document.getElementById("webWorker");
+  const dropZone = ui.groups.dropZone;
+  const fileInput = ui.inputs.file;
 
   const compressingGuard = (handler) => (e) => {
-    if (isCompressing) return;
+    if (state.isCompressing) return;
     handler(e);
   };
 
@@ -551,103 +503,105 @@ document.addEventListener("DOMContentLoaded", (e) => {
 
   document.addEventListener("paste", handlePasteImage);
 
-  qualityInput.addEventListener("change", () => {
-    if (qualityInput.value > 100) {
-      qualityInput.value = 100;
+  ui.inputs.quality.addEventListener("change", () => {
+    if (ui.inputs.quality.value > 100) {
+      ui.inputs.quality.value = 100;
       updateSlider(100, "qualitySlider");
-      // TODO: Display toast message in UI
     }
     if (
-      qualityInput.value < 0 ||
-      isNaN(qualityInput.value) ||
-      qualityInput.value === ""
+      ui.inputs.quality.value < 0 ||
+      isNaN(ui.inputs.quality.value) ||
+      ui.inputs.quality.value === ""
     ) {
-      qualityInput.value = 0;
+      ui.inputs.quality.value = 0;
       updateSlider(0, "qualitySlider");
-      // TODO: Display toast message in UI
-    } else {
-      qualityInput.value = Math.round(qualityInput.value);
-      updateSlider(qualityInput.value, "qualitySlider");
+    }
+    else {
+      ui.inputs.quality.value = Math.round(ui.inputs.quality.value);
+      updateSlider(ui.inputs.quality.value, "qualitySlider");
     }
   });
 
-  limitDimensionsInput.addEventListener("change", (e) => {
-    if (limitDimensionsInput.value > 30000) {
-      // Canvas supports around 32k pixels in width and height
-      limitDimensionsInput.value = 30000;
-      // TODO: Display toast message in UI
-    } else if (
-      limitDimensionsInput.value <= 0 ||
-      isNaN(limitDimensionsInput.value) ||
-      limitDimensionsInput.value === ""
+  ui.inputs.limitDimensions.addEventListener("change", (e) => {
+    if (ui.inputs.limitDimensions.value > 30000) {
+      ui.inputs.limitDimensions.value = 30000;
+    }
+    else if (
+      ui.inputs.limitDimensions.value <= 0 ||
+      isNaN(ui.inputs.limitDimensions.value) ||
+      ui.inputs.limitDimensions.value === ""
     ) {
-      limitDimensionsInput.value = 1;
-      // TODO: Display toast message in UI
-    } else {
-      limitDimensionsInput.value = Math.round(limitDimensionsInput.value);
+      ui.inputs.limitDimensions.value = 1;
+    }
+    else {
+      ui.inputs.limitDimensions.value = Math.round(ui.inputs.limitDimensions.value);
     }
   });
 
-  limitWeightInput.addEventListener("change", (e) => {
+  ui.inputs.limitWeight.addEventListener("change", (e) => {
     const { value, message } = validateWeight(
-      limitWeightInput.value,
-      limitWeightUnitInput.value
+      ui.inputs.limitWeight.value,
+      ui.inputs.limitWeightUnit.value
     );
 
     if (!value) {
-      // TODO: Display toast message in UI using `message`
-    } else if (value && message) {
-      // Value was clamped due to exceeding allowed min or max weight.
-      // TODO: Display toast message in UI using `message`
-      limitWeightInput.value = value;
-    } else if (value) {
-      limitWeightInput.value = value;
+    }
+    else if (value && message) {
+      ui.inputs.limitWeight.value = value;
+    }
+    else if (value) {
+      ui.inputs.limitWeight.value = value;
     }
   });
 
-  limitWeightUnitInput.addEventListener("change", (e) => {
-    const previousUnit = maxWeightSuffixLabelValue.toUpperCase();
+  ui.inputs.limitWeightUnit.addEventListener("change", (e) => {
+    const previousUnit = state.limitWeightUnit.toUpperCase();
 
     if (previousUnit === "KB") {
-      const kbToMb = Number(limitWeightInput.value / 1000);
-      if (kbToMb < limitWeightInput.value) {
-        limitWeightInput.value = kbToMb;
+      const kbToMb = Number(ui.inputs.limitWeight.value / 1000);
+      if (kbToMb < ui.inputs.limitWeight.value) {
+        ui.inputs.limitWeight.value = kbToMb;
       }
-    } else if (previousUnit === "MB") {
-      // Convert from MB to KB
-      const mbToKb = Number(limitWeightInput.value * 1000);
-      if (mbToKb > limitWeightInput.value) {
-        limitWeightInput.value = Number(limitWeightInput.value * 1000);
+    }
+    else if (previousUnit === "MB") {
+      const mbToKb = Number(ui.inputs.limitWeight.value * 1000);
+      if (mbToKb > ui.inputs.limitWeight.value) {
+        ui.inputs.limitWeight.value = Number(ui.inputs.limitWeight.value * 1000);
       }
     }
 
-    maxWeightSuffixLabelValue = limitWeightUnitInput.value.toUpperCase(); // Data attribute
-    maxWeightSuffixLabel.textContent = limitWeightUnitInput.value.toUpperCase(); // UI
+    state.limitWeightUnit = ui.inputs.limitWeightUnit.value.toUpperCase();
+    ui.labels.limitWeightSuffix.textContent = ui.inputs.limitWeightUnit.value.toUpperCase();
+    ui.labels.limitWeightSuffix.dataset.suffix = ui.inputs.limitWeightUnit.value.toUpperCase();
   });
 
   document.querySelectorAll('input[name="compressMethod"]').forEach((radio) => {
     radio.addEventListener("change", toggleFields);
   });
-  toggleFields(); // Initialize field visibility based on the default selection
-  updateSlider(document.getElementById("quality").value, "qualitySlider");
+
+  toggleFields();
+
+  updateSlider(ui.inputs.quality.value, "qualitySlider");
+
   selectDimensionMethod(
     document.querySelector('input[name="dimensionMethod"]:checked').value
   );
+
   selectFormat(
     document.querySelector('input[name="formatSelect"]:checked').value
   );
 
-  document.getElementById("backToTop").addEventListener("click", function () {
+  ui.actions.backToTop.addEventListener("click", function () {
     window.scrollTo({
       top: 0,
       behavior: "smooth",
     });
   });
+
 });
 
-
 function handlePasteImage(e) {
-  if (!e.clipboardData || isCompressing) return;
+  if (!e.clipboardData || state.isCompressing) return;
 
   const items = e.clipboardData.items;
   const files = [];
@@ -665,19 +619,16 @@ function handlePasteImage(e) {
   }
 }
 
-
 function toggleFields() {
-  const compressMethod = document.querySelector(
-    'input[name="compressMethod"]:checked'
-  ).value;
-  const maxWeightField = document
-    .querySelector("label[for='maxWeight']")
-    .closest(".form-group");
-  const qualityField = document
-    .querySelector("label[for='quality']")
-    .closest(".form-group");
+  const method = getCheckedValue(ui.inputs.compressMethod);
+  const maxWeightField = document.querySelector(
+    "label[for='maxWeight']"
+  ).closest(".form-group");
+  const qualityField = document.querySelector(
+    "label[for='quality']"
+  ).closest(".form-group");
 
-  if (compressMethod === "maxWeight") {
+  if (method === "maxWeight") {
     maxWeightField.classList.remove("hidden");
     qualityField.classList.add("hidden");
   } else {
@@ -685,7 +636,6 @@ function toggleFields() {
     qualityField.classList.remove("hidden");
   }
 }
-
 
 function selectCompressMethod(value) {
   document.querySelector(
@@ -705,16 +655,15 @@ function selectCompressMethod(value) {
   toggleFields();
 }
 
-
 async function downloadAllImages() {
   const GB = 1024 * 1024 * 1024;
-  const chunkSize = 1 * GB; // Max zip file size before chunking into parts
+  const chunkSize = 1 * GB;
   const zipFileName = appendFileNameId("mazanoke-images");
 
   try {
-    if (isDownloadingAll) return;
-    isDownloadingAll = true;
-    downloadAllImagesButton.setAttribute("aria-busy", "true");
+    if (state.isDownloadingAll) return;
+    state.isDownloadingAll = true;
+    ui.actions.downloadAll.setAttribute("aria-busy", "true");
 
     const compressedImages = document.querySelectorAll(
       'a.image-output__item-download-button[href^="blob:"]'
@@ -733,23 +682,20 @@ async function downloadAllImages() {
       })
     );
 
-    // Filter out failed downloads
     const validBlobs = blobs.filter((blob) => blob !== null);
 
     if (validBlobs.length === 0) {
       throw new Error("No valid images to download");
     }
 
-    let currentZip = new JSZip();
+    let currentZip = zip;
     let totalSize = 0;
     let zipIndex = 1;
 
     for (let i = 0; i < validBlobs.length; i++) {
-      // Get the file size of the current image
       const fileSize = parseInt(compressedImages[i].dataset.filesize, 10);
 
       if (totalSize + fileSize > chunkSize) {
-        // If adding the next image exceeds `chunkSize`, download the current ZIP and start a new zip file.
         const zipBlob = await currentZip.generateAsync({ type: "blob" });
         await triggerDownload(
           zipBlob,
@@ -773,24 +719,23 @@ async function downloadAllImages() {
       const zipBlob = await currentZip.generateAsync({ type: "blob" });
       await triggerDownload(zipBlob, finalName);
     }
-  } catch (error) {
+  }
+  catch (error) {
     console.error("Download all images as zip failed:", error);
-    // TODO: Display error message in UI
-  } finally {
-    downloadAllImagesButton.setAttribute("aria-busy", "false");
-    isDownloadingAll = false;
+  }
+  finally {
+    ui.actions.downloadAll.setAttribute("aria-busy", "false");
+    state.isDownloadingAll = false;
   }
 }
 
 function deleteAllImages() {
-  // TODO: Display toast to allow undo action
-
-  outputDownloadContent.innerHTML = "";
-  outputDownloadContainer.dataset.count = 0;
-  selectSubpageOutput.dataset.count = 0;
-  compressedImageCount.dataset.count = 0;
-  compressedImageCount.textContent = 0;
-  imageCount = 0;
+  ui.output.content.innerHTML = "";
+  ui.output.container.dataset.count = 0;
+  ui.output.subpageOutput.dataset.count = 0;
+  ui.output.imageCount.dataset.count = 0;
+  ui.output.imageCount.textContent = 0;
+  state.imageCount = 0;
 }
 
 async function triggerDownload(blob, filename) {

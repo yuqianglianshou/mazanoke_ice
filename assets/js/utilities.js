@@ -50,7 +50,7 @@ function defaultConversionMapping(mimeType) {
 
 function getFileType(file) {
   let selectedFormat = document.querySelector('input[name="formatSelect"]:checked').value; // User-selected format to convert to, e.g. "image/jpeg".
-  let inputFileExtension = ""; // User uploaded image's file extension, e.g. ".jpg".
+  let inputFileExtension = ""; // User uploaded image's file extension, e.g. `.jpg`.
   let outputFileExtension = ""; // The processed image's file extension, based on `defaultConversionMapping()`.
 
   if (selectedFormat && selectedFormat !== "default") {
@@ -109,7 +109,7 @@ function renameBrowserDefaultFileName(fileName) {
 
 function validateWeight(value, unit = "mb") {
   value = Number(value);
-  let [min, max] = [limitWeightMin, limitWeightMax];
+  let [min, max] = [config.weightLimit.min, config.weightLimit.max];
   min = unit === "kb" ? min * 1000 : min; 
   max = unit === "kb" ? max * 1000 : max; 
 
@@ -118,15 +118,55 @@ function validateWeight(value, unit = "mb") {
     return {value: null, message}
   }
   else if (value < min) {
-    const message = `Minimum file size is ${limitWeightMin * 1000}KB or ${limitWeightMin}MB.`;
+    const message = `Minimum file size is ${min * 1000}KB or ${max}MB.`;
     return {value: min, message}
   }
   else if (value > max) {
-    const message = `Max file size is ${limitWeightMax}MB.`;
+    const message = `Max file size is ${max}MB.`;
     return {value: max, message}
   }
 
   return {value, message: null}
+}
+
+
+function getImageDimensions(imageInput, callback) {
+  const img = new Image();
+
+  if (imageInput instanceof Blob) {
+    img.src = URL.createObjectURL(imageInput);
+  }
+  else if (typeof imageInput === "string") {
+    img.src = imageInput;
+  }
+  else {
+    console.error("Invalid input provided to getImageDimensions.");
+    callback(null);
+    return;
+  }
+
+  img.onload = () => callback({ width: img.naturalWidth, height: img.naturalHeight });
+  img.onerror = () => callback(null);
+}
+
+
+function getAdjustedDimensions(imageBlob, desiredLimitDimensions) {
+  // Adjusts image dimensions to prevent the short edge from being 0.
+  // Calculates the minimum long edge based on a 1px short edge while keeping aspect ratio.
+  return new Promise((resolve) => {
+    getImageDimensions(imageBlob, ({ width, height }) => {
+      if (!width || !height) {
+        resolve(null);
+        return;
+      }
+      const shortEdge = Math.min(width, height);
+      const longEdge = Math.max(width, height);
+      const shortEdgeMin = 1;
+      const minAllowedDimension = longEdge * (shortEdgeMin / shortEdge);
+      const limitDimensionsValue = desiredLimitDimensions > Math.ceil(minAllowedDimension) ? desiredLimitDimensions : Math.ceil(minAllowedDimension);
+      resolve(limitDimensionsValue);
+    });
+  });
 }
 
 
