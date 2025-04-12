@@ -10,6 +10,7 @@ function buildOutputItemHTML({
   fileSizeSavedPercentage,
   fileSizeSavedClass,
 }) {
+  // Create the output dom for compressed images.
   const fileSizeInMB = fileSize / 1024 / 1024;
   let fileSizeDisplay;
   if (fileSizeInMB < 1) {
@@ -49,5 +50,6 @@ function buildOutputItemHTML({
 
 
 function getCheckedValue(nodeList) {
+  // Find the currently select radio button value.
   return [...nodeList].find((el) => el.checked)?.value || null;
 }

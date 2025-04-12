@@ -3,6 +3,7 @@ document.addEventListener("DOMContentLoaded", (e) => {
   const fileInput = ui.inputs.file;
 
   const compressingGuard = (handler) => (e) => {
+    // Prevent adding more to compression queue when isCompressing.
     if (state.isCompressing) return;
     handler(e);
   };
@@ -122,7 +123,6 @@ document.addEventListener("DOMContentLoaded", (e) => {
 
   updateSlider(ui.inputs.quality.value, "qualitySlider");
 
-
   toggleFields();
 
   selectDimensionMethod(
@@ -133,8 +133,6 @@ document.addEventListener("DOMContentLoaded", (e) => {
     document.querySelector('input[name="formatSelect"]:checked').value
   );
   
-
-
   ui.actions.backToTop.addEventListener("click", function () {
     window.scrollTo({
       top: 0,
@@ -164,6 +162,7 @@ function handlePasteImage(e) {
 }
 
 function abort(event) {
+  // Cancel on-going compression.
   event.stopPropagation();
   if (!state.controller) return;
   resetCompressionState(false, true);

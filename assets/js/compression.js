@@ -198,11 +198,11 @@ function handleCompressionResult(file, output) {
       wrapper.innerHTML = outputHTML.trim();
       ui.output.content.prepend(wrapper.firstChild);
 
-      state.imageCount++;
-      ui.output.container.dataset.count = state.imageCount;
-      ui.output.subpageOutput.dataset.count = state.imageCount;
-      ui.output.imageCount.dataset.count = state.imageCount;
-      ui.output.imageCount.textContent = state.imageCount;
+      state.outputImageCount++;
+      ui.output.container.dataset.count = state.outputImageCount;
+      ui.output.subpageOutput.dataset.count = state.outputImageCount;
+      ui.output.imageCount.dataset.count = state.outputImageCount;
+      ui.output.imageCount.textContent = state.outputImageCount;
 
       console.log(state.compressProcessedCount)
 

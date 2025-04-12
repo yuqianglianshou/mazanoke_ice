@@ -6,7 +6,22 @@
  * - Allow clear individual items and all items.
  */
 
+function toggleFields() {
+  // Trigger to check through the current state and update the form fields accordingly.
+  const compressMethod = getCheckedValue(ui.inputs.compressMethod);
+  
+  if (compressMethod === "maxWeight") {
+    ui.groups.maxWeight.classList.remove("hidden");
+    ui.groups.quality.classList.add("hidden");
+  }
+  else {
+    ui.groups.maxWeight.classList.add("hidden");
+    ui.groups.quality.classList.remove("hidden");
+  }
+}
+
 function resetUI() {
+  // Resets the UI primarily around the dropzone area.
   ui.actions.abort.classList.add("hidden");
   document.body.classList.remove("compressing--is-active");
   ui.actions.dropZone.classList.remove("hidden");
@@ -55,20 +70,8 @@ function startSliderDrag(event, inputId) {
   document.addEventListener("mouseup", onMouseUp);
 }
 
-function toggleFields() {
-  const compressMethod = getCheckedValue(ui.inputs.compressMethod);
-  
-  if (compressMethod === "maxWeight") {
-    ui.groups.maxWeight.classList.remove("hidden");
-    ui.groups.quality.classList.add("hidden");
-  }
-  else {
-    ui.groups.maxWeight.classList.add("hidden");
-    ui.groups.quality.classList.remove("hidden");
-  }
-}
-
 function selectCompressMethod(value) {
+  // Form group: Optimization method.
   document.querySelector(
     `input[name="compressMethod"][value="${value}"]`
   ).checked = true;
@@ -87,6 +90,7 @@ function selectCompressMethod(value) {
 }
 
 function selectDimensionMethod(value) {
+  // Form group: Dimensions method.
   document.querySelector(
     `input[name="dimensionMethod"][value="${value}"]`
   ).checked = true;
@@ -113,6 +117,7 @@ function selectDimensionMethod(value) {
 }
 
 function selectFormat(value) {
+  // Form group: Convert to format.
   ui.inputs.formatSelect.forEach(input => {
     input.checked = input.value === value;
   });
@@ -128,6 +133,7 @@ function selectFormat(value) {
 }
 
 function selectSubpage(value) {
+  // Switch between "Settings", "Images".
   ui.inputs.settingsSubpage.forEach(input => {
     input.checked = input.value === value;
   });
@@ -145,20 +151,3 @@ function selectSubpage(value) {
   document.body.classList.add(`subpage--${value}`);
 }
 
-function toggleFields() {
-  const method = getCheckedValue(ui.inputs.compressMethod);
-  const maxWeightField = document.querySelector(
-    "label[for='maxWeight']"
-  ).closest(".form-group");
-  const qualityField = document.querySelector(
-    "label[for='quality']"
-  ).closest(".form-group");
-
-  if (method === "maxWeight") {
-    maxWeightField.classList.remove("hidden");
-    qualityField.classList.add("hidden");
-  } else {
-    maxWeightField.classList.add("hidden");
-    qualityField.classList.remove("hidden");
-  }
-}

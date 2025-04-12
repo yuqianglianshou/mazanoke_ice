@@ -95,5 +95,5 @@ function deleteAllImages() {
   ui.output.subpageOutput.dataset.count = 0;
   ui.output.imageCount.dataset.count = 0;
   ui.output.imageCount.textContent = 0;
-  state.imageCount = 0;
+  state.outputImageCount = 0;
 }

@@ -77,7 +77,7 @@ App.state = {
   isCompressing: false,
   isDownloadingAll: false,
   inputFileSize: null,
-  imageCount: 0,
+  outputImageCount: 0,
   fileProgressMap: {},
   limitWeightUnit: "MB",
 };
