@@ -22,11 +22,11 @@ MAZANOKE is a simple image optimizer that runs in your browser, works offline, a
 
 ## Features
 
-- 🚀 **Optimizes Images Instantly In Your Browser**
+- 🚀 **Optimizes Images Instantly in Your Browser**
   - Adjust image quality.
   - Set a target file size.
   - Set max dimensions to limit width/height.
-  - Paste images and files directly from your clipboard.
+  - Paste images directly from your clipboard.
   - Convert between `JPG`, `PNG`, and `WebP`.
     - Also supports conversion from `HEIC`, `AVIF`, `GIF`, `SVG`.
 - 🌍 **Installable Web App**
@@ -35,7 +35,7 @@ MAZANOKE is a simple image optimizer that runs in your browser, works offline, a
   - Runs on desktop, tablet, and mobile.
 - 🔒 **Privacy-Focused**
   - Works offline.
-  - All image processing happens locally. Your files stay on your device.
+  - All image processing happens locally and never leaves your device.
   - Removes EXIF data, like location, date, device info, and more.
 
 **Planned**
@@ -87,13 +87,12 @@ services:
 | Dark mode<br><img src=".github/images/capture-desktop-dark.jpg" alt="mazanoke dark mode" width="50%"> | Light mode<br><img src=".github/images/capture-desktop-light.jpg" alt="mazanoke light mode" width="50%">  |
 | Settings<br><img src=".github/images/capture-desktop-solo-settings-dark.jpg" alt="mazanoke settings" width="50%">  | Download optimized images<br><img src=".github/images/capture-desktop-solo-output-dark.jpg" alt="mazanoke settings" width="50%">  |
 
-## Attributions and Licenses
+## Attributions
+- [Browser Image Compression](https://github.com/Donaldcwl/browser-image-compression)
+- [heic-to](https://github.com/hoppergee/heic-to), [libheif](https://github.com/strukturag/libheif), [libde265](https://github.com/strukturag/libde265)
+- [JSZip](https://github.com/Stuk/jszip)
 
-MAZANOKE: [GNU General Public License v3.0](https://github.com/civilblur/mazanoke/blob/main/README.md)
+[View all details](./docs/ATTRIBUTIONS.md)
 
-Dependencies:
-- Browser Image Compression
-- heic-to, libheif, libde265
-- JSZip
-
-[View all dependencies and licenses](./docs/ATTRIBUTIONS.md)
+## License
+[GNU General Public License v3.0](https://github.com/civilblur/mazanoke/blob/main/README.md)
