@@ -79,7 +79,7 @@ services:
 </center>
 
 <center>
-   <img src=".github/images/featured-desktop-solo-light" alt="mazanoke desktop screen capture light mode" width="1200">
+   <img src=".github/images/featured-desktop-solo-light.jpg" alt="mazanoke desktop screen capture light mode" width="1200">
 </center>
 
 |    |   |
