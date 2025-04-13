@@ -14,7 +14,7 @@ App.ui = {
     compressMethod: document.querySelectorAll('[name="compressMethod"]'),
     dimensionMethod: document.querySelectorAll('[name="dimensionMethod"]'),
     formatSelect: document.querySelectorAll('[name="formatSelect"]'),
-    file: document.getElementById("webWorker"),
+    file: document.getElementById("compress"),
     settingsSubpage: document.querySelectorAll('[name="settingsSubpage"]'),
   },
   labels: {
@@ -22,10 +22,10 @@ App.ui = {
   },
   progress: {
     container: document.querySelector(".progress-container"),
-    queueCount: document.getElementById("webWorkerProgressQueueCount"),
-    track: document.getElementById("webWorkerProgressTrack"),
-    bar: document.getElementById("webWorkerProgressBar"),
-    text: document.getElementById("webWorkerProgressText"),
+    queueCount: document.getElementById("compressProgressQueueCount"),
+    track: document.getElementById("compressProgressTrack"),
+    bar: document.getElementById("compressProgressBar"),
+    text: document.getElementById("compressProgressText"),
   },
   output: {
     container: document.getElementById("outputDownloadContainer"),
@@ -35,7 +35,7 @@ App.ui = {
     imageCount: document.getElementById("compressedImageCount"),
   },
   actions: {
-    abort: document.getElementById("webWorkerAbort"),
+    abort: document.getElementById("compressAbort"),
     dropZone: document.getElementById("dropZoneActions"),
     backToTop: document.getElementById("backToTop"),
     downloadAll: document.getElementById("downloadAllImagesButton"),
@@ -43,7 +43,7 @@ App.ui = {
   groups: {
     formatMethod: document.getElementById("formatMethodGroup"),
     settingsSubpage: document.getElementById("selectSettingsSubpage"),
-    dropZone: document.getElementById("webWorkerDropZone"),
+    dropZone: document.getElementById("compressDropZone"),
     maxWeight: document.querySelector("label[for='maxWeight']").closest(".form-group"),
     quality: document.querySelector("label[for='quality']").closest(".form-group"),
     compressMethod: document.getElementById("compressMethodGroup"),
@@ -63,7 +63,7 @@ App.config = {
   thumbnailOptions: {
     initialQuality: 0.8,
     maxWidthOrHeight: 70,
-    useWebWorker: true,
+    usecompress: true,
     preserveExif: false,
     fileType: "image/png",
     libURL: "./browser-image-compression.js",

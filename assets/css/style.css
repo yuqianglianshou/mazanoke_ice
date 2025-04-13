@@ -1317,14 +1317,14 @@ body:not(.compressing--is-active) .drop-zone.drop-zone--is-dragging .drop-zone__
   white-space: nowrap;
 }
 
-.progress-container #webWorkerAbort {
+.progress-container #compressAbort {
   cursor: pointer;
   position: absolute;
   top: 100%;
   z-index: 10;
 }
 
-#webWorkerProgressText {
+#compressProgressText {
   display: flex;
   flex-wrap: wrap;
 }
@@ -1334,7 +1334,7 @@ body:not(.compressing--is-active) .drop-zone.drop-zone--is-dragging .drop-zone__
   animation: loading-dots 2s steps(3, end) infinite;
 }
 
-#webWorkerProgressTrack {
+#compressProgressTrack {
   display: flex;
   align-items: center;
   gap: var(--space-xs);
@@ -1344,7 +1344,7 @@ body:not(.compressing--is-active) .drop-zone.drop-zone--is-dragging .drop-zone__
   max-width: 600px;
 }
 
-#webWorkerProgressBar {
+#compressProgressBar {
   min-width: 20px;
   width: 0%;
   height: var(--space-xs);

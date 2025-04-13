@@ -68,7 +68,7 @@
 
   <div class="content">
 
-    <div class="drop-zone" id="webWorkerDropZone">
+    <div class="drop-zone" id="compressDropZone">
       <div class="drop-zone__border-dashed"></div>
       <div class="drop-zone__cell-grid"></div>
       <div class="drop-zone__vignette-outer"></div>
@@ -97,19 +97,19 @@
         </div>
 
         <div class="progress-container hidden">
-          <div id="webWorkerProgressQueueCount"></div>
-          <div id="webWorkerProgressTrack">
-            <div id="webWorkerProgressBar"></div>
+          <div id="compressProgressQueueCount"></div>
+          <div id="compressProgressTrack">
+            <div id="compressProgressBar"></div>
           </div>
-          <div id="webWorkerProgressText" data-progress="0"></div>
+          <div id="compressProgressText" data-progress="0"></div>
 
-          <div id="webWorkerAbort" class="mt-sm hidden">
+          <div id="compressAbort" class="mt-sm hidden">
             <button class="button-cta button-secondary" onclick="abort(event)">Cancel</button>
           </div>
 
         </div>
 
-        <input id="webWorker" type="file" accept=".svg, .gif, .jpg, .jpeg, .png, .webp" multiple />
+        <input id="compress" type="file" accept=".svg, .gif, .jpg, .jpeg, .png, .webp" multiple />
         
       </div>
     </div>
