@@ -8,7 +8,7 @@
 
 
 <center>
-   <img src=".github/images/featured-desktop-solo-dark.jpg" alt="mazanoke screencapture" width="1000">
+   <img src=".github/images/featured-desktop-solo-dark.jpg" alt="mazanoke desktop screen capture dark mode" width="1200">
 </center>
 
 ## About
@@ -75,7 +75,11 @@ services:
 ## Screenshots
 
 <center>
-   <img src=".github/images/featured-image-mobile-group-dark-light.jpg" alt="mazanoke mobile devices" width="1000">
+   <img src=".github/images/featured-image-mobile-group-dark-light.jpg" alt="mazanoke mobile devices" width="1200">
+</center>
+
+<center>
+   <img src=".github/images/featured-desktop-solo-light" alt="mazanoke desktop screen capture light mode" width="1200">
 </center>
 
 |    |   |
