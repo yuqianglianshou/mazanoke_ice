@@ -1,5 +1,5 @@
 <h1 align="center">
-  <img src=".github/images/v1.1.0/mazanoke-app-icon.png" alt="mazanoke icon" width="120">
+  <img src=".github/images/mazanoke-app-icon.png" alt="mazanoke icon" width="120">
 
    MAZANOKE
 </h1>
