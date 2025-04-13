@@ -60,12 +60,12 @@ services:
 ```
 1. Access the app at http://localhost:3474
 
-### Desktop
+### Local
 
 1. Download the [latest source code release](https://github.com/civilblur/mazanoke/releases).
 1. Open the `index.html` file to launch the app in your browser.
 
-### Installing as Progressive Web App
+### Install Web App (Desktop, Mobile)
 
 1. Go to [MAZANOKE.com](https://mazanoke.com/), or self-host your own for even stronger privacy.
 1. If your browser supports web apps, you will see an "Install" button in the top-right. Click to install.
