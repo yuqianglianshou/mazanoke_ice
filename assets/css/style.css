@@ -1204,7 +1204,8 @@ body:not(.compressing--is-active) .drop-zone.drop-zone--is-dragging .drop-zone__
   animation: fade-in-scale var(--duration-600) ease-out forwards;
 }
 
-.drop-zone-content__actions button {
+.drop-zone-content__actions button,
+#compressAbort button {
   min-width: 160px;
 }
 

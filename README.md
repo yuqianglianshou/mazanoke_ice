@@ -60,7 +60,7 @@ services:
 ```
 1. Access the app at http://localhost:3474
 
-### Local (Desktop)
+### Desktop
 
 1. Download the [latest source code release](https://github.com/civilblur/mazanoke/releases).
 1. Open the `index.html` file to launch the app in your browser.
