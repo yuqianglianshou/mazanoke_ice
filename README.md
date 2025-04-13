@@ -23,7 +23,7 @@ MAZANOKE is a simple image optimizer that runs in your browser, works offline, a
 
 ## Features
 
-- 🚀 **Optimize Images Locally in Your Browser**
+- 🖼️ **Optimize Images in Your Browser**
   - Adjust image quality
   - Set target file size
   - Set max width/height
