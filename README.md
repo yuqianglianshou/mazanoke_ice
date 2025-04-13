@@ -12,7 +12,7 @@
 </center>
 
 ## About
-MAZANOKE is a simple image optimizer that runs entirely in your browser—no external uploads, works offline as a web app, and keeps your images private.
+MAZANOKE is a simple image optimizer that runs in your browser, works offline, and keeps your images private without ever leaving your device.
 
 ## Table of Content
 - [Features](#features)
