@@ -1,5 +1,5 @@
 <h1 align="center">
-  <img src=".github/images/mazanoke-app-icon.png" alt="mazanoke icon" width="120">
+  <img src=".github/images/v1.1.0/mazanoke-app-icon.png" alt="mazanoke icon" width="120">
 
    MAZANOKE
 </h1>
@@ -8,7 +8,7 @@
 
 
 <center>
-   <img src=".github/images/featured-desktop-solo-dark.jpg" alt="mazanoke desktop screen capture dark mode" width="1200">
+   <img src=".github/images/v1.1.0/featured-desktop-solo-dark.jpg" alt="mazanoke desktop screen capture dark mode" width="1200">
 </center>
 
 ## About
@@ -70,22 +70,22 @@ services:
 1. If your browser supports web apps, you'll see an "Install" button in the top-right. Click it to install.
 1. A shortcut to MAZANOKE will be added to your device and can even be used offline.
 
-<img src=".github/images/capture-install-button.png" alt="Install MAZANOKE progressive web app button" height="100">
+<img src=".github/images/v1.1.0/capture-install-button.png" alt="Install MAZANOKE progressive web app button" height="100">
 
 ## Screenshots
 
 <center>
-   <img src=".github/images/featured-image-mobile-group-dark-light.jpg" alt="mazanoke mobile devices" width="1200">
+   <img src=".github/images/v1.1.0/featured-image-mobile-group-dark-light.jpg" alt="mazanoke mobile devices" width="1200">
 </center>
 
 <center>
-   <img src=".github/images/featured-desktop-solo-light.jpg" alt="mazanoke desktop screen capture light mode" width="1200">
+   <img src=".github/images/v1.1.0/featured-desktop-solo-light.jpg" alt="mazanoke desktop screen capture light mode" width="1200">
 </center>
 
 |    |   |
 | :---: | :---: |
-| Dark mode<br><img src=".github/images/capture-desktop-dark.jpg" alt="mazanoke dark mode" width="50%"> | Light mode<br><img src=".github/images/capture-desktop-light.jpg" alt="mazanoke light mode" width="50%">  |
-| Settings<br><img src=".github/images/capture-desktop-solo-settings-dark.jpg" alt="mazanoke settings" width="50%">  | Download optimized images<br><img src=".github/images/capture-desktop-solo-output-dark.jpg" alt="mazanoke settings" width="50%">  |
+| Dark mode<br><img src=".github/images/v1.1.0/capture-desktop-dark.jpg" alt="mazanoke dark mode" width="50%"> | Light mode<br><img src=".github/images/v1.1.0/capture-desktop-light.jpg" alt="mazanoke light mode" width="50%">  |
+| Settings<br><img src=".github/images/v1.1.0/capture-desktop-solo-settings-dark.jpg" alt="mazanoke settings" width="50%">  | Download optimized images<br><img src=".github/images/v1.1.0/capture-desktop-solo-output-dark.jpg" alt="mazanoke settings" width="50%">  |
 
 ## Attributions
 - [Browser Image Compression](https://github.com/Donaldcwl/browser-image-compression)
