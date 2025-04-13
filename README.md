@@ -42,7 +42,7 @@ MAZANOKE is a simple image optimizer that runs entirely in your browser—no ext
 - [X] Upload multiple files at once. (Completed)
 - [X] Support for more image file types.
   - Recently added conversion from: `HEIC`, `AVIF`, `GIF`, `SVG` → `JPG/PNG/WebP`.
-- [ ] Remember last-used settings.
+- [X] Remember last-used settings.
 - [ ] Image cropping.
 
 ## Install

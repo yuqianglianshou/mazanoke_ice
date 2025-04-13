@@ -5,6 +5,8 @@
  * - Allow clear individual items and all items.
  */
 
+let storeConfigDebounceTimer;
+
 function resetUI() {
   // Resets the UI primarily around the dropzone area.
   ui.actions.abort.classList.add("hidden");
@@ -13,6 +15,43 @@ function resetUI() {
   ui.progress.container.classList.add("hidden");
   ui.progress.text.dataset.progress = 0;
   ui.progress.bar.style.width = "0%";
+}
+
+function storeConfigForm() {
+  // Store form fields values to local storage.
+  const configForm = {
+    quality: ui.inputs.quality.value,
+    limitDimensions: ui.inputs.limitDimensions.value,
+    limitWeightUnit: ui.inputs.limitWeightUnit.value,
+    limitWeight: ui.inputs.limitWeight.value,
+    compressMethod: getCheckedValue(ui.inputs.compressMethod),
+    dimensionMethod: getCheckedValue(ui.inputs.dimensionMethod),
+    convertMethod: getCheckedValue(ui.inputs.formatSelect),
+  };
+
+  localStorage.setItem("configForm", JSON.stringify(configForm));
+}
+
+function storeConfigFormDebounce() {
+  // Debounce the storage of form fields values to local storage, to prevent excessive.
+  clearTimeout(storeConfigDebounceTimer);
+  storeConfigDebounceTimer = setTimeout(() => {
+    storeConfigForm();
+  }, 300);
+}
+
+function restoreConfigForm() {
+  // Restore form fields values from local storage.
+  const configForm = JSON.parse(localStorage.getItem("configForm"));
+  if (configForm) {
+    setQuality(configForm.quality);
+    setLimitDimensions(configForm.limitDimensions);
+    setWeightUnit(configForm.limitWeightUnit);
+    setWeight(configForm.limitWeight, configForm.limitWeightUnit);
+    setCompressMethod(configForm.compressMethod);
+    setDimensionMethod(configForm.dimensionMethod);
+    setConvertMethod(configForm.convertMethod);
+  }
 }
 
 function setCompressMethod(value) {
@@ -44,6 +83,8 @@ function setCompressMethod(value) {
       ui.groups.limitWeight.classList.add("hidden");
       ui.groups.quality.classList.remove("hidden");
     }
+
+  storeConfigFormDebounce();
 }
 
 function setDimensionMethod(value) {
@@ -70,7 +111,7 @@ function setDimensionMethod(value) {
     resizeDimensionsField.classList.add("hidden");
   }
 
-  return value;
+  storeConfigFormDebounce();
 }
 
 function setQuality(value) {
@@ -90,6 +131,49 @@ function setQuality(value) {
   }
 
   ui.inputs.quality.value = quality;
+  storeConfigFormDebounce();
+}
+
+function setSlider(value, sliderId) {
+  const slider = document.getElementById(sliderId);
+  const fill = slider.querySelector(".slider-fill");
+  const thumb = slider.querySelector(".slider-thumb");
+  let percentage = value;
+  if (value < 0 || isNaN(value) || value === "") {
+    percentage = 0;
+  } else if (value > 100) {
+    percentage = 100;
+  }
+  fill.style.width = percentage + "%";
+  thumb.style.left = Math.min(percentage, 100) + "%";
+}
+
+function startSliderDrag(event, inputId) {
+  const slider = event.currentTarget;
+  const input = document.getElementById(inputId);
+
+  const setSliderPosition = (e) => {
+    const rect = slider.getBoundingClientRect();
+    const offsetX = e.clientX - rect.left;
+    const percentage = Math.min(Math.max((offsetX / rect.width) * 100, 0), 100);
+    input.value = Math.round(Math.min(percentage, 100));
+    setSlider(percentage, slider.id);
+  };
+
+  const onMouseMove = (e) => {
+    setSliderPosition(e);
+  };
+
+  const onMouseUp = () => {
+    document.removeEventListener("mousemove", onMouseMove);
+    document.removeEventListener("mouseup", onMouseUp);
+  };
+
+  setSliderPosition(event);
+  document.addEventListener("mousemove", onMouseMove);
+  document.addEventListener("mouseup", onMouseUp);
+
+  storeConfigFormDebounce();
 }
 
 function setLimitDimensions(value) {
@@ -106,6 +190,7 @@ function setLimitDimensions(value) {
   }
 
   ui.inputs.limitDimensions.value = maxDimension;
+  storeConfigFormDebounce();
 }
 
 function setConvertMethod(value) {
@@ -122,6 +207,8 @@ function setConvertMethod(value) {
   if (selectedInput) {
     selectedInput.closest(".button-card-radio").classList.add("button-card-radio--is-selected");
   }
+
+  storeConfigFormDebounce();
 }
 
 function setWeightUnit(value) {
@@ -152,6 +239,8 @@ function setWeightUnit(value) {
   state.limitWeightUnit = ui.inputs.limitWeightUnit.value.toUpperCase();
   ui.labels.limitWeightSuffix.textContent = ui.inputs.limitWeightUnit.value.toUpperCase();
   ui.labels.limitWeightSuffix.dataset.suffix = ui.inputs.limitWeightUnit.value.toUpperCase();
+
+  storeConfigFormDebounce();
 }
 
 function setWeight(weight, unit) {
@@ -171,6 +260,8 @@ function setWeight(weight, unit) {
   }
 
   ui.inputs.limitWeight.value = value;
+
+  storeConfigFormDebounce();
 }
 
 function selectSubpage(value) {
@@ -190,5 +281,7 @@ function selectSubpage(value) {
   
   document.body.className = document.body.className.replace(/\bsubpage--\S+/g, "");
   document.body.classList.add(`subpage--${value}`);
+
+  storeConfigFormDebounce();
 }
 

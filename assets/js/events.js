@@ -7,6 +7,7 @@ function initApp() {
   initClipboardPaste();
   initBackToTop();
   setConfigForm();
+  restoreConfigForm();
 }
 
 
@@ -54,7 +55,7 @@ function initDropZone() {
 
 function initInputValidation() {
   ui.inputs.quality.addEventListener("change", () => {
-    setDimensionMethod(ui.inputs.quality.value);
+    setQuality(ui.inputs.quality.value);
   });
   
   ui.inputs.limitDimensions.addEventListener("change", (e) => {
@@ -92,61 +93,6 @@ function setConfigForm() {
   setCompressMethod(config.form.compressMethod.value);
   setDimensionMethod(config.form.dimensionMethod.value);
   setConvertMethod(config.form.convertMethod.value);
-}
-
-function storeConfigForm() {
-  // Store form fields values to local storage.
-  const configForm = {
-    quality: ui.inputs.quality.value,
-    limitDimensions: ui.inputs.limitDimensions.value,
-    limitWeightUnit: ui.inputs.limitWeightUnit.value,
-    limitWeight: ui.inputs.limitWeight.value,
-    compressMethod: getCheckedValue(ui.inputs.compressMethod),
-    dimensionMethod: getCheckedValue(ui.inputs.dimensionMethod),
-    convertMethod: getCheckedValue(ui.inputs.formatSelect),
-  };
-
-  localStorage.setItem("configForm", JSON.stringify(configForm));
-}
-
-function setSlider(value, sliderId) {
-  const slider = document.getElementById(sliderId);
-  const fill = slider.querySelector(".slider-fill");
-  const thumb = slider.querySelector(".slider-thumb");
-  let percentage = value;
-  if (value < 0 || isNaN(value) || value === "") {
-    percentage = 0;
-  } else if (value > 100) {
-    percentage = 100;
-  }
-  fill.style.width = percentage + "%";
-  thumb.style.left = Math.min(percentage, 100) + "%";
-}
-
-function startSliderDrag(event, inputId) {
-  const slider = event.currentTarget;
-  const input = document.getElementById(inputId);
-
-  const setSliderPosition = (e) => {
-    const rect = slider.getBoundingClientRect();
-    const offsetX = e.clientX - rect.left;
-    const percentage = Math.min(Math.max((offsetX / rect.width) * 100, 0), 100);
-    input.value = Math.round(Math.min(percentage, 100));
-    setSlider(percentage, slider.id);
-  };
-
-  const onMouseMove = (e) => {
-    setSliderPosition(e);
-  };
-
-  const onMouseUp = () => {
-    document.removeEventListener("mousemove", onMouseMove);
-    document.removeEventListener("mouseup", onMouseUp);
-  };
-
-  setSliderPosition(event);
-  document.addEventListener("mousemove", onMouseMove);
-  document.addEventListener("mouseup", onMouseUp);
 }
 
 function handlePasteImage(e) {
