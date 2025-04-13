@@ -1,24 +1,9 @@
 /**
  * TODO:
  * - Improve error handling
- * - Double check state of settings on page load, in case of browser back button.
  * - Save settings to local storage and restore.
  * - Allow clear individual items and all items.
  */
-
-function toggleFields() {
-  // Trigger to check through the current state and update the form fields accordingly.
-  const compressMethod = getCheckedValue(ui.inputs.compressMethod);
-  
-  if (compressMethod === "limitWeight") {
-    ui.groups.maxWeight.classList.remove("hidden");
-    ui.groups.quality.classList.add("hidden");
-  }
-  else {
-    ui.groups.maxWeight.classList.add("hidden");
-    ui.groups.quality.classList.remove("hidden");
-  }
-}
 
 function resetUI() {
   // Resets the UI primarily around the dropzone area.
@@ -32,21 +17,33 @@ function resetUI() {
 
 function setCompressMethod(value) {
   // Form group: Optimization method.
+  const compressMethod = value;
+
   document.querySelector(
-    `input[name="compressMethod"][value="${value}"]`
+    `input[name="compressMethod"][value="${compressMethod}"]`
   ).checked = true;
+
   document
     .querySelectorAll("#compressMethodGroup .button-card-radio")
     .forEach((el) => {
       el.classList.remove("button-card-radio--is-selected");
     });
+
   document
     .querySelector(
-      `#compressMethodGroup input[name="compressMethod"][value="${value}"]`
+      `#compressMethodGroup input[name="compressMethod"][value="${compressMethod}"]`
     )
     .closest(".button-card-radio")
     .classList.add("button-card-radio--is-selected");
-  toggleFields();
+
+    if (compressMethod === "limitWeight") {
+      ui.groups.limitWeight.classList.remove("hidden");
+      ui.groups.quality.classList.add("hidden");
+    }
+    else {
+      ui.groups.limitWeight.classList.add("hidden");
+      ui.groups.quality.classList.remove("hidden");
+    }
 }
 
 function setDimensionMethod(value) {

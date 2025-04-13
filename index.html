@@ -201,7 +201,36 @@
             </div>
           </div>
 
-          <div class="form-group hidden">
+
+          <div id="qualityField" class="form-group hidden">
+            <div class="form-group__label-content">
+              <label class="form-group__label-text" for="quality">
+                <!-- Quality -->
+              </label>
+            </div>
+            <div class="form-group__input-content">
+              <div class="fade-in-up w-100">
+                <label class="mb-2xs">Quality</label>
+                <div class="flex items-center gap-sm flex-wrap">
+                  <div class="form-field-container form-field-container--suffix">
+                    <input type="number" id="quality" name="quality" value="80" min="0" max="100" step="1" oninput="setSlider(this.value, 'qualitySlider')" />
+                    <label for="quality" class="form-field-suffix">
+                      %
+                    </label>
+                  </div>
+                  <div class="slider-track flex-1" id="qualitySlider" onmousedown="startSliderDrag(event, 'quality')">
+                    <div class="slider-fill"></div>
+                    <div class="slider-thumb"></div>
+                  </div>
+                </div>
+
+
+
+              </div>
+            </div>
+          </div>
+
+          <div id="limitWeightField" class="form-group hidden">
             <div class="form-group__label-content">
               <label class="form-group__label-text" for="maxWeight">
                 <!-- Target file size -->
@@ -230,33 +259,6 @@
           </div>
 
 
-          <div class="form-group hidden">
-            <div class="form-group__label-content">
-              <label class="form-group__label-text" for="quality">
-                <!-- Quality -->
-              </label>
-            </div>
-            <div class="form-group__input-content">
-              <div class="fade-in-up w-100">
-                <label class="mb-2xs">Quality</label>
-                <div class="flex items-center gap-sm flex-wrap">
-                  <div class="form-field-container form-field-container--suffix">
-                    <input type="number" id="quality" name="quality" value="80" min="0" max="100" step="1" oninput="setSlider(this.value, 'qualitySlider')" />
-                    <label for="quality" class="form-field-suffix">
-                      %
-                    </label>
-                  </div>
-                  <div class="slider-track flex-1" id="qualitySlider" onmousedown="startSliderDrag(event, 'quality')">
-                    <div class="slider-fill"></div>
-                    <div class="slider-thumb"></div>
-                  </div>
-                </div>
-
-
-
-              </div>
-            </div>
-          </div>
 
           <div class="form-group mt-lg">
             <div class="form-group__label-content">

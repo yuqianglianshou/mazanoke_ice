@@ -3,12 +3,10 @@ initApp();
 function initApp() {
   // Initialize the app
   initDropZone();
-  initRadioButtonState();
   initInputValidation();
   initClipboardPaste();
   initBackToTop();
   setConfigForm();
-  toggleFields();
 }
 
 
@@ -52,12 +50,6 @@ function initDropZone() {
       compressImage({ target: fileInput }, true);
     }
   }));
-}
-
-function initRadioButtonState() {
-  document.querySelectorAll('input[name="compressMethod"]').forEach((radio) => {
-    radio.addEventListener("change", toggleFields);
-  });
 }
 
 function initInputValidation() {

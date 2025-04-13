@@ -44,8 +44,8 @@ App.ui = {
     formatMethod: document.getElementById("formatMethodGroup"),
     settingsSubpage: document.getElementById("selectSettingsSubpage"),
     dropZone: document.getElementById("compressDropZone"),
-    maxWeight: document.querySelector("label[for='maxWeight']").closest(".form-group"),
-    quality: document.querySelector("label[for='quality']").closest(".form-group"),
+    limitWeight: document.getElementById("limitWeightField"),
+    quality: document.getElementById("qualityField"),
     compressMethod: document.getElementById("compressMethodGroup"),
   },
 };
