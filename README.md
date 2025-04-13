@@ -66,9 +66,10 @@ services:
 
 ### Web App
 
-1. Go to [MAZANOKE.com](https://mazanoke.com/), or self-host your own for even stronger privacy.
+1. Go to [MAZANOKE.com](https://mazanoke.com/), or self-host for better privacy.
 1. If your browser supports web apps, you will see an "Install" button in the top-right. Click to install.
-1. A shortcut to MAZANOKE is now added to your device, and can be used even without an internet connection.
+1. A shortcut to MAZANOKE will be added to your device and can even be used offline.
+
 <img src=".github/images/capture-install-button.png" alt="Install MAZANOKE progressive web app button" height="100">
 
 ## Screenshots
