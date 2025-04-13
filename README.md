@@ -28,7 +28,7 @@ MAZANOKE is a simple image optimizer that runs in your browser, works offline, a
   - Set target file size
   - Set max width/height
   - Paste images from clipboard
-  - Convert between `JPG`, `PNG`, `WebP`
+  - Convert between and to `JPG`, `PNG`, `WebP`
   - Convert from `HEIC`, `AVIF`, `GIF`, `SVG`
 - 🔒 **Privacy-Focused**
   - Works offline
@@ -66,7 +66,7 @@ services:
 
 ### Web App
 
-1. Go to [MAZANOKE.com](https://mazanoke.com/), or self-host for better privacy.
+1. Go to [MAZANOKE.com](https://mazanoke.com/), or self-host for even stronger privacy.
 1. If your browser supports web apps, you'll see an "Install" button in the top-right. Click it to install.
 1. A shortcut to MAZANOKE will be added to your device and can even be used offline.
 
