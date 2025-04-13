@@ -107,11 +107,11 @@ function renameBrowserDefaultFileName(fileName) {
 }
 
 
-function validateWeight(value, unit = "mb") {
+function validateWeight(value, unit = "MB") {
   value = Number(value);
   let [min, max] = [config.weightLimit.min, config.weightLimit.max];
-  min = unit === "kb" ? min * 1000 : min; 
-  max = unit === "kb" ? max * 1000 : max; 
+  min = unit.toUpperCase() === "KB" ? min * 1000 : min; 
+  max = unit.toUpperCase() === "KB" ? max * 1000 : max; 
 
   if (typeof value !== 'number' || isNaN(value) || !Number.isFinite(value)) {
     const message = "Invalid value, not a number.";

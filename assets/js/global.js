@@ -10,7 +10,6 @@ App.ui = {
     quality: document.getElementById("quality"),
     limitDimensions: document.getElementById("limitDimensions"),
     limitWeight: document.getElementById("limitWeight"),
-    weightUnit: document.getElementById("limitWeightUnit"),
     limitWeightUnit: document.getElementById("limitWeightUnit"),
     compressMethod: document.querySelectorAll('[name="compressMethod"]'),
     dimensionMethod: document.querySelectorAll('[name="dimensionMethod"]'),
@@ -52,6 +51,15 @@ App.ui = {
 };
 
 App.config = {
+  form: {
+    quality: {value: 80},
+    limitDimensions: {value: 1200},
+    limitWeightUnit: {value: "MB"},
+    limitWeight: {value: 2},
+    compressMethod: {value: "quality"},
+    dimensionMethod: {value: "original"},
+    convertMethod: {value: "default"},
+  },
   thumbnailOptions: {
     initialQuality: 0.8,
     maxWidthOrHeight: 70,

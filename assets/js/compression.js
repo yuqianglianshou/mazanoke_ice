@@ -43,7 +43,7 @@ async function createCompressionOptions(onProgress, file) {
 
   console.log("Input image file size: ", (file.size / 1024 / 1024).toFixed(3), "MB");
 
-  let maxWeightMB = ui.inputs.weightUnit.value.toUpperCase() === "KB" ? 
+  let maxWeightMB = ui.inputs.limitWeightUnit.value.toUpperCase() === "KB" ? 
     ui.inputs.limitWeight.value / 1024 : 
     ui.inputs.limitWeight.value;
 
@@ -203,8 +203,6 @@ function handleCompressionResult(file, output) {
       ui.output.subpageOutput.dataset.count = state.outputImageCount;
       ui.output.imageCount.dataset.count = state.outputImageCount;
       ui.output.imageCount.textContent = state.outputImageCount;
-
-      console.log(state.compressProcessedCount)
 
       if (state.compressProcessedCount === 1) {
         selectSubpage("output");

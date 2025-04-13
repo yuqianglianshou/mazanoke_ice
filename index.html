@@ -163,7 +163,7 @@
             <div class="form-group__input-content">
 
               <div class="button-card-radio-group">
-                <div class="button-card-radio button-card-radio--is-selected" onclick="selectCompressMethod('quality')">
+                <div class="button-card-radio button-card-radio--is-selected" onclick="setCompressMethod('quality')">
                   <div class="button-card-radio__content">
                     <div class="flex gap-sm w-100">
                       <label class="button-card-radio__label">Set image quality</label>
@@ -180,13 +180,13 @@
                   </div>
 
                 </div>
-                <div class="button-card-radio" onclick="selectCompressMethod('maxWeight')">
+                <div class="button-card-radio" onclick="setCompressMethod('limitWeight')">
                   <div class="button-card-radio__content">
                     <div class="flex gap-sm w-100">
                       <label class="button-card-radio__label">Limit file size</label>
                       <div class="button-card-radio__radio-input">
                         <div class="button-card-radio__radio-icon"></div>
-                        <input class="hidden" type="radio" name="compressMethod" value="maxWeight">
+                        <input class="hidden" type="radio" name="compressMethod" value="limitWeight">
                       </div>
                     </div>
                     <div class="button-card-radio__description">
@@ -209,7 +209,7 @@
             </div>
             <div class="form-group__input-content">
               <div class="fade-in-up w-100">
-                <label class="mb-2xs">Target max file size</label>
+                <label class="mb-2xs">Target file size</label>
 
                 <div class="form-field-container gap-xs">
                   <div class="flex-1">
@@ -220,8 +220,8 @@
                   </div>
                   <div class="flex-1">
                     <select id="limitWeightUnit" class="w-100">
-                      <option value="mb">Megabytes (MB)</option>
-                      <option value="kb">Kilobytes (KB)</option>
+                      <option value="MB">Megabytes (MB)</option>
+                      <option value="KB">Kilobytes (KB)</option>
                     </select>
                   </div>
                 </div>
@@ -241,7 +241,7 @@
                 <label class="mb-2xs">Quality</label>
                 <div class="flex items-center gap-sm flex-wrap">
                   <div class="form-field-container form-field-container--suffix">
-                    <input type="number" id="quality" name="quality" value="80" min="0" max="100" step="1" oninput="updateSlider(this.value, 'qualitySlider')" />
+                    <input type="number" id="quality" name="quality" value="80" min="0" max="100" step="1" oninput="setSlider(this.value, 'qualitySlider')" />
                     <label for="quality" class="form-field-suffix">
                       %
                     </label>
@@ -269,7 +269,7 @@
             <div class="form-group__input-content">
 
               <div id="dimensionsMethodGroup" class="button-card-radio-group">
-                <div class="button-card-radio button-card-radio--is-selected" onclick="selectDimensionMethod('original')">
+                <div class="button-card-radio button-card-radio--is-selected" onclick="setDimensionMethod('original')">
                   <div class="button-card-radio__content">
                     <div class="flex gap-sm w-100">
                       <label class="button-card-radio__label">Keep original dimensions</label>
@@ -285,7 +285,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="button-card-radio" onclick="selectDimensionMethod('limit')">
+                <div class="button-card-radio" onclick="setDimensionMethod('limit')">
                   <div class="button-card-radio__content">
                     <div class="flex gap-sm w-100">
                       <label class="button-card-radio__label">Limit dimensions</label>
@@ -334,7 +334,7 @@
             </div>
             <div class="form-group__input-content">
               <div class="button-card-radio-group">
-                <div class="button-card-radio button-card-radio--is-selected" onclick="selectFormat('default')">
+                <div class="button-card-radio button-card-radio--is-selected" onclick="setConvertMethod('default')">
                   <div class="button-card-radio__content">
                     <div class="flex gap-sm w-100">
                       <label class="button-card-radio__label">Default</label>
@@ -354,7 +354,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="button-card-radio" onclick="selectFormat('image/jpeg')">
+                <div class="button-card-radio" onclick="setConvertMethod('image/jpeg')">
                   <div class="button-card-radio__content">
                     <div class="flex gap-sm w-100">
                       <label class="button-card-radio__label">JPG</label>
@@ -365,7 +365,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="button-card-radio" onclick="selectFormat('image/png')">
+                <div class="button-card-radio" onclick="setConvertMethod('image/png')">
                   <div class="button-card-radio__content">
                     <div class="flex gap-sm w-100">
                       <label class="button-card-radio__label">PNG</label>
@@ -377,7 +377,7 @@
                   </div>
 
                 </div>
-                <div class="button-card-radio" onclick="selectFormat('image/webp')">
+                <div class="button-card-radio" onclick="setConvertMethod('image/webp')">
                   <div class="button-card-radio__content">
                     <div class="flex gap-sm w-100">
                       <label class="button-card-radio__label">WebP</label>
@@ -499,13 +499,12 @@
   <script type="text/javascript" src="./assets/vendor/heic-to-vanilla.js"></script>
   <script type="text/javascript" src="./assets/vendor/jszip.js"></script>
   <script type="text/javascript" src="./assets/js/global.js"></script>
+  <script type="text/javascript" src="./assets/js/utilities.js"></script>
+  <script type="text/javascript" src="./assets/js/helpers.js"></script>
   <script type="text/javascript" src="./assets/js/ui.js"></script>
   <script type="text/javascript" src="./assets/js/events.js"></script>
-  <script type="text/javascript" src="./assets/js/helpers.js"></script>
   <script type="text/javascript" src="./assets/js/compression.js"></script>
   <script type="text/javascript" src="./assets/js/download.js"></script>
-  <script type="text/javascript" src="./assets/js/utilities.js"></script>
-  <script type="text/javascript" src="./assets/js/script.js"></script>
   <script>
     if ('serviceWorker' in navigator) {
       function promptUpdate(registration) {
