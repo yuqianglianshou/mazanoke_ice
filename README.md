@@ -57,7 +57,7 @@ services:
     ports:
       - "3474:80"
 ```
-1. Access the app at http://localhost:3474
+1. Access the app at `http://localhost:3474`
 
 ### Local
 
@@ -67,7 +67,7 @@ services:
 ### Web App
 
 1. Go to [MAZANOKE.com](https://mazanoke.com/), or self-host for better privacy.
-1. If your browser supports web apps, you will see an "Install" button in the top-right. Click to install.
+1. If your browser supports web apps, you'll see an "Install" button in the top-right. Click it to install.
 1. A shortcut to MAZANOKE will be added to your device and can even be used offline.
 
 <img src=".github/images/capture-install-button.png" alt="Install MAZANOKE progressive web app button" height="100">
