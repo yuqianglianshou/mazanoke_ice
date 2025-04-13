@@ -135,6 +135,8 @@ function setQuality(value) {
 }
 
 function setSlider(value, sliderId) {
+  // Form group: Slider.
+  // Update input field and slider elements 
   const slider = document.getElementById(sliderId);
   const fill = slider.querySelector(".slider-fill");
   const thumb = slider.querySelector(".slider-thumb");
