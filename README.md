@@ -22,21 +22,18 @@ MAZANOKE is a simple image optimizer that runs in your browser, works offline, a
 
 ## Features
 
-- 🚀 **Optimizes Images Instantly in Your Browser**
-  - Adjust image quality.
-  - Set a target file size.
-  - Set max dimensions to limit width/height.
-  - Paste images directly from your clipboard.
-  - Convert between `JPG`, `PNG`, and `WebP`.
-    - Also supports conversion from `HEIC`, `AVIF`, `GIF`, `SVG`.
-- 🌍 **Installable Web App**
-  - Use as a Progressive Web App (PWA).
-  - Dark and light mode.
-  - Runs on desktop, tablet, and mobile.
+- 🚀 **Optimize Images Locally in Your Browser**
+  - Adjust image quality
+  - Set target file size
+  - Set max width/height
+  - Paste images from clipboard
+  - Convert between `JPG`, `PNG`, and `WebP`
+  - Supports conversion from `HEIC`, `AVIF`, `GIF`, `SVG`
 - 🔒 **Privacy-Focused**
-  - Works offline.
-  - All image processing happens locally and never leaves your device.
-  - Removes EXIF data, like location, date, device info, and more.
+  - Works offline
+  - On-device image processing
+  - Removes EXIF data (location, date, etc.)
+  - Installable web app. ([Learn more](#web-app))
 
 **Planned**
 - [X] Upload multiple files at once. (Completed)
@@ -60,12 +57,12 @@ services:
 ```
 1. Access the app at http://localhost:3474
 
-### Local Browser
+### Local
 
 1. Download the [latest source code release](https://github.com/civilblur/mazanoke/releases).
 1. Open the `index.html` file to launch the app in your browser.
 
-### Install Web App (Desktop, Mobile)
+### Web App
 
 1. Go to [MAZANOKE.com](https://mazanoke.com/), or self-host your own for even stronger privacy.
 1. If your browser supports web apps, you will see an "Install" button in the top-right. Click to install.
