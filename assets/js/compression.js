@@ -236,6 +236,7 @@ function resetCompressionState(isAllProcessed, aborted) {
     ui.progress.bar.style.width = "100%";
 
     setTimeout(() => {
+      // Delay state reset to allow "Done" message to remain 
       resetUI();
       state.isCompressing = false;
     }, 1000);

@@ -52,6 +52,7 @@ App.ui = {
 
 App.config = {
   form: {
+    // Default form settings
     quality: {value: 80},
     limitDimensions: {value: 1200},
     limitWeightUnit: {value: "MB"},

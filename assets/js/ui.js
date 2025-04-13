@@ -1,7 +1,6 @@
 /**
  * TODO:
- * - Improve error handling
- * - Save settings to local storage and restore.
+ * - Refactor toast to reusable component to show error messages. 
  * - Allow clear individual items and all items.
  */
 
@@ -255,7 +254,6 @@ function setWeight(weight, unit) {
   }
   else if (value && message) {
     ui.inputs.limitWeight.value = value;
-    // TODO: Show message in UI
   }
   else if (value) {
     ui.inputs.limitWeight.value = value;
