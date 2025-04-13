@@ -240,18 +240,20 @@
               <div class="fade-in-up w-100">
                 <label class="mb-2xs">Target file size</label>
 
-                <div class="form-field-container gap-xs">
-                  <div class="flex-1">
-                    <div class="form-field-container form-field-container--suffix w-100">
-                      <input type="number" id="limitWeight" name="limitWeight" value="2" step="0.1" class="w-100" />
-                      <label for="limitWeight" class="form-field-suffix" data-suffix="MB">MB</label>
+                <div class="form-field-container">
+                  <div class="flex flex-wrap gap-xs w-100">
+                    <div class="flex-1" style="min-width: 200px">
+                      <div class="form-field-container form-field-container--suffix w-100">
+                        <input type="number" id="limitWeight" name="limitWeight" value="2" step="0.1" class="w-100" />
+                        <label for="limitWeight" class="form-field-suffix" data-suffix="MB">MB</label>
+                      </div>
                     </div>
-                  </div>
-                  <div class="flex-1">
-                    <select id="limitWeightUnit" class="w-100">
-                      <option value="MB">Megabytes (MB)</option>
-                      <option value="KB">Kilobytes (KB)</option>
-                    </select>
+                    <div class="flex-1" style="min-width: 200px">
+                      <select id="limitWeightUnit" class="w-100">
+                        <option value="MB">Megabytes (MB)</option>
+                        <option value="KB">Kilobytes (KB)</option>
+                      </select>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -504,9 +506,9 @@
   <script type="text/javascript" src="./assets/js/utilities.js"></script>
   <script type="text/javascript" src="./assets/js/helpers.js"></script>
   <script type="text/javascript" src="./assets/js/ui.js"></script>
-  <script type="text/javascript" src="./assets/js/events.js"></script>
   <script type="text/javascript" src="./assets/js/compression.js"></script>
   <script type="text/javascript" src="./assets/js/download.js"></script>
+  <script type="text/javascript" src="./assets/js/events.js"></script>
   <script>
     if ('serviceWorker' in navigator) {
       function promptUpdate(registration) {
