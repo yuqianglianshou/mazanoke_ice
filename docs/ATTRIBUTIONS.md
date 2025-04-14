@@ -28,6 +28,7 @@ MAZANOKE would not be possible without the projects listed here.
 - **Author:** Vercel
 - **License**: [OFL License](https://github.com/vercel/geist-font/blob/main/LICENSE.txt)  
 - **Source**: https://github.com/vercel/geist-font
+- **Source**: https://vercel.com/geist/icons
 - **Version**: 1.1
 - **Usage**: Fonts, icons
 
