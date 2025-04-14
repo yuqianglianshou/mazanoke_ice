@@ -19,7 +19,7 @@ If you don't see the "Install" button at the top-right of the page, you can stil
 
 ## Chrome (Desktop)
 
-1. Click the more-menu (three dots icon).
+1. Click the three-dot icon to open the more menu.
 1. Move your cursor to "Cast, save, and share".
 1. Click "Install page as app".
 1. A prompt will show up, click "Install".
@@ -35,14 +35,14 @@ If you don't see the "Install" button at the top-right of the page, you can stil
 <img src="../.github/images/install-web-app/install-pwa-safari-desktop.jpg" alt="Install MAZANOKE progressive web app on Safari desktop" width="1200">
 
 ## Firefox (Mobile)
-1. Tap the more-menu (three dots icon).
+1. Tap the three-dot icon to open the more menu.
 1. Tap "Add App to Home Screen".
 1. A prompt will show up, tap "Add".
 
 <img src="../.github/images/install-web-app/install-pwa-firefox-mobile.jpg" alt="Install MAZANOKE progressive web app on Firefox mobile" width="1200">
 
 ## Chrome (Mobile)
-1. Tap the more-menu (three dots icon).
+1. Tap the three-dot icon to open the more menu.
 1. Tap "Add to Home screen".
 1. A prompt will show up, tap "Add".
 
