@@ -144,8 +144,8 @@ function compressImage(event) {
   state.compressQueueTotal = state.compressQueue.length;
   state.compressProcessedCount = 0;
   state.fileProgressMap = {};
-
   state.isCompressing = true;
+  
   document.body.classList.add("compressing--is-active");
   ui.actions.dropZone.classList.add("hidden");
   ui.actions.abort.classList.remove("hidden");

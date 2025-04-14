@@ -14,7 +14,6 @@ function isFileTypeSupported(fileType) {
   return supportedFileTypes.includes(fileType);
 }
 
-
 function mimeToExtension(mimeType) {
   const fileExtensionMap = {
     "image/jpeg": "jpg",
@@ -32,7 +31,6 @@ function mimeToExtension(mimeType) {
   );
 }
 
-
 function defaultConversionMapping(mimeType) {
   const conversionMap = {
     // Image file types that cannot be compressed to its original file format
@@ -46,7 +44,6 @@ function defaultConversionMapping(mimeType) {
 
   return conversionMap[mimeType] || mimeType;
 }
-
 
 function getFileType(file) {
   let selectedFormat = document.querySelector('input[name="formatSelect"]:checked').value; // User-selected format to convert to, e.g. "image/jpeg".
@@ -72,7 +69,6 @@ function getFileType(file) {
   };
 }
 
-
 function updateFileExtension(originalName, fileExtension, selectedFormat) {
   const baseName = originalName.replace(/\.[^/.]+$/, "");
   const newExtension = selectedFormat
@@ -80,7 +76,6 @@ function updateFileExtension(originalName, fileExtension, selectedFormat) {
     : fileExtension;
   return `${baseName}.${newExtension}`;
 }
-
 
 function appendFileNameId(fileName = "image") {
   if (typeof fileName !== 'string') return null;
@@ -93,7 +88,6 @@ function appendFileNameId(fileName = "image") {
   return baseFileName + "-" + fileId + fileExt;
 }
 
-
 function renameBrowserDefaultFileName(fileName) {
   // Naive approach to check if an image was pasted from clipboard and received a default name by the browser,
   // e.g., `image.png`. This method is potentially browser and language-dependent, if naming conventions vary.
@@ -105,7 +99,6 @@ function renameBrowserDefaultFileName(fileName) {
   }
   return { renamedFileName: fileName, isBrowserDefaultFileName: false };
 }
-
 
 function validateWeight(value, unit = "MB") {
   value = Number(value);
@@ -129,12 +122,10 @@ function validateWeight(value, unit = "MB") {
   return {value, message: null}
 }
 
-
 function getCheckedValue(nodeList) {
   // Find the currently select radio button value.
   return [...nodeList].find((el) => el.checked)?.value || null;
 }
-
 
 function getImageDimensions(imageInput, callback) {
   const img = new Image();
@@ -155,7 +146,6 @@ function getImageDimensions(imageInput, callback) {
   img.onerror = () => callback(null);
 }
 
-
 function getAdjustedDimensions(imageBlob, desiredLimitDimensions) {
   // Adjusts image dimensions to prevent the short edge from being 0.
   // Calculates the minimum long edge based on a 1px short edge while keeping aspect ratio.
@@ -174,7 +164,6 @@ function getAdjustedDimensions(imageBlob, desiredLimitDimensions) {
     });
   });
 }
-
 
 function debugBlobImageOutput(blob) {
   const blobURL = URL.createObjectURL(blob);

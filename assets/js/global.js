@@ -70,6 +70,10 @@ App.config = {
     libURL: "./browser-image-compression.js",
     alwaysKeepResolution: true,
   },
+  qualityLimit: {
+    min: 0,
+    max: 100,
+  },
   weightLimit: {
     min: 0.01,
     max: 100,

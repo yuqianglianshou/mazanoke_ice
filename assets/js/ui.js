@@ -115,14 +115,16 @@ function setDimensionMethod(value) {
 
 function setQuality(value) {
   // Form group: Quality.
-  const quality = Number(value);
-  if (quality > 100) {
-    quality = 100;
-    setSlider(100, "qualitySlider");
+  let quality = Number(value);
+  const min = config.qualityLimit.min;
+  const max = config.qualityLimit.max;
+  if (quality > max) {
+    quality = max;
+    setSlider(max, "qualitySlider");
   }
-  if (quality < 0 || isNaN(quality) || quality === "") {
-    quality = 0;
-    setSlider(0, "qualitySlider");
+  if (quality < min || isNaN(quality) || quality === "") {
+    quality = min;
+    setSlider(min, "qualitySlider");
   }
   else {
     quality = Math.round(quality);
@@ -180,8 +182,8 @@ function startSliderDrag(event, inputId) {
 function setLimitDimensions(value) {
   // Form group: Limit dimensions.
   let selectedDimension = Number(value);
-  const max = config.form.dimensionLimit.max;
   const min = config.form.dimensionLimit.max;
+  const max = config.form.dimensionLimit.max;
   if (selectedDimension > max) {
     selectedDimension = max;
   }
