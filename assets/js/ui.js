@@ -182,8 +182,8 @@ function startSliderDrag(event, inputId) {
 function setLimitDimensions(value) {
   // Form group: Limit dimensions.
   let selectedDimension = Number(value);
-  const min = config.form.dimensionLimit.max;
-  const max = config.form.dimensionLimit.max;
+  const min = config.dimensionLimit.min;
+  const max = config.dimensionLimit.max;
   if (selectedDimension > max) {
     selectedDimension = max;
   }
