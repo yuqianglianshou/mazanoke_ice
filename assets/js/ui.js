@@ -115,7 +115,7 @@ function setDimensionMethod(value) {
 
 function setQuality(value) {
   // Form group: Quality.
-  quality = Number(value);
+  const quality = Number(value);
   if (quality > 100) {
     quality = 100;
     setSlider(100, "qualitySlider");
@@ -179,18 +179,20 @@ function startSliderDrag(event, inputId) {
 
 function setLimitDimensions(value) {
   // Form group: Limit dimensions.
-  maxDimension = Number(value);
-  if (maxDimension > 30000) {
-    maxDimension = 30000;
+  let selectedDimension = Number(value);
+  const max = config.form.dimensionLimit.max;
+  const min = config.form.dimensionLimit.max;
+  if (selectedDimension > max) {
+    selectedDimension = max;
   }
-  else if (maxDimension <= 0 || isNaN(maxDimension) || maxDimension === "") {
-    maxDimension = 1;
+  else if (selectedDimension <= 0 || isNaN(selectedDimension) || selectedDimension === "") {
+    selectedDimension = min;
   }
   else {
-    maxDimension = Math.round(maxDimension);
+    selectedDimension = Math.round(selectedDimension);
   }
 
-  ui.inputs.limitDimensions.value = maxDimension;
+  ui.inputs.limitDimensions.value = selectedDimension;
   storeConfigFormDebounce();
 }
 

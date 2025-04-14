@@ -74,6 +74,10 @@ App.config = {
     min: 0.01,
     max: 100,
   },
+  dimensionLimit: {
+    min: 1,
+    max: 30000,
+  },
 };
 
 
