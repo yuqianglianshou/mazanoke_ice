@@ -20,7 +20,7 @@ If the button isn’t available, you can still install it manually in a few simp
 ## Chrome (Desktop)
 
 1. Click the three-dot icon to open the more menu.
-1. Move your cursor to "Cast, save, and share".
+1. Move the cursor to hover "Cast, save, and share".
 1. Click "Install page as app".
 1. A prompt will show up, click "Install".
 
