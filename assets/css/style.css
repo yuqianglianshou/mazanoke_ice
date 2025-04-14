@@ -2224,6 +2224,7 @@ body:not(.compressing--is-active) .drop-zone.drop-zone--is-dragging .drop-zone__
 }
 
 .fade-in-up {
+  --duration-300: 300ms; /* Override duration multiplier */
   animation: fade-in-up var(--duration-300) ease-out forwards;
 }
 
