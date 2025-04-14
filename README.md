@@ -21,7 +21,6 @@ It serves as an alternative to questionable "free" online tools, created for eve
 - [Install](#install)
 - [Screenshots](#screenshots)
 - [Attributions](#attributions)
-- [License](#license)
 
 ## Features
 
@@ -70,7 +69,7 @@ services:
 
 1. Go to [MAZANOKE.com](https://mazanoke.com/), or self-host for even stronger privacy.
 1. Click the "Install" button in the top-right.
-  - If you this button isn't available, you can use a few simple clicks to manually install it instead. ([Learn more](./docs/install-web-app.md))
+   - If you this button isn't available, you can use a few simple clicks to manually install it instead. ([Learn more](./docs/install-web-app.md))
 1. A shortcut to MAZANOKE will be added to your device and can even be used offline.
 
 <img src=".github/images/install-web-app/capture-install-pwa-button.png" alt="Install MAZANOKE progressive web app button" height="100">
