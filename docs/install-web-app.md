@@ -5,7 +5,7 @@ MAZANOKE can be installed as a Progressive Web App (PWA), which lets you use it 
 
 ## Manual install
 
-If you don't see the "Install" button at the top-right of the page, you can still manually install it with a few simple clicks.
+If the button isn’t available, you can still install it manually in a few simple clicks.
 
 <img src="../.github/images/install-web-app/capture-install-pwa-button.png" alt="Install MAZANOKE progressive web app button" height="100">
 
