@@ -36,14 +36,14 @@ Created for everyday people and designed to be shared with family and friends, i
   - On-device image processing
   - Removes EXIF data (location, date, etc.)
   - No tracking
-  - Installable web app ([Learn more](#web-app))
+  - Installable web app ([learn more](#web-app))
 
 **Planned**
-- [X] Upload multiple files at once. (Completed)
-- [X] Support for more image file types.
-  - Recently added conversion from: `HEIC`, `AVIF`, `GIF`, `SVG` → `JPG/PNG/WebP`.
-- [X] Remember last-used settings.
-- [ ] Image cropping.
+- [X] Upload multiple files at once
+- [X] Support for more image file types
+  - Recently added conversion from: `HEIC`, `AVIF`, `GIF`, `SVG` → `JPG/PNG/WebP`
+- [X] Remember last-used settings
+- [ ] Image cropping
 
 ## Install
 
@@ -67,7 +67,7 @@ services:
 
 ### Web App
 
-1. Go to [MAZANOKE.com](https://mazanoke.com/), or self-host for even stronger privacy.
+1. Visit [MAZANOKE.com](https://mazanoke.com/), or self-host for even stronger privacy.
 1. Click the "Install" button in the top-right.
    - If the button isn’t available, you can still install it manually in a few simple clicks. ([See how](./docs/install-web-app.md))
 1. A shortcut to MAZANOKE will be added to your device and can even be used offline.
