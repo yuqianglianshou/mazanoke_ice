@@ -14,7 +14,7 @@
 ## About
 MAZANOKE is a simple image optimizer that runs in your browser, works offline, and keeps your images private without ever leaving your device.
 
-Created for everyday people and designed to be easily shared with family and friends, it serves as an alternative to questionable "free" online tools.
+Created for everyday people and designed to be shared with family and friends, it serves as an alternative to questionable "free" online tools.
 
 ## Table of Content
 - [Features](#features)
@@ -36,7 +36,7 @@ Created for everyday people and designed to be easily shared with family and fri
   - On-device image processing
   - Removes EXIF data (location, date, etc.)
   - No tracking
-  - Installable web app. ([Learn more](#web-app))
+  - Installable web app ([Learn more](#web-app))
 
 **Planned**
 - [X] Upload multiple files at once. (Completed)
@@ -58,7 +58,7 @@ services:
     ports:
       - "3474:80"
 ```
-1. Access the app at `http://localhost:3474`
+2. Access the app at `http://localhost:3474`
 
 ### Local
 
