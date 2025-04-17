@@ -23,7 +23,10 @@ function initDropZone() {
   dropZone.addEventListener("click", compressingGuard(() => fileInput.click()));
 
   fileInput.addEventListener("change", compressingGuard((e) => {
-    if (fileInput.files?.length) compressImage(e);
+    if (fileInput.files?.length) {
+      compressImage(e);
+      fileInput.value = "";
+    }
   }));
   
   const toggleDragging = (add) => dropZone.classList.toggle("drop-zone--is-dragging", add);
@@ -49,6 +52,7 @@ function initDropZone() {
     if (e.dataTransfer.files?.length) {
       fileInput.files = e.dataTransfer.files;
       compressImage({ target: fileInput }, true);
+      fileInput.value = "";
     }
   }));
 }
