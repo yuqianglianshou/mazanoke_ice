@@ -33,6 +33,7 @@ App.ui = {
     downloadAllBtn: document.getElementById("downloadAllImagesButton"),
     subpageOutput: document.getElementById("subpageOutput"),
     imageCount: document.getElementById("compressedImageCount"),
+    outputFileType: 'image/png',
   },
   actions: {
     abort: document.getElementById("compressAbort"),

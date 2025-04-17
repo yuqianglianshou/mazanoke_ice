@@ -2,17 +2,23 @@ async function preProcessImage(file) {
   let preProcessedImage = null;
   let preProcessedNewFileType = null;
 
-  if (file.type === "image/heic" || file.type === "image/heif") {
+  if (file.type === "image/heic" || file.type === "image/heif" || isHeicExt(file)) {
+    console.log('Pre-processing HEIC image...')
+
     preProcessedImage = await heicTo({
       blob: file,
       type: "image/jpeg",
       quality: 0.9,
     });
 
+    console.log("preProcessedImage: ", preProcessedImage);
+
     preProcessedNewFileType = "image/jpeg";
   }
 
   if (file.type === "image/avif") {
+    console.log('Pre-processing AVIF image...')
+
     setTimeout(() => {
       ui.progress.text.innerHTML = `Please wait. AVIF files may take longer to prepare<span class="loading-dots">`;
     }, 5000);
@@ -35,7 +41,6 @@ async function preProcessImage(file) {
 async function createCompressionOptions(onProgress, file) {
   const compressMethod = getCheckedValue(ui.inputs.compressMethod);
   const dimensionMethod = getCheckedValue(ui.inputs.dimensionMethod);
-  console.log(dimensionMethod)
   const maxWeight = parseFloat(ui.inputs.limitWeight.value);
   const { selectedFormat } = getFileType(file);
 
@@ -49,10 +54,8 @@ async function createCompressionOptions(onProgress, file) {
 
   let limitDimensionsValue = undefined;
 
-  console.log('file.type: ', file.type)
-
-  if (file.type === 'image/heif' || file.type === 'image/heic') {
-    if (getCheckedValue(ui.inputs.dimensionMethod) === 'limit') {
+  if (file.type === "image/heif" || file.type === "image/heic" || isHeicExt(file)) {
+    if (getCheckedValue(ui.inputs.dimensionMethod) === "limit") {
       limitDimensionsValue = (ui.inputs.limitDimensions.value > 50) ? ui.inputs.limitDimensions.value : 50;
     }
     else {
@@ -95,7 +98,9 @@ async function compressImageQueue() {
   const file = state.compressQueue[0];
   const i = state.compressProcessedCount;
 
-  if (!isFileTypeSupported(file.type)) {
+  console.log('Input file: ', file);
+
+  if (!isFileTypeSupported(file.type, file)) {
     console.error(`Unsupported file type: ${file.type}. Skipping "${file.name}".`);
     ui.progress.text.innerHTML = `Unsupported file "<div class='progress-file-name'>${file.name}</div>"`;
     state.compressQueue.shift();

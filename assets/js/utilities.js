@@ -1,5 +1,12 @@
-function isFileTypeSupported(fileType) {
+function isFileTypeSupported(fileType, file) {
   // Check for supported file types
+
+  if (isHeic(file) && isHeicExt(file)) {
+    fileType = "image/heic";
+    ui.outputFileType = "image/heic";
+    console.log('File type is HEIC: ', fileType)
+  }
+
   const supportedFileTypes = [
     "image/jpeg",
     "image/png",
@@ -45,6 +52,12 @@ function defaultConversionMapping(mimeType) {
   return conversionMap[mimeType] || mimeType;
 }
 
+function isHeicExt(file) {
+  // Checks if file name ending with `.heic` or `.heif`.
+  const fileName = file.name.toLowerCase();
+  return fileName.endsWith('.heic') || fileName.endsWith('.heif');
+}
+
 function getFileType(file) {
   let selectedFormat = document.querySelector('input[name="formatSelect"]:checked').value; // User-selected format to convert to, e.g. "image/jpeg".
   let inputFileExtension = ""; // User uploaded image's file extension, e.g. `.jpg`.
@@ -57,9 +70,11 @@ function getFileType(file) {
     outputFileExtension = extension;
   } else {
     // User has not selected a file format, use the input image's file type.
-    selectedFormat = file.type;
-    inputFileExtension = mimeToExtension(file.type);
-    outputFileExtension = mimeToExtension(defaultConversionMapping(file.type));
+    selectedFormat = file.type ? file.type : "png";
+    inputFileExtension = mimeToExtension(file.type) ? mimeToExtension(file.type) : isHeicExt(file) ? "image/heic" : "";
+    console.log("inputFileExtension: ", inputFileExtension);
+    outputFileExtension = mimeToExtension(defaultConversionMapping(inputFileExtension));
+    console.log("outputFileExtension: ", outputFileExtension);
   }
 
   return {
@@ -74,6 +89,8 @@ function updateFileExtension(originalName, fileExtension, selectedFormat) {
   const newExtension = selectedFormat
     ? mimeToExtension(fileExtension)
     : fileExtension;
+
+  console.log('New image extension: ', newExtension);
   return `${baseName}.${newExtension}`;
 }
 
