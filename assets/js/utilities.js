@@ -152,7 +152,7 @@ function getAdjustedDimensions(imageBlob, desiredLimitDimensions) {
   return new Promise((resolve) => {
     getImageDimensions(imageBlob, ({ width, height }) => {
       if (!width || !height) {
-        resolve(null);
+        resolve(undefined);
         return;
       }
       const shortEdge = Math.min(width, height);

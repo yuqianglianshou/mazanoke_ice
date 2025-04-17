@@ -47,9 +47,15 @@ async function createCompressionOptions(onProgress, file) {
     ui.inputs.limitWeight.value / 1024 : 
     ui.inputs.limitWeight.value;
 
-  let limitDimensionsValue = dimensionMethod === "limit" ? 
-    await getAdjustedDimensions(file, ui.inputs.limitDimensions.value) : 
-    undefined;
+  let limitDimensionsValue = undefined;
+
+  console.log('file.type: ', file.type)
+
+  if (file.type !== 'image/heif' && file.type !== 'image/heic') {
+    limitDimensionsValue = dimensionMethod === "limit" ? 
+      await getAdjustedDimensions(file, ui.inputs.limitDimensions.value) : 
+      undefined;
+  }
 
   const options = {
     maxSizeMB: maxWeight && compressMethod === "maxWeight" ? maxWeightMB : (file.size / 1024 / 1024).toFixed(3),
