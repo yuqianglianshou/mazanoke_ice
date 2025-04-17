@@ -2,10 +2,14 @@
 
 An outline of the project structure.
 
+- [Directories and files outline](#directories-and-files-outline)
+- [Basic App Flow](#basic-app-flow)
+
 ## Directories and files outline
 
 | **File**                           | **Description**                                                                 |
 |------------------------------------|---------------------------------------------------------------------------------|
+| **Root**                           |                                                                                 |
 | `index.html`                       | Main HTML file that loads the app.                                              |
 | `service-worker.js`                | Service worker for offline and PWA support.                                     |
 | `manifest.json`                    | Manifest for PWA configuration.                                                 |
@@ -54,4 +58,5 @@ To better understand the app’s flow and file interactions, the outline below d
     - Image formats natively supported by browsers (JPG, PNG, WebP) typically don't need pre-processing and are passed through directly.
     - HEIC images are pre-processed, as they are not natively supported by major browsers.
     - AVIF is natively supported, but due to its already optimized nature, it is pre-processed to a lossy format to reduce the chance of the output file being larger than the original.
+1. The state of the image processing, such as `isCompressing`, `compressQueue`, and more, are stored in `global.js`.
 1. Once an image is processed, `handleCompressionResult(file, output)` in `helpers.js` outputs the compressed image on the user interface, where users can download individual images or all images as a zip, handled by `download.js`.
