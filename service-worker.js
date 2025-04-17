@@ -1,4 +1,4 @@
-const APP_VERSION = 'v1.1.1';
+const APP_VERSION = 'v1.1.2';
 const CACHE_VERSION = APP_VERSION;
 const CACHE_NAME = `mazanoke-cache-${CACHE_VERSION}`;
 const urlsToCache = [
