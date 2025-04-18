@@ -2,7 +2,7 @@
 
 An outline of the project structure.
 
-- [Directories and files outline](#directories-and-files-outline)
+- [Directories and Files Outline](#directories-and-files-outline)
 - [Basic App Flow](#basic-app-flow)
 
 ## Directories and files outline
@@ -24,11 +24,11 @@ An outline of the project structure.
 | `utilities.js`                     | Utility functions for various tasks and smaller types of processing.            |
 |                                    |                                                                                 |
 | **Vendor Libraries (`assets/vendor`)** | Third-party libraries, essential to the app's functionality.                |
-| `browser-image-compress`           | A library for browser-side image compression.                                   |
+| `browser-image-compress.js`        | A library for browser-side image compression.                                   |
 | `heic-to.js`                       | HEIC image decoder, allowing converting to other browser-friendly file types.   |
 | `jszip.js`                         | Handles zipping of image files for download.                                    |
 |                                    |                                                                                 |
-| **Images (`assets/images`)**       | Static images for UI and metatags.                                              |
+| **Images (`assets/images`)**       | Static images for user interface and metatags.                                  |
 |                                    |                                                                                 |
 | **CSS (`assets/css`)**             | App styling.                                                                    |
 | `fonts.css`                        | Font definitions.                                                               |
