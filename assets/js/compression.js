@@ -5,7 +5,7 @@ async function preProcessImage(file) {
   if (file.type === "image/heic" || file.type === "image/heif" || isHeicExt(file)) {
     console.log('Pre-processing HEIC image...')
 
-    preProcessedImage = await heicTo({
+    preProcessedImage = await HeicTo({
       blob: file,
       type: "image/jpeg",
       quality: 0.9,
