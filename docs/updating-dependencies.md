@@ -1,4 +1,4 @@
-# Updateing Dependencies
+# Updating Dependencies
 
 To maintain a simple and lightweight environment, the project primarily uses vanilla JavaScript and is light on third-party libraries, avoiding the need for a package manager.
 
