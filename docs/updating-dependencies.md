@@ -1,6 +1,8 @@
+# Updateing Dependencies
+
 To maintain a simple and lightweight environment, the project primarily uses vanilla JavaScript and is light on third-party libraries, avoiding the need for a package manager.
 
-To update the respective library, simply run a curl command from the project root folder to pull the latest version.
+To update the respective library, simply run a curl command from the project root folder to pull and replace with the latest version.
 
 **`browser-image-compression.js`**:
 ```
