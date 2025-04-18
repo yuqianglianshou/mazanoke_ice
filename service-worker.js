@@ -8,7 +8,7 @@ const urlsToCache = [
   '/assets/css/variables.css',
   '/assets/css/style.css',
   '/assets/vendor/browser-image-compression.js',
-  '/assets/vendor/heic-to-vanilla.js',
+  '/assets/vendor/heic-to.js',
   '/assets/vendor/jszip.js',
   '/assets/js/global.js',
   '/assets/js/utilities.js',

@@ -14,8 +14,8 @@ MAZANOKE would not be possible without the projects listed here.
 - **License**: [GNU Lesser General Public License v3.0](https://www.npmjs.com/package/heic-to)
   - Built on top of [libheif](https://github.com/strukturag/libheif) ([LGPL](https://github.com/strukturag/libheif?tab=License-1-ov-file)), [libde265](https://github.com/strukturag/libde265) ([GPLv3](https://github.com/strukturag/libde265?tab=License-1-ov-file#readme))
 - **Source**: https://github.com/hoppergee/heic-to
-- **Version**: v1.1.11
-- **Usage**: Decoding HEIC file types. For this project, the library has been recompiled from the original ES module to be compatible with a vanilla JavaScript environment. ([See changes](https://github.com/hoppergee/heic-to/pull/13/commits/72c663fc746094ad68c7a8533d34e900f205268b))
+- **Version**: v1.1.12
+- **Usage**: Decoding HEIC file types.
 
 ### JSZip
 - **Author:** Stuart Knightley
