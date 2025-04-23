@@ -16,6 +16,7 @@ function isFileTypeSupported(fileType, file) {
     "image/avif",
     "image/gif",
     "image/svg+xml",
+    "image/jxl",
   ];
 
   return supportedFileTypes.includes(fileType);
@@ -31,6 +32,7 @@ function mimeToExtension(mimeType) {
     "image/avif": "avif",
     "image/gif": "gif",
     "image/svg+xml": "svg",
+    "image/jxl": "jxl",
   };
 
   return (
@@ -47,7 +49,11 @@ function defaultConversionMapping(mimeType) {
     "image/avif": "image/png",
     "image/gif": "image/png",
     "image/svg+xml": "image/png",
+    "image/jxl": "image/png",
   };
+
+  console.log('Input mimeType ', mimeType);
+  console.log('Mapped mimeType ', conversionMap[mimeType]);
 
   return conversionMap[mimeType] || mimeType;
 }
@@ -58,22 +64,30 @@ function isHeicExt(file) {
   return fileName.endsWith('.heic') || fileName.endsWith('.heif');
 }
 
+function isFileExt(file, extension = "") {
+  // Checks if file name ending with the passed string argument.
+  const fileName = file.name.toLowerCase();
+  return fileName.endsWith(`.${extension}`);
+}
+
 function getFileType(file) {
   let selectedFormat = document.querySelector('input[name="formatSelect"]:checked').value; // User-selected format to convert to, e.g. "image/jpeg".
-  let inputFileExtension = ""; // User uploaded image's file extension, e.g. `.jpg`.
+  let inputFileExtension = ""; // User-uploaded image's file extension, e.g. `.jpg`.
   let outputFileExtension = ""; // The processed image's file extension, based on `defaultConversionMapping()`.
 
   if (selectedFormat && selectedFormat !== "default") {
-    // The user selected format to convert to.
+    // The user-selected format to convert to.
     const extension = mimeToExtension(selectedFormat);
     inputFileExtension = extension;
     outputFileExtension = extension;
   } else {
     // User has not selected a file format, use the input image's file type.
     selectedFormat = file.type ? file.type : "png";
-    inputFileExtension = mimeToExtension(file.type) ? mimeToExtension(file.type) : isHeicExt(file) ? "image/heic" : "";
+    file.type = !file.type && isHeicExt(file) ? "image/heic" : "";
+    inputFileExtension = mimeToExtension(file.type) || "";
+
     console.log("inputFileExtension: ", inputFileExtension);
-    outputFileExtension = mimeToExtension(defaultConversionMapping(inputFileExtension));
+    outputFileExtension = mimeToExtension(defaultConversionMapping(file.type));
     console.log("outputFileExtension: ", outputFileExtension);
   }
 
