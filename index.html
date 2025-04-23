@@ -366,6 +366,11 @@
                         <input class="hidden" type="radio" name="formatSelect" value="image/jpeg">
                       </div>
                     </div>
+                    <div class="button-card-radio__description">
+                      <div class="button-card-radio__description-text">
+                        Convert any image to JPG.
+                      </div>
+                    </div>
                   </div>
                 </div>
                 <div class="button-card-radio" onclick="setConvertMethod('image/png')">
@@ -375,6 +380,11 @@
                       <div class="button-card-radio__radio-input">
                         <div class="button-card-radio__radio-icon"></div>
                         <input class="hidden" type="radio" name="formatSelect" value="image/png">
+                      </div>
+                    </div>
+                    <div class="button-card-radio__description">
+                      <div class="button-card-radio__description-text">
+                        Convert any image to PNG.
                       </div>
                     </div>
                   </div>
@@ -387,6 +397,11 @@
                       <div class="button-card-radio__radio-input">
                         <div class="button-card-radio__radio-icon"></div>
                         <input class="hidden" type="radio" name="formatSelect" value="image/webp">
+                      </div>
+                    </div>
+                    <div class="button-card-radio__description">
+                      <div class="button-card-radio__description-text">
+                        Convert any image to WebP.
                       </div>
                     </div>
                   </div>
@@ -545,8 +560,8 @@
 
           navigator.serviceWorker.addEventListener('controllerchange', () => {
             if (!refreshing) {
-              window.location.reload()
-              refreshing = true
+              window.location.reload();
+              refreshing = true;
             }
           })
         })
