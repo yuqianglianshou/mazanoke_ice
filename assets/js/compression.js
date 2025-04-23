@@ -70,7 +70,7 @@ async function createCompressionOptions(onProgress, file) {
 
 
   const options = {
-    maxSizeMB: maxWeight && compressMethod === "maxWeight" ? maxWeightMB : (file.size / 1024 / 1024).toFixed(3),
+    maxSizeMB: maxWeight && compressMethod === "limitWeight" ? maxWeightMB : (file.size / 1024 / 1024).toFixed(3),
     initialQuality: quality && compressMethod === "quality" ? quality : undefined,
     maxWidthOrHeight: limitDimensionsValue,
     useWebWorker: true,
