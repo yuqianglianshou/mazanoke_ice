@@ -6,5 +6,8 @@ services:
       context: .
       args:
         - ENVIRONMENT=production # development
+    environment:
+      - USERNAME=test
+      - PASSWORD=test
     ports:
-      - "3474:80"
+      - "3475:80"

@@ -15,7 +15,14 @@ RUN node /scripts/environment.prod.js
 
 FROM nginx:alpine
 
+# Setup basic authentication
+RUN apk add --no-cache apache2-utils
+COPY ./scripts/basicauth.sh /usr/local/bin/basicauth.sh
+RUN chmod +x /usr/local/bin/basicauth.sh
+COPY ./config/nginx.conf /etc/nginx/conf.d/default.conf
+
 COPY --from=prepare /usr/share/nginx/html /usr/share/nginx/html
+
 EXPOSE 80
 
-CMD ["nginx", "-g", "daemon off;"]
+CMD ["/bin/sh", "-c", "if [ -n \"$USERNAME\" ] && [ -n \"$PASSWORD\" ]; then /usr/local/bin/basicauth.sh; fi; nginx -g 'daemon off;'"]
