@@ -2,6 +2,9 @@
 
 services:
   mazanoke:
-    build: .
+    build:
+      context: .
+      args:
+        - ENVIRONMENT=production # development
     ports:
       - "3474:80"
